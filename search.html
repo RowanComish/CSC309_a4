@@ -1,0 +1,284 @@
+<!-- 3.Review Page, My Order Page, Search Page with suggestions -->
+<html>
+    <head>
+        <title>
+            Feed - Search
+        </title>
+        <link href="css/bootstrap.min.css"
+              rel="stylesheet"
+              type="text/css">
+        <link href="css/style.css"
+              rel="stylesheet"
+              type="text/css">
+        <link href="css/search.css"
+              rel="stylesheet"
+              type="text/css">
+        <link href="font-awesome/css/font-awesome.min.css"
+              rel="stylesheet"
+              type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+              rel="stylesheet"
+              type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Kaushan+Script'
+              rel='stylesheet'
+              type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic'
+              rel='stylesheet'
+              type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700'
+              rel='stylesheet'
+              type='text/css'>
+        <script src="js/jquery.js"
+              type="text/javascript">
+</script>
+        <script src="js/bootstrap.min.js"
+              type="text/javascript">
+</script>
+    </head>
+    <body>
+        
+        <script>
+            
+            // Looks for value of key in query
+            function getQueryValue(key) {
+               var query = window.location.search.substring(1);
+               var pairs = query.split("&");
+               for (var i = 0; i < pairs.length;i++) {
+                       var pair = pairs[i].split("=");
+                       
+                       // Search for variable and return value
+                       if (pair[0] == key) {
+                           return decodeURIComponent(pair[1]);
+                        }
+               }
+               return(false);
+            }
+        
+            $(document).ready( function() {
+                
+                // Set the search term if there was one in the URL query
+                var searchTerm = getQueryValue('query');
+                if (searchTerm != false) {
+                    $('#search-bar').val(searchTerm);
+                }
+            });
+        </script>
+        
+        
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button"
+                     class="navbar-toggle"
+                     data-toggle="collapse"
+                     data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span></button>
+                <div>
+                    <a class="navbar-brand navbar-brand-fix"
+                         href="index.html">Feed</a>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse "
+                 id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="index.html">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <div id="search-input">
+                <div class="input-group col-md-12">
+                    <input id="search-bar" type="text"
+                         class="form-control input-lg"
+                         placeholder="Search">
+                     <span class="input-group-btn">
+                        <button class="btn btn-primary btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="search-top-suggestions" class="container-fluid">
+            <div class="container">
+                    <h2 class="search-title text-center">
+                        Recommended
+                    </h2>
+                    <div class="row order-section">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example1.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Pablo's Pan Pizza
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    21:00 March 3, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example2.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Yoda's Youthful Yogurt
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    12:00 February 25, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example3.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Sally's Super Salad
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    21:00 February 20, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+            <div id="search-results" class="container">
+                    <h2 class="search-title text-center">
+                        Results
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example1.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Pablo's Pan Pizza
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    21:00 March 3, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example2.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Yoda's Youthful Yogurt
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    12:00 February 25, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example3.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Sally's Super Salad
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    21:00 February 20, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                            </div>
+                        </div>
+                         <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example4.jpeg" class="order-image">
+                                 <!-- Name -->
+                                <h4 class="text-center">Bob's Beefy Burger</h4>
+                                <!-- Date -->
+                                <h5 class="text-center"> 18:00 February 10, 2016</h5>
+                                <!-- Cost -->
+                                <h4 class="text-center">$8.20</h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <footer class="text-center">
+                <p class="copyright">
+                    Copyright &copy; Feed 2016
+                </p>
+            </footer>
+    </body>
+</html>
