@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	
+	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/admin.css">
+
+	<!-- Custom Fonts -->
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+<body>
+
+	<nav class = "navbar navbar-default">
+
+		<div class="navbar-header">
+
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div>
+				<a class="navbar-brand navbar-brand-fix" href="index.html">Feed</a> 
+			</div>
+		</div>
+
+		<div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="signup.html"> Sign Up </a>
+				</li>
+				<li>
+					<a href="login.html" class="visible-xs"> Login </a>
+				</li>
+				<li class="dropdown hidden-xs">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Login<span class="caret"></span></a>
+					<ul id="login-dp" class="dropdown-menu">
+						<li>
+							<div class="row">
+								<div class="col-md-12">
+									Login via
+									<div class="social-buttons">
+										<a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+										<a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+									</div>
+									or
+									<form action="login.php" method="post" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+										<div class="form-group">
+											<label for "userName" class="sr-only" for="exampleInputEmail2">Email address</label>
+											<input type="text" name="userName" maxlength="45" class="form-control" id="userName" placeholder="Email address or username" required>
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="exampleInputPassword2">Password</label>
+											<input type="password" name="password" maxlendth="45" class="form-control" id="password" placeholder="Password" required>
+											<div class="help-block text"><a href="">Forget the password ?</a></div>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-block">Sign in</button>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"> Keep me logged-in
+											</label>
+										</div>
+									</form>
+								</div>
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+
+			</div>
+
+		</nav>
+
+	</nav>
+
+	<div class="container">
+		<h1><strong>Administrative Page</strong></h1>
+		<div class="form-box" id="manageUser">
+			<div >
+				<h3>Look up a user</h3>
+				<form role="form" action="" method="post">
+					<div class="input-group">
+						<label class="sr-only" for="user">Username</label>
+						<input type="text" name="user" id="findUser" placeholder="Username" class="form-control">
+						<span class="input-group-btn">
+	                        <button class="btn btn-primary btn-md" type="button">
+	                            <i class="glyphicon glyphicon-search"></i>
+	                        </button>
+                    	</span>
+					</div>
+					<div>
+
+					</div>
+					<!--Sample output-->
+
+				
+					
+			</div>
+			<h2>User Information</h2>
+				<div id="userInfo">
+					<div >
+						<button class="btn btn-primary btn-lg" type="button" id="changeInfo">Change User Info</button>
+						<button class="btn btn-danger btn-lg" type="button" id="deleteInfo">Delete User Info</button>
+						<button class="btn btn-danger btn-lg" type="button">Delete User</button>
+
+					</div>
+					<ul class="list-group" id="displayInfo">
+						<li class="list-group-item" id="displayUsername">Username: b_burgs
+							<div id="insert"></div>
+						</li>
+						<li class="list-group-item" id="displayName">Name: Bob Burger
+						</li>
+						<li class="list-group-item" id="displayEmail">Email: bob@burger.com
+							<div id="insert"></div>
+						</li>
+						<li class="list-group-item" id="displayPass">Password: boblovesburgers
+							<div id="insert"></div>
+						</li>
+						<li class="list-group-item" id="displayAddress">Address: 8 Burger Street, Bobtown BurgerLand
+							<div id="insert"></div>					
+						</li>
+						<li class="list-group-item" id="displayDob">Date of Birth: 05/05/1965
+							<div id="insert"></div>
+						</li>
+					</ul>
+					
+				</div>
+				
+				<div id="userChanges">
+					<input type="submit" class="btn btn-info btn-lg" value="Submit Changes">
+					
+				</div>
+
+		</div>
+		<div class="form-box" id="manageDb">
+			<h2>Manage Database</h2>
+			<div class="col-md ">
+				<div class="col-md" id="fileInput">
+					<label>Repopulate with external file:</label>
+					<input type="file" >
+
+				</div>
+				<br>
+				<div class="col-md" >
+					<label>Add data to Database</label>
+					<input type="text" class="form-control">
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Javascript -->
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/admin.js"></script>
+	
+
+	
+
+</body>
