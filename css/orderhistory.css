@@ -1,0 +1,32 @@
+
+.order-title {
+    margin-top: 70px;
+}
+
+.order-section {
+    margin-bottom: 70px;
+}
+
+.order-item {
+    width: 300px;  
+    height: 300px;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.order-item img {    
+    width: inherit; 
+    height: 150px;
+    padding: 0;
+    clip: auto;
+	object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.order-rating {
+    padding-top: 7px;
+    width: 100px;
+}
