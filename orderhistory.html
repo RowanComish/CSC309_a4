@@ -17,6 +17,16 @@
 </head>
 
 <body>
+    
+    <script>
+        
+        function goToReview() {
+            window.location.href = "review.html";
+        }
+        
+    </script>
+    
+    
     <nav class = "navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -55,7 +65,7 @@
                     <!-- Cost -->
                     <h4 class="text-center">$8.20</h4>
                     <!-- Review Button-->
-                    <button type="submit" class="order-review-button btn btn-primary center-block">Leave a Review</button>
+                    <button type="submit" class="order-review-button btn btn-primary center-block" onclick="goToReview()">Leave a Review</button>
                     <!-- Rating-->
                     <span class="order-rating center-block text-center hidden">
                       <span class="glyphicon glyphicon-star"></span>
