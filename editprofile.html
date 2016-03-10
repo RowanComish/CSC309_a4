@@ -47,121 +47,27 @@
             </div>
         </nav>
         
-            <div id="main-profile" class="container"> 
-              <figure class="profile-banner">
-                <img id="bannerimage" src="img/chefbanner.jpg" alt="Profile banner" />
-              </figure>
-              <figure class="profile-picture" 
-                style="background-image: url('img/chefprofile.jpg')">
-              </figure>
-              <div class="profile-stats">
-                <ul>
-                <li><h2>John TooGood</h2></li>
-                  <li>13    <span>Recipes</span></li>
-                  <li>32    <span>Following</span></li>
-                  <li>324   <span>Followers</span></li>
-                  
-                </ul>
-                <button onclick="location.href='myrecipes.html';"  class="recipes">
-                  View all Recipes
-                </button>
-                <button onclick="location.href='editprofile.html';" class="editprofile">
-                  Edit Profile
-                </button>
-              </div>
-            </div>
-            <div id="search-results" class="container">
-                    <h2 class="search-title text-center">
-                        Your Top Recipes
-                    </h2>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example1.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Pablo's Pan Pizza
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    21:00 March 3, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                <h4 class="text-center">
-                                    <button class="editRecipe">
-                                        Edit recipe
-                                    </button>
-                                </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example2.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Yoda's Youthful Yogurt
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    12:00 February 25, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                <h4 class="text-center">
-                                    <button class="editRecipe">
-                                        Edit recipe
-                                    </button>
-                                </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </span>                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example3.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Sally's Super Salad
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    21:00 February 20, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                <h4 class="text-center">
-                                    <button class="editRecipe">
-                                        Edit recipe
-                                    </button>
-                                </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </span>
-                            </div>
-                        </div>
+        <div class="container">
+            <div class="row row-centered">
+                <div class="col-xs-12 col-centered">
+                <h1 class="Edit-profile text-center"> Edit Profile </h1>
+                    <div class="col-xs-6 col-centered">
+                    Click to change image:
+                    <img src="img/editprofileimage.png"> <br>
+                    Upload a banner:
+                    <input type="file" id="myFile" style="display:none;" />
+                    <button type="button" onclick="document.getElementById('myFile').click();">Browse</button>
                     </div>
+                    <div class="col-xs-6 col-centered">
+                        <label for="name">Name:</label><input type="text" id="name" name="name"><br>
+                        <label for="email">Email Address:</label><input type="text" id="email" name="email"><br>
+                        <label for="email">Bio: </label><br><textarea cols="30" rows="5">Enter a bio to be shown!</textarea>
+                    </div>
+                    
+
                 </div>
             </div>
-
+        </div>
             <hr>
             <footer class="text-center">
                 <p class="copyright">

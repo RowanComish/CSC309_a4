@@ -12,6 +12,58 @@ figure.profile-banner {
     width: 100%;
 }
 
+.review {
+    clear: both;
+    float: left;
+    margin-left: 4%;
+    width: 95%;
+    margin-top: .5rem;
+    position: relative;
+    text-align: center;
+    margin-bottom: 70px;
+    padding: 20px 20px 20px 20px;
+}
+
+.review h3 {
+  font-style: italic;
+}
+
+.review h6 {
+  float: center;
+}
+
+.review img {
+  display: block;
+  margin-left: -.75rem;
+  border-radius: 50%;
+  height: 75px;
+}
+
+.review ul {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #2d2d2d;
+    float: left;
+    width: 92%;
+    padding-top: .25rem;
+    list-style-type:none;
+    position: absolute;
+}
+
+.review p {
+}
+
+.review-author {
+  border-bottom: 1px solid grey;
+}
+
 .editprofile {
     font-size: 18px !important;
     background-color: #57d6c7;
@@ -90,7 +142,6 @@ div.profile-stats button.recipes {
   margin-top: 5px;
   text-decoration: none;
   
-  /* This is a copy and paste from Bootstrap */
   background-color: #49afcd;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #49afcd;
@@ -116,7 +167,6 @@ div.profile-stats button.recipes {
 
 div.profile-stats a.follow.followed {
   
-  /* Once again copied from Boostrap */
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #5bb75b;
@@ -130,6 +180,10 @@ div.profile-stats a.follow.followed {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.edituserimage {
+  background-image: url('http://placehold.it/350x150');
 }
 
 #search-input {
