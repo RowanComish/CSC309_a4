@@ -12,6 +12,95 @@ figure.profile-banner {
     width: 100%;
 }
 
+.editprofile {
+    max-width: 450px;
+    background: #FAFAFA;
+    padding: 30px;
+    margin: 50px auto;
+    box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+    border-radius: 10px;
+    border: 6px solid #305A72;
+}
+
+.editprofile ul{
+    padding:0;
+    margin:0;
+    list-style:none;
+}
+.editprofile ul li{
+    display: block;
+    margin-bottom: 10px;
+    min-height: 35px;
+}
+.editprofile ul li  .field-style{
+    box-sizing: border-box; 
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box; 
+    outline: none;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+
+}.editprofile ul li  .field-style:focus{
+    box-shadow: 0 0 5px #B0CFE0;
+    border:1px solid #B0CFE0;
+}
+.editprofile ul li .field-split{
+    width: 49%;
+}
+.editprofile ul li .field-full{
+    width: 100%;
+}
+.editprofile ul li input.align-left{
+    float:left;
+}
+.editprofile ul li input.align-right{
+    float:right;
+}
+.editprofile ul li textarea{
+    width: 100%;
+    height: 100px;
+}
+.editprofile ul li input[type="button"], 
+.editprofile ul li input[type="submit"] {
+    -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+    box-shadow: inset 0px 1px 0px 0px #3985B1;
+    background-color: #216288;
+    border: 1px solid #17445E;
+    display: inline-block;
+    cursor: pointer;
+    color: #FFFFFF;
+    padding: 8px 18px;
+    text-decoration: none;
+    font: 12px Arial, Helvetica, sans-serif;
+}
+.editprofile ul li input[type="button"]:hover, 
+.editprofile ul li input[type="submit"]:hover {
+    background: linear-gradient(to bottom, #2D77A2 5%, #337DA8 100%);
+    background-color: #28739E;
+}
+
+.editprofile select {
+     -webkit-appearance: button;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
 .review {
     clear: both;
     float: left;
@@ -64,7 +153,7 @@ figure.profile-banner {
   border-bottom: 1px solid grey;
 }
 
-.editprofile {
+.editprofilebutton {
     font-size: 18px !important;
     background-color: #57d6c7;
     font-weight: bold;

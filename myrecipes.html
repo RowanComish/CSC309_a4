@@ -40,6 +40,9 @@
                  id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a href="search.html">Search </a>
+                    </li>
+                    <li>
                         <a href="index.html">Log Out</a>
                     </li>
                 </ul>
@@ -55,18 +58,24 @@
               </figure>
               <div class="profile-stats">
                 <ul>
-                <li><h2>John TooGood</h2></li>
+                    <li><h2>John TooGood</h2></li>
                   <li>13    <span>Recipes</span></li>
                   <li>32    <span>Following</span></li>
                   <li>324   <span>Followers</span></li>
                   
                 </ul>
-                <button onclick="location.href='newrecipe.html';"  class="recipes">
-                  Add new Recipe!
-                </button>
-                <button onclick="location.href='editprofile.html';" class="editprofile">
+                <ul style="float: left;">
+                <li><button onclick="location.href='profile.html';"  class="recipes">
+                  Return to Main Profile
+                </button></li>
+                <li><button onclick="location.href='newrecipe.html';"  class="recipes">
+                    New Dish
+                </button></li>
+                <li><button onclick="location.href='editprofile.html';" class="recipes">
                   Edit Profile
-                </button>
+                </button></li>
+
+                </ul>
               </div>
             </div>
             <div id="search-results" class="container">
