@@ -1,4 +1,6 @@
 
+
+
 .navbar {
 
 	margin-bottom: 0;
@@ -58,6 +60,8 @@ body {
 
 	background-color:#FFE79D;
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin-bottom: 60px;
+
 
 }
 
@@ -188,6 +192,14 @@ body {
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
 	color: #fec503;
 	background-color: transparent;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
 }
 
 /***** Media queries *****/
