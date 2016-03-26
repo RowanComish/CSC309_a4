@@ -1,9 +1,9 @@
-// app/routes.js
 module.exports = function(app, passport) {
 
-    // =====================================
-    // HOME PAGE (with login links) ========
-    // =====================================
+
+    //Home Page
+    //If user is logged in, pass in message to change navbar buttons accordingly
+    //If not, then pass in proper message
     app.get('/', function(req, res) {
 
         if (req.isAuthenticated())
@@ -12,10 +12,9 @@ module.exports = function(app, passport) {
             res.render('index.ejs', { user: req.user , message: 'notloggedin' } ); // load the index.ejs file
     });
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
+
+    //Login
+    //If already logged in, redirect automatically to homepage
     app.get('/login', function(req, res) {
 
         if (req.isAuthenticated())
@@ -26,80 +25,66 @@ module.exports = function(app, passport) {
 
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
+        successRedirect : '/profile', 
+        failureRedirect : '/login', 
+        failureFlash : true 
     }));
 
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    // show the signup form
+
     app.get('/signup', function(req, res) {
 
-        // render the page and pass in any flash data if it exists
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
     // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
+        successRedirect : '/profile', 
+        failureRedirect : '/signup',
+        failureFlash : true 
     }));
 
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
+
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     });
 
-    // =====================================
-    // PROFILE SECTION =========================
-    // =====================================
-    // we will want this protected so you have to be logged in to visit
-    // we will use route middleware to verify this (the isLoggedIn function)
+
     app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
-            user : req.user // get the user out of session and pass to template
-        });
+        res.render('profile.ejs', { user : req.user });
     });
 
     app.get('/editprofile', isLoggedIn, function(req, res) {
-        res.render('editprofile.ejs', {
-            user : req.user // get the user out of session and pass to template
-        });
+        res.render('editprofile.ejs', {user : req.user });
     });
 
     app.post('/editprofile', function (req, res) {
-        //res.send('POST request to the homepage');
 
         var User = require('../app/models/user');
 
-        User.findOne({ 'local.username' :  req.user.local.username }, function(err, user) {
-            var current = req.user.local ;
+        User.findOne({ 'email' :  req.user.email }, function(err, user) {
+            var current = req.user ;
+            console.log(current);
             var body = req.body;
+            console.log(body);
             if(body.firstname!="")
                 current.firstname = body.firstname;
             if(body.lastname!="")
                 current.lastname = body.lastname;
-            if(body.email="")
+            if(body.email!="")
                 current.email=body.email;
-            if(body.phonenumber="")
-                current.phone_number=body.phonenumber;
-            if(body.streetaddress="")
-                current.str_address=body.streetaddress;
-            if(body.city="")
+            if(body.phonenumber!="")
+                current.phonenumber=body.phonenumber;
+            if(body.streetaddress!="")
+                current.streetaddress=body.streetaddress;
+            if(body.city!="")
                 current.city=body.city;
-            if(body.province="")
+            if(body.province!="")
                 current.province=body.province;
-            if(body.postalcode="")
+            if(body.postalcode!="")
                 current.postalcode=body.postalcode;
-            if(body.country="")
+            if(body.country!="")
                 current.country=body.country;
-
 
             req.user.save(function(err) {
                 if (err)
@@ -108,152 +93,89 @@ module.exports = function(app, passport) {
 
         });
 
-        setTimeout(function(){
-
-            res.redirect('/profile');}, 200);
+        setTimeout(function(){ res.redirect('/profile'); }, 200);
 
         
     });
 
     app.get('/changepass', isLoggedIn, function(req, res) {
-        res.render('changepass.ejs', {
-            user : req.user  , message: "" // get the user out of session and pass to template
-        });
+        res.render('changepass.ejs', { user : req.user , message: "" });
     });
 
     app.get('/changepass2', isLoggedIn, function(req, res) {
-        res.render('changepass.ejs', {
-            user : req.user  , message: "Current password is incorrect" // get the user out of session and pass to template
-        });
+        res.render('changepass.ejs', { user : req.user  , message: "Current password is incorrect" });
     });
 
     app.post('/changepass', function (req, res) {
-        //res.send('POST request to the homepage');
 
         var User = require('../app/models/user');
 
         var already = false;
 
-        User.findOne({ 'local.username' :  req.user.local.username }, function(err, user) {
+        User.findOne({ 'email' :  req.user.email }, function(err, user) {
 
-
-            var current = req.user.local ;
+            var current = req.user ;
             var body = req.body;
 
-            if (!user.validPassword(body.oldpassword)){
+            if (!user.fb_id){
 
+                if (!user.validPassword(body.oldpassword))
 
-                already = true;
+                    already = true;
 
             } else {
 
-            current.password = req.user.generateHash(body.newpassword);
+                current.password = req.user.generateHash(body.newpassword);
 
-
-            req.user.save(function(err) {
-                if (err)
+                req.user.save(function(err) {
+                    if (err)
                     throw err;
-            });
+                });
             }
 
             if(already==false){
-            setTimeout(function(){res.redirect('/profile');}, 200);
-            }
-         else
-            res.redirect('/changepass2');
-
-
+                setTimeout(function(){res.redirect('/profile');}, 200);
+            } else
+                res.redirect('/changepass2');
         });
-        
     });
 
+    app.get('/userprofile/:email', function(req, res) {
 
+        var user = req.params.email;
 
-    // =====================================
-    // FACEBOOK ROUTES =====================
-    // =====================================
-    // route for facebook authentication and login
+        var User = require('../app/models/user');
+
+        User.findOne({ 'email' :  user }, function(err, wanted_user) {
+
+            if (err)
+                return done(err);
+
+            if (!wanted_user)
+                return res.status(404).send('Sorry, user not found');
+            else{
+
+                if (req.isAuthenticated())
+                    res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' } );
+                else
+                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );
+            }
+        });
+    });
+
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
-    // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
             successRedirect : '/profile',
             failureRedirect : '/'
         }));
-
-    // =============================================================================
-// AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
-// =============================================================================
-
-    // locally --------------------------------
-    app.get('/connect/local', function(req, res) {
-        res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-    });
-    app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
-
-    // facebook -------------------------------
-
-        // send to facebook to do the authentication
-        app.get('/connect/facebook', passport.authorize('facebook', { scope : 'email' }));
-
-        // handle the callback after facebook has authorized the user
-        app.get('/connect/facebook/callback',
-            passport.authorize('facebook', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
-
-        // =============================================================================
-// UNLINK ACCOUNTS =============================================================
-// =============================================================================
-// used to unlink accounts. for social accounts, just remove the token
-// for local account, remove email and password
-// user account will stay active in case they want to reconnect in the future
-
-    // local -----------------------------------
-    app.get('/unlink/local', function(req, res) {
-        var user            = req.user;
-        user.local.username    = undefined;
-        user.local.firstname   = undefined;
-        user.local.lastname    = undefined;
-        user.local.email       = undefined;
-        user.local.password    = undefined
-        user.local.phone_number   = undefined;
-        user.local.str_address    = undefined;
-        user.local.city           = undefined;
-        user.local.province       = undefined;
-        user.local.postalcode     = undefined;
-        user.local.country        = undefined;
-        user.local.DOB            = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
-
-    // facebook -------------------------------
-    app.get('/unlink/facebook', function(req, res) {
-        var user            = req.user;
-        user.facebook.token = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
-
 };
 
-
-// route middleware to make sure
 function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
 
-    // if they aren't redirect them to the home page
     res.redirect('/');
 }

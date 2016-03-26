@@ -4,110 +4,96 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/signup_login.css">
-    <link href="css/style.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/signup_login.css" rel="stylesheet" >
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/navbar.css" rel="stylesheet">
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
 </head>
 
 <body>
 
+  <nav class = "navbar navbar-default">
 
-    <nav class = "navbar navbar-default">
+    <div class="navbar-header">
 
-        <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div>
+        <a class="navbar-brand navbar-brand-fix" href="/">Feed</a> 
+      </div>
+    </div>
 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div>
-                <a class="navbar-brand navbar-brand-fix" href="/">Feed</a> 
-            </div>
-        </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="/signup"> Sign Up </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-        <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+  <div class="container">
 
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/signup"> Sign Up </a>
-                </li>
-       </ul>
-
-   </div>
-
-
-
-</nav>
-
-
-<div class="container">
-
-  <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
+    <% if (message.length > 0) { %>
+    <div class="alert alert-danger"><%= message %></div>
     <% } %>
 
-   <div class="row">
+    <div class="row">
      <div class="col-sm-5 center-block">
 
        <div class="form-box">
          <div class="form-top">
-           <div class="form-top-left">
-             <h3>Login to our site</h3>
-             <p>Enter username and password to log on:</p>
-         </div>
-         <div class="form-top-right">
+           <div class="form-top-left text-center">
+             <h3>Login</h3>
+           </div>
+           <div class="form-top-right">
              <i class="fa fa-key"></i>
+           </div>
          </div>
-     </div>
-     <div class="form-bottom">
-      <form role="form" action="/login" method="post" class="login-form">
-        <div class="form-group">
-          <label class="sr-only" >Username</label>
-          <input type="text" name="username" placeholder="Username" class="form-control" id="username">
+         <div class="form-bottom">
+          <form role="form" action="/login" method="post" class="login-form">
+            <div class="form-group">
+              <label class="sr-only" >Email</label>
+              <input type="text" name="email" placeholder="Email" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label class="sr-only" >Password</label>
+              <input type="password" name="password" placeholder="Password" class="form-control" id="password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign in!</button>
+            <br>
+            <p> Or Login with</p>
+            <div class="social-buttons text-center">
+              <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook fa-2x"></i> Facebook</a>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="form-group">
-          <label class="sr-only" >Password</label>
-          <input type="password" name="password" placeholder="Password" class="form-control" id="password">
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Sign in!</button>
-      <br>
-      <p> Or Login with...</p>
-      <div class="social-buttons text-center">
-        <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook fa-2x"></i> Facebook</a>
     </div>
-</form>
+  </div>
 </div>
-</div>
-</div>
-</div>
-
-</div>
-
 
 <!-- Javascript -->
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
-
 </body>
 
-<footer class="text-center">
-    <hr>
-    <p class="copyright">Copyright &copy; Feed 2016</p>
+<footer class="footer text-center">
+  <hr>
+  <p class="copyright">Copyright &copy; Feed 2016</p>
 </footer>
 
 </html>

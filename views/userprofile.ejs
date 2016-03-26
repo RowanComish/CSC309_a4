@@ -3,11 +3,11 @@
     <title>
         Feed - <%= user.firstname %> <%= user.lastname %>
     </title>
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/profile.css" rel="stylesheet" type="text/css">
-    <link href="css/navbar.css" rel="stylesheet" type="text/css">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/profile.css" rel="stylesheet" type="text/css">
+    <link href="../css/navbar.css" rel="stylesheet" type="text/css">
+    <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     
 </head>
 
@@ -21,47 +21,66 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
             <div>
                 <a class="navbar-brand navbar-brand-fix"
                 href="/">Feed</a>
             </div>
         </div>
-        <div class="collapse navbar-collapse "
-        id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="search.html">Search </a>
-            </li>
-            <li>
-                <a href="/profile">My Profile</a>
-            </li>
-            <li>
-                <a href="orderhistory.html"> My Orders </a>
-            </li>
-            <li>
-                <a href="/logout">Log Out</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="search.html">Search </a>
+                </li>
+                <% if (message=='loggedin') { %>
+                <li>
+                    <a href="/profile">My Profile</a>
+                </li>
+                <li>
+                    <a href="orderhistory.html"> My Orders </a>
+                </li>
+                <li>
+                    <a href="/logout">Log Out</a>
+                </li>
+                <% } else { %>
+                    <li class="dropdown hidden-xs">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">Login<span class="caret"></span></a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Login via
+                                        <div class="social-buttons text-center">
+                                            <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+                                        </div>
+                                        or
+                                        <br>
+                                        <form action="/login" method="post" class="form" role="form">
+                                            <div class="form-group">
+                                                <label class="sr-only">Email</label>
+                                                <input type="text" name="email" class="form-control" id="email" placeholder="Email" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="sr-only" >Password</label>
+                                                <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
+                                                <div class="help-block text"><a href="">Forget the password?</a></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit"class="btn btn-primary btn-block">Sign in</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
 
 <div class="container"> 
     <div class="row">
-        <div class="col-md-3 text-center">
-            <h3 class="lead"> Options</h3>
-            <div class="list-group">
-                <a href="/editprofile" class="list-group-item"> Update Profile </a>
-                <% if (user.password) {  %>
-                <a href="/changepass" class="list-group-item"> Change Password </a>
-                <% } else {%>
-                <a href="/changepass" class="list-group-item"> Create Password </a>
-                <% } %>
-            </div>
-        </div>
-        <div class="col-md-2 text-center">
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-12 text-center">
 
             <% if (user.email) { %>
             <h2> <%= user.firstname %> <%= user.lastname %> </h2>
@@ -82,8 +101,6 @@
             <% }%>
             <% }%>
             <h5> <b>Member since:</b> <%=user.date %></h5>
-
-
         </div>
     </div>
 
@@ -181,15 +198,14 @@
     </div>-->
 </div>
 
-<script src="js/jquery.js" type="text/javascript"> </script>
-<script src="js/bootstrap.min.js" type="text/javascript"> </script>
-
-</body>
-
 <footer class="footer text-center">
     <hr>
     <p class="copyright">
         Copyright &copy; Feed 2016
     </p>
 </footer>
+
+<script src="../js/jquery.js" type="text/javascript"> </script>
+<script src="../js/bootstrap.min.js" type="text/javascript"> </script>
+</body>
 </html>

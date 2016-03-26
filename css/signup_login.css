@@ -1,72 +1,12 @@
-.form-group  #DOB select{
-    width: auto;
-    display: inline-block;
-
-}
 
 body {
-
     overflow-x: hidden;
     font-family: Helvetica,Arial,sans-serif;
-
 }
 
-
-#login-dp{
-    min-width: 250px;
-    padding: 8px 0;
-    overflow:hidden;
-    background-color:rgba(255,255,255,1);
-    width: 300%;
+strong { 
+    font-weight: 500; 
 }
-
-#login-dp .row {
-
-    padding-left: 20px ;
-    padding-right: 20px;
-}
-#login-dp .help-block{
-    font-size:12px    
-}
-#login-dp .bottom{
-    background-color:rgba(255,255,255,.8);
-    border-top:1px solid #ddd;
-    clear:both;
-    padding:14px;
-}
-#login-dp .social-buttons{
-    margin:12px 0    
-}
-#login-dp .social-buttons a{
-    width: 49%;
-}
-#login-dp .form-group {
-    margin-bottom: 10px;
-}
-
-#login-dp .form a {
-
-    color:#333;
-}
-.btn-fb{
-    color: #fff;
-    background-color:#3b5998;
-}
-.btn-fb:hover{
-    color: #fff;
-    background-color:#496ebc 
-}
-.btn-tw{
-    color: #fff;
-    background-color:#55acee;
-}
-.btn-tw:hover{
-    color: #fff;
-    background-color:#59b5fa;
-}
-
-
-strong { font-weight: 500; }
 
 a, a:hover, a:focus {
     color: #19b9e7;
@@ -74,18 +14,21 @@ a, a:hover, a:focus {
 }
 
 
-img { max-width: 100%; }
+img { 
+    max-width: 100%; 
+}
 
 
 .form-box {
     margin-top: 70px;
+    border: solid 3px black;
+    background-color: white;
 }
 
 .form-top {
     overflow: hidden;
     padding: 0 25px 15px 25px;
-    background: #f3f3f3;
-    -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;
+    background: transparent;
     text-align: left;
 }
 
@@ -109,8 +52,9 @@ img { max-width: 100%; }
 
 .form-bottom {
     padding: 25px 25px 30px 25px;
-    background: #eee;
+    background: transparent;    
     text-align: left;
+
 }
 
 .form-bottom form textarea {
@@ -123,6 +67,18 @@ img { max-width: 100%; }
 
 .form-bottom form .input-error {
     border-color: #fec503;
+}
+
+.form-group  #DOB select{
+    width: auto;
+    display: inline-block;
+
+}
+
+.form-control:focus {
+
+    border-color: #fec503;
+    box-shadow: inset 0 .1px .1px #fec503, 0 .1px .1px #fec503;
 }
 
 .social-login {
@@ -167,17 +123,4 @@ img { max-width: 100%; }
 
     h1, h2 { font-size: 32px; }
 
-}
-
-@media(max-width:768px){
-    #login-dp{
-        background-color: inherit;
-        text-align: right;
-        max-width: 50%;
-        color: #fff;
-    }
-    #login-dp .bottom{
-        background-color: inherit;
-        border-top:0 none;
-    }
 }

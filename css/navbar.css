@@ -1,0 +1,140 @@
+.navbar {
+
+	margin-bottom: 0;
+}
+
+.navbar-default {
+	background-color: #0D1636;
+	border: 0;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #0D1636;
+}
+
+
+.navbar-default .navbar-brand {
+	color: #fed136;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.navbar-default .navbar-collapse {
+	border-color: rgba(255,255,255,.02);
+}
+
+.navbar-default .nav li a {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	text-transform: uppercase;
+	font-weight: 400;
+	letter-spacing: 1px;
+	color: #fff;
+}
+
+#login-dp{
+	min-width: 250px;
+	padding: 8px 0;
+	overflow:hidden;
+	background-color:rgba(255,255,255,1);
+	width: 300%;
+}
+
+#login-dp .row {
+
+	padding-left: 20px ;
+	padding-right: 20px;
+}
+#login-dp .help-block{
+	font-size:12px    
+}
+#login-dp .bottom{
+	background-color:rgba(255,255,255,.8);
+	border-top:1px solid #ddd;
+	clear:both;
+	padding:14px;
+}
+#login-dp .social-buttons{
+	margin:12px 0   
+}
+#login-dp .social-buttons a{
+	width: 49%;
+	padding-right: 100px;
+
+}
+#login-dp .form-group {
+	margin-bottom: 10px;
+}
+#login-dp .form a {
+
+	color:#333;
+}
+.btn-fb{
+	color: #fff;
+	background-color:#3b5998;
+}
+.btn-fb:hover{
+	color: #fff;
+	background-color:#496ebc 
+}
+.btn-tw{
+	color: #fff;
+	background-color:#55acee;
+}
+.btn-tw:hover{
+	color: #fff;
+	background-color:#59b5fa;
+}
+
+
+.social-login {
+	margin-top: 35px;
+}
+
+.social-login-buttons {
+	margin-top: 25px;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+	color: #fec503;
+	background-color: transparent;
+}
+
+.navbar-default .navbar-nav>li>a:focus {
+	color: #fec503;
+	background-color: transparent;
+}
+
+.navbar-default .navbar-brand:hover {
+	color: #fec503;
+	background-color: transparent;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+	color: #fec503;
+	background-color: transparent;
+}
+
+
+@media(max-width:768px){
+	#login-dp{
+		background-color: inherit;
+		text-align: right;
+		max-width: 50%;
+		color: #fff;
+	}
+	#login-dp .bottom{
+		background-color: inherit;
+		border-top:0 none;
+	}
+}
+
+
+@media (min-width: 768px) {
+	.navbar-default .navbar-brand {
+		font-size: 1.5em;
+	}
+
+	@media (min-width: 768px) {
+		.navbar-default  {
+			background-color: #0D1636;
+			padding: 10px 0;
+		}
