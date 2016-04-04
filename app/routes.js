@@ -5,7 +5,7 @@ module.exports = function(app, passport) {
     //If user is logged in, pass in message to change navbar buttons accordingly
     //If not, then pass in proper message
     app.get('/', function(req, res) {
-
+        console.log(req.user)
         if (req.isAuthenticated())
             res.render('index.ejs', { user: req.user , message: 'loggedin' } ); // load the index.ejs file
         else
@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
     //Login
     //If already logged in, redirect automatically to homepage
     app.get('/login', function(req, res) {
-
+        console.log(req.user)
         if (req.isAuthenticated())
             res.redirect('/');
         else
@@ -170,6 +170,28 @@ module.exports = function(app, passport) {
             successRedirect : '/profile',
             failureRedirect : '/'
         }));
+
+    app.get('/search', function(req, res){
+        var User = require('../app/models/user');
+        var query = req.param('query');
+        var searchUser = require('../config/searchUser')
+        //var temp = User.find({}).where('firstname').equals(query);
+        
+        var info = searchUser(query);
+        info.exec(function(err, user){
+            if(err){
+                console.log('error')
+            }else{
+                console.log('we good')
+                console.log(user)
+            }
+        })
+        console.log("INFO:"+info)
+
+            
+        
+        res.render('search.ejs', { user:req.user})
+    });
 };
 
 function isLoggedIn(req, res, next) {
