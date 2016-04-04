@@ -56,16 +56,14 @@
                }
                return(false);
             }
-    
+        
             $(document).ready( function() {
                 
                 // Set the search term if there was one in the URL query
                 var searchTerm = getQueryValue('query');
-                console.log(searchTerm)
                 if (searchTerm != false) {
                     $('#search-bar').val(searchTerm);
                 }
-
             });
         </script>
         
