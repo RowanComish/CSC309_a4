@@ -144,11 +144,12 @@
         </div>
              <div id="search-suggestions-recipes" class="container-fluid">
             <div class="container col-lg-9">
+                 <% if(recipeResults) {%>
                     <h2 class="search-title text-center">
                        Top Recipes
                     </h2>
                     <div class="row order-section">
-                        <% if(recipeResults) {%>
+                       
                         <% for(var i=0; i<recipeResults.length;i++){%>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
