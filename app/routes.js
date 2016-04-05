@@ -5,18 +5,59 @@ module.exports = function(app, passport) {
     //If user is logged in, pass in message to change navbar buttons accordingly
     //If not, then pass in proper message
     app.get('/', function(req, res) {
+        var topUsers = require('../queries/topUsers');  
+        var topRecipes = require('../queries/topRecipes');
+        var async = require("async");
 
-        if (req.isAuthenticated())
-            res.render('index.ejs', { user: req.user , message: 'loggedin' } ); // load the index.ejs file
-        else
-            res.render('index.ejs', { user: req.user , message: 'notloggedin' } ); // load the index.ejs file
+        async.parallel([
+                function(callback){
+                    var userdata = topUsers();
+                    userdata.exec(function(err, users){
+                        if(err){
+                            callback(err)
+                        }else{
+                            callback(null, users);
+                        }
+                    })
+                },
+                function(callback){
+                var recipedata = topRecipes();
+                recipedata.exec(function(err, users){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, users);
+                    }
+                })
+            },
+            ],
+            function(err, results){
+                if(err){
+                    console.log('error')
+                }else{
+                    console.log(results)
+                    if (req.isAuthenticated())
+                        res.render('index.ejs', { user: req.user ,
+                            userResults: results[0],
+                            recipeResults: results[1],
+                            message: 'loggedin' } ); // load the index.ejs file
+                    else{
+                        res.render('index.ejs', { user: req.user , 
+                            userResults: results[0],
+                            recipeResults: results[1],
+                            message: 'notloggedin' } );
+                }
+            }
+        }
+        )
+        
     });
 
 
     //Login
     //If already logged in, redirect automatically to homepage
     app.get('/login', function(req, res) {
-
+        console.log(req.user)
         if (req.isAuthenticated())
             res.redirect('/');
         else
@@ -164,6 +205,49 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/recipe/:_id', function(req, res) {
+        var User = require('../app/models/user');
+        var recipe_id = req.params._id;
+        var Recipe = require('../app/models/recipes');
+        Recipe.findOne({'_id' : recipe_id}, function(err, wanted_recipe) {
+                if (err) 
+                    return done(err);
+                if (!wanted_recipe)
+                    return res.status(404).send('Sorry, recipe not found');
+
+            User.findOne({'_id' : wanted_recipe.author_id}, function(err2, wanted_user) {
+                if (err2)
+                    return done(err2);
+                else if (!wanted_user)
+                    return res.status(404).send('Sorry, author not found');
+                else {
+                    if (req.isAuthenticated())
+                        res.render('recipes.ejs', { user: wanted_user , message: 'loggedin', recipe: wanted_recipe } );
+                    else
+                        res.render('recipes.ejs', { user: wanted_user , message: 'notloggedin', recipe: wanted_recipe } );
+                }
+            });
+        });
+    });
+
+    app.get('/newrecipe', function(req, res) {
+        var User = require('../app/models/user');
+        var Recipe = require('../app/models/recipes');
+        if (req.isAuthenticated()) 
+            res.render('newrecipe.ejs', { message: 'loggedin' });
+        else 
+            res.render('newrecipe.ejs', { message: 'notloggedin' });
+    });
+
+    app.get('/orders', function(req, res) {
+        var User = require('../app/models/user');
+        var Recipe = require('../app/models/recipes');
+        if (req.isAuthenticated()) 
+            res.render('orderhistory.ejs', { message: 'loggedin' });
+        else 
+            res.render('orderhistory.ejs', { message: 'notloggedin' });
+    });
+
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
     app.get('/auth/facebook/callback',
@@ -234,6 +318,73 @@ module.exports = function(app, passport) {
             }
         });
     });
+
+    app.get('/search', function(req, res){
+        var query = req.param('query');
+       
+        var searchUser = require('../queries/searchUser');  
+        var searchRecipe = require('../queries/searchRecipe');
+        var async = require("async");
+
+        //code adapted from 
+        //http://www.kdelemme.com/2014/07/28/read-multiple-collections-mongodb-avoid-callback-hell/
+        //http://justinklemm.com/node-js-async-tutorial/
+        
+        //query the different collections parallel to eachother
+        async.parallel([
+            //query Users collection
+            function(callback){
+                var userdata = searchUser(query);
+                userdata.exec(function(err, users){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, users);
+                    }
+                })
+            },
+            //query Recipes collection
+            function(callback){
+                var recipeData = searchRecipe(query);
+                recipeData.exec(function(err, recipes){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, recipes);
+                    }
+                })
+
+            }
+            ],
+            //callback functionn that has user results in 0, and recipe results
+            // in 1
+            function(err, results){
+                if(err){
+                    console.log('error')
+                }else{
+                    console.log(results[0], results[1]);
+                    if(query){
+                        res.render('search.ejs', {
+                            user: req.user,
+                            userResults: results[0],
+                            recipeResults: results[1]
+                        })
+                    }else{
+                        res.render('search.ejs', {
+                            user: req.user,
+                            userResults: null,
+                            recipeResults: null
+                        })
+                    }
+                   
+                }
+            }
+
+        );
+    
+    });
+
+    
 };
 
 function isLoggedIn(req, res, next) {

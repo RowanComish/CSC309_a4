@@ -1,0 +1,34 @@
+#search-suggestions-users {
+    padding-bottom: 40px;
+    padding-top: 40px;
+    background-color: rgb(230,230,230);
+}
+
+#search-suggestions-recipes {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+}
+.search-item {
+    width: 300px;  
+    height: 300px;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.search-item img {    
+    width: inherit; 
+    height: 150px;
+    padding: 0;
+    clip: auto;
+	object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.search-rating {
+    padding-bottom: 5px;
+    width: 100px;
+}

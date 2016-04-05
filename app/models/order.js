@@ -5,7 +5,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var orderSchema = mongoose.Schema({
 
         user_id : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        recipe_id :  {type: mongoose.Schema.Types.ObjectId, ref: 'Recipes'}
+        recipe_id :  {type: mongoose.Schema.Types.ObjectId, ref: 'Recipes'},
         cost : Number,
         date : String
 
