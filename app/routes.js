@@ -5,7 +5,7 @@ module.exports = function(app, passport) {
     //If user is logged in, pass in message to change navbar buttons accordingly
     //If not, then pass in proper message
     app.get('/', function(req, res) {
-
+        console.log(req.user)
         if (req.isAuthenticated())
             res.render('index.ejs', { user: req.user , message: 'loggedin' } ); // load the index.ejs file
         else
@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
     //Login
     //If already logged in, redirect automatically to homepage
     app.get('/login', function(req, res) {
-
+        console.log(req.user)
         if (req.isAuthenticated())
             res.redirect('/');
         else
@@ -170,6 +170,63 @@ module.exports = function(app, passport) {
             successRedirect : '/profile',
             failureRedirect : '/'
         }));
+
+    app.get('/search', function(req, res){
+        var query = req.param('query');
+        var searchUser = require('../config/searchUser');  
+        var searchRecipe = require('../config/searchRecipe');
+        var async = require("async");
+        //code adapted from http://www.kdelemme.com/2014/07/28/
+        // read-multiple-collections-mongodb-avoid-callback-hell/
+        //http://justinklemm.com/node-js-async-tutorial/
+        async.parallel([
+            function(callback){
+                console.log("Query:"+ query)
+                var userdata = searchUser(query);
+                userdata.exec(function(err, users){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, users);
+                    }
+                })
+            },
+            function(callback){
+                var recipeData = searchRecipe(query);
+                recipeData.exec(function(err, recipes){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, recipes);
+                    }
+                })
+
+            }
+        ],
+            function(err, results){
+                if(err){
+                    console.log('error')
+                }else{
+                    console.log(results[0], results[1]);
+                }
+            }
+
+        )
+        
+
+        var Comment = require('../app/models/comment');
+        var Order = require('../app/models/order');
+        var Reviews = require('../app/models/reviews');
+        var Recipes = require('../app/models/recipes');
+        
+         
+        
+        
+
+            
+        
+        res.render('search.ejs', { user:req.user})
+    });
 };
 
 function isLoggedIn(req, res, next) {

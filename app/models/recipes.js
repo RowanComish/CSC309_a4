@@ -14,7 +14,7 @@ var recipeSchema = mongoose.Schema({
             name: String,
             description: String
         }
-        ]
+        ],
         description: String,
         review_avg : Number
 
