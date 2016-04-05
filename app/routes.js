@@ -163,6 +163,29 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/recipe/:_id', function(req, res) {
+        var User = require('../app/models/user');
+        var recipe_id = req.params._id;
+        var Recipe = require('../app/models/recipes');
+        Recipe.findOne({'_id' : recipe_id}, function(err, wanted_recipe) {
+            if (err) 
+                return done(err);
+
+            if (!wanted_recipe)
+                return res.status(404).send('Sorry, recipe not found');
+            else {
+                res.render('recipes.ejs', { user: req.user , message: 'loggedin', recipe: wanted_recipe } );
+            }
+        });
+    });
+
+    app.get('/newrecipe', isLoggedIn, function(req, res) {
+        var User = require('../app/models/user');
+        var recipe_id = req.params._id;
+        var Recipe = require('../app/models/recipes');
+        res.render('newrecipe.ejs');
+    });
+
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
     app.get('/auth/facebook/callback',
