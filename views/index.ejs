@@ -149,13 +149,12 @@
                        Top Recipes
                     </h2>
                     <div class="row order-section">
-                       
                         <% for(var i=0; i<recipeResults.length;i++){%>
+                        <a style="text-decoration:none;" href='/recipe/<%=recipeResults[i]._id%>'>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
                                 <!-- Image -->
-                                <img src="./img/food_example1.jpeg"
-                                     class="order-image"> <!-- Name -->
+                                <img src="./img/food_example1.jpeg" class="order-image"> <!-- Name -->
                                 <h4 class="text-center">
                                     <%=recipeResults[i].name %>
                                 </h4><!-- Date -->
@@ -163,7 +162,7 @@
                                     <%=recipeResults[i].cuisine %>
                                 </h5><!-- Cost -->
                                 <h4 class="text-center">
-                                    <%=recipeResults[i].cost %>
+                                    $<%=recipeResults[i].cost %>
                                 </h4>
                                 <h4 class="text-center">
                                     <%=recipeResults[i].category %>
@@ -183,6 +182,7 @@
                                 </span>
                             </div>
                         </div>
+                        </a>
                         <% } %>
                     <%}%>     
                 </div>
