@@ -90,9 +90,10 @@
         <div id="search-top-suggestions" class="container-fluid">
             <div class="container">
                     <h2 class="search-title text-center">
-                        Results-Recipes
+                        Recipes
                     </h2>
                     <div class="row order-section">
+                        <% if(recipeResults) {%>
                         <% for(var i=0; i<recipeResults.length;i++){%>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
@@ -126,6 +127,7 @@
                             </div>
                         </div>
                         <% } %>
+                    <%}%>
 
                         
                 </div>
@@ -133,9 +135,11 @@
         </div>
             <div id="search-results" class="container">
                     <h2 class="search-title text-center">
-                        Results-Users
+                        Users
                     </h2>
+
                     <div class="row">
+                        <% if(userResults) {%>
                         <% for(var i=0; i<userResults.length;i++){%>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
@@ -153,6 +157,7 @@
                                 </h4>
                             </div>
                         </div>
+                        <% } %>
                         <% } %>
                     </div>
                 </div>

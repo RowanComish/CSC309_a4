@@ -5,11 +5,52 @@ module.exports = function(app, passport) {
     //If user is logged in, pass in message to change navbar buttons accordingly
     //If not, then pass in proper message
     app.get('/', function(req, res) {
-        console.log(req.user)
-        if (req.isAuthenticated())
-            res.render('index.ejs', { user: req.user , message: 'loggedin' } ); // load the index.ejs file
-        else
-            res.render('index.ejs', { user: req.user , message: 'notloggedin' } ); // load the index.ejs file
+        var topUsers = require('../queries/topUsers');  
+        var topRecipes = require('../queries/topRecipes');
+        var async = require("async");
+
+        async.parallel([
+                function(callback){
+                    var userdata = topUsers();
+                    userdata.exec(function(err, users){
+                        if(err){
+                            callback(err)
+                        }else{
+                            callback(null, users);
+                        }
+                    })
+                },
+                function(callback){
+                var recipedata = topRecipes();
+                recipedata.exec(function(err, users){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, users);
+                    }
+                })
+            },
+            ],
+            function(err, results){
+                if(err){
+                    console.log('error')
+                }else{
+                    console.log(results)
+                    if (req.isAuthenticated())
+                        res.render('index.ejs', { user: req.user ,
+                            userResults: results[0],
+                            recipeResults: results[1],
+                            message: 'loggedin' } ); // load the index.ejs file
+                    else{
+                        res.render('index.ejs', { user: req.user , 
+                            userResults: results[0],
+                            recipeResults: results[1],
+                            message: 'notloggedin' } );
+                }
+            }
+        }
+        )
+        
     });
 
 
@@ -216,14 +257,15 @@ module.exports = function(app, passport) {
 
     app.get('/search', function(req, res){
         var query = req.param('query');
-        var searchUser = require('../config/searchUser');  
-        var searchRecipe = require('../config/searchRecipe');
+       
+        var searchUser = require('../queries/searchUser');  
+        var searchRecipe = require('../queries/searchRecipe');
         var async = require("async");
 
-        //code adapted from http://www.kdelemme.com/2014/07/28/
-        // read-multiple-collections-mongodb-avoid-callback-hell/
+        //code adapted from 
+        //http://www.kdelemme.com/2014/07/28/read-multiple-collections-mongodb-avoid-callback-hell/
         //http://justinklemm.com/node-js-async-tutorial/
-
+        
         //query the different collections parallel to eachother
         async.parallel([
             //query Users collection
@@ -257,16 +299,25 @@ module.exports = function(app, passport) {
                     console.log('error')
                 }else{
                     console.log(results[0], results[1]);
-                    res.render('search.ejs', {
-                        user: req.user,
-                        userResults: results[0],
-                        recipeResults: results[1]
-                    })
+                    if(query){
+                        res.render('search.ejs', {
+                            user: req.user,
+                            userResults: results[0],
+                            recipeResults: results[1]
+                        })
+                    }else{
+                        res.render('search.ejs', {
+                            user: req.user,
+                            userResults: null,
+                            recipeResults: null
+                        })
+                    }
                    
                 }
             }
 
         );
+    
     });
 };
 

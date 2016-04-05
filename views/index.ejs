@@ -8,6 +8,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/navbar.css" rel="stylesheet">
+    <link href="../css/index.css" rel="stylesheet">
 
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -137,12 +138,54 @@
                     <li><a href="/search?query=Mediterranean">Mediterranean</a></li>
                     <li><a href="/search?query=Chinese">Chinese</a></li>
                     <li><a href="/search?query=Western">Western</a></li>
+                    <li><a href="/search?query=Italian">Italian</a></li>
                 </ul>
             </div>
         </div>
+             <div id="search-suggestions-recipes" class="container-fluid">
+            <div class="container col-lg-9">
+                    <h2 class="search-title text-center">
+                        Recipes
+                    </h2>
+                    <div class="row order-section">
+                        <% if(recipeResults) {%>
+                        <% for(var i=0; i<recipeResults.length;i++){%>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="./img/food_example1.jpeg"
+                                     class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    <%=recipeResults[i].name %>
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    <%=recipeResults[i].cuisine %>
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    <%=recipeResults[i].cost %>
+                                </h4>
+                                <h4 class="text-center">
+                                    <%=recipeResults[i].category %>
 
-            <div class="col-sm-9">
-              <h2 style="margin-top:100px;"> Feed is the first website that allows people to buy and sell their homemade food with each other online.</h2>
+                                </h4>
+                                
+                                <span class="search-rating center-block text-center">
+                                    <!-- fill stars -->
+                                    <% for(var j=0; j<Math.round(recipeResults[i].review_avg) ;j++) {%>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <% } %>
+                                    <!-- add empty stars -->
+                                     <% for(var j=0; j>Math.round(recipeResults[i].review_avg) ;j++) {%>
+                                    <span class="glyphicon glyphicon-star star-empty"></span>
+                                    <% } %>
+                                </span>
+                            </div>
+                        </div>
+                        <% } %>
+                    <%}%>     
+                </div>
+            </div>
+        </div>
           </div>
       </div>
 

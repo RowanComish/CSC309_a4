@@ -1,26 +1,14 @@
-#search-input {
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-#search-top-suggestions {
+#search-suggestions-users {
     padding-bottom: 40px;
     padding-top: 40px;
     background-color: rgb(230,230,230);
 }
 
-#search-results {
+#search-suggestions-recipes {
     padding-top: 40px;
     padding-bottom: 40px;
+    
 }
-
-#search-input .glyphicon-search{
-    font-size: 24px;
-}
-
-.search-title {
-}
-
 .search-item {
     width: 300px;  
     height: 300px;
