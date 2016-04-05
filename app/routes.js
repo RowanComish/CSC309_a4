@@ -190,7 +190,6 @@ module.exports = function(app, passport) {
 
     app.get('/newrecipe', function(req, res) {
         var User = require('../app/models/user');
-        var recipe_id = req.params._id;
         var Recipe = require('../app/models/recipes');
         if (req.isAuthenticated()) 
             res.render('newrecipe.ejs', { message: 'loggedin' });
@@ -200,7 +199,6 @@ module.exports = function(app, passport) {
 
     app.get('/orders', function(req, res) {
         var User = require('../app/models/user');
-        var recipe_id = req.params._id;
         var Recipe = require('../app/models/recipes');
         if (req.isAuthenticated()) 
             res.render('orderhistory.ejs', { message: 'loggedin' });
