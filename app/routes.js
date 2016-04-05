@@ -168,22 +168,44 @@ module.exports = function(app, passport) {
         var recipe_id = req.params._id;
         var Recipe = require('../app/models/recipes');
         Recipe.findOne({'_id' : recipe_id}, function(err, wanted_recipe) {
-            if (err) 
-                return done(err);
+                if (err) 
+                    return done(err);
+                if (!wanted_recipe)
+                    return res.status(404).send('Sorry, recipe not found');
 
-            if (!wanted_recipe)
-                return res.status(404).send('Sorry, recipe not found');
-            else {
-                res.render('recipes.ejs', { user: req.user , message: 'loggedin', recipe: wanted_recipe } );
-            }
+            User.findOne({'_id' : wanted_recipe.author_id}, function(err2, wanted_user) {
+                if (err2)
+                    return done(err2);
+                else if (!wanted_user)
+                    return res.status(404).send('Sorry, author not found');
+                else {
+                    if (req.isAuthenticated())
+                        res.render('recipes.ejs', { user: wanted_user , message: 'loggedin', recipe: wanted_recipe } );
+                    else
+                        res.render('recipes.ejs', { user: wanted_user , message: 'notloggedin', recipe: wanted_recipe } );
+                }
+            });
         });
     });
 
-    app.get('/newrecipe', isLoggedIn, function(req, res) {
+    app.get('/newrecipe', function(req, res) {
         var User = require('../app/models/user');
         var recipe_id = req.params._id;
         var Recipe = require('../app/models/recipes');
-        res.render('newrecipe.ejs');
+        if (req.isAuthenticated()) 
+            res.render('newrecipe.ejs', { message: 'loggedin' });
+        else 
+            res.render('newrecipe.ejs', { message: 'notloggedin' });
+    });
+
+    app.get('/orders', function(req, res) {
+        var User = require('../app/models/user');
+        var recipe_id = req.params._id;
+        var Recipe = require('../app/models/recipes');
+        if (req.isAuthenticated()) 
+            res.render('orderhistory.ejs', { message: 'loggedin' });
+        else 
+            res.render('orderhistory.ejs', { message: 'notloggedin' });
     });
 
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));

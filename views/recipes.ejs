@@ -95,11 +95,11 @@
         <div class="profile-stats">
             <ul>
                 <li><h3>Recipe by:</h3>
-                    <h2>John TooGood</h2></li>
-                    <li>John Has Created 13 Recipes</li>
+                    <h2><%=user.firstname%> <%=user.lastname%></h2></li>
+                    <li><%=user.firstname%> Has Created 13 Recipes</li>
                 </ul>
                 <ul style="float: left;">
-                    <li><button onclick="location.href='/profile';"  class="recipes">
+                    <li><button onclick="location.href='/userprofile/<%=user.email%>';"  class="recipes">
                         View His Profile
                     </button></li>
                 </ul>

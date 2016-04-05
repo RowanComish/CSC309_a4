@@ -29,45 +29,82 @@
     
     
     <nav class = "navbar navbar-default">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<div>
-				<a class="navbar-brand navbar-brand-fix" href="index.html">Feed</a> 
-			</div>
-		</div>
 
-		<div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+        <div class="navbar-header">
 
-			<ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="search.html">Search </a>
-                    </li>
-                    <li>
-                        <a href="profile.html">My Profile</a>
-                    </li>
-                    <li>
-                        <a href="orderhistory.html"> My Orders </a>
-                    </li>
-                    <li>
-                        <a href="index.html">Log Out</a>
-                    </li>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div>
+                <a class="navbar-brand navbar-brand-fix" href="/">Feed</a> 
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav navbar-right">
+                <% if (message =='loggedin') { %>
+                <li>
+                    <a href="/profile">My Profile</a>
+                </li>
+                <li>
+                    <a href="/logout">Logout </a>
+                </li>
+                <% } else { %>
+                <li>
+                    <a href="/signup"> Sign Up </a>
+                </li>
+                <li>
+                    <a href="/login" class="visible-xs"> Login </a>
+                </li>
+                <li class="dropdown hidden-xs">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">Login<span class="caret"></span></a>
+                    <ul id="login-dp" class="dropdown-menu">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Login via
+                                    <div class="social-buttons text-center">
+                                        <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook </a>
+                                    </div>
+                                    or 
+                                    <br>
+                                    <form action="/login" method="post" class="form" role="form">
+                                        <div class="form-group">
+                                            <label class="sr-only">Email</label>
+                                            <input type="text" name="email" class="form-control" id="email" placeholder="Email" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" >Password</label>
+                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
+                                            <div class="help-block text"><a href="">Forget the password ?</a></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit"class="btn btn-primary btn-block">Sign in</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <% } %>
             </ul>
         </div>
     </nav>
 
     <div class="container">
+    <% if (message =='loggedin') { %>
         <h2 class="text-center order-title">My Orders</h2>
 
         <div class="row order-section">
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="order-item center-block">
                     <!-- Image -->
-                    <img src="./img/food_example1.jpeg" class="order-image"> 
+                    <img src="../img/food_example1.jpeg" class="order-image"> 
                     <!-- Name -->
                     <h4 class="text-center">Pablo's Pan Pizza</h4>
                     <!-- Date -->
@@ -90,7 +127,7 @@
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="order-item center-block">
                     <!-- Image -->
-                    <img src="./img/food_example2.jpeg" class="order-image">
+                    <img src="../img/food_example2.jpeg" class="order-image">
                      <!-- Name -->
                     <h4 class="text-center">Yoda's Youthful Yogurt</h4>
                     <!-- Date -->
@@ -113,7 +150,7 @@
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="order-item center-block">
                     <!-- Image -->
-                    <img src="./img/food_example3.jpeg" class="order-image">
+                    <img src="../img/food_example3.jpeg" class="order-image">
                      <!-- Name -->
                     <h4 class="text-center">Sally's Super Salad</h4>
                     <!-- Date -->
@@ -135,7 +172,7 @@
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="order-item center-block">
                     <!-- Image -->
-                    <img src="./img/food_example4.jpeg" class="order-image">
+                    <img src="../img/food_example4.jpeg" class="order-image">
                      <!-- Name -->
                     <h4 class="text-center">Bob's Beefy Burger</h4>
                     <!-- Date -->
@@ -155,6 +192,9 @@
                 </div>
             </div>
         </div>
+        <% } else { %>
+        <h2 class="text-center order-title">Please login to view your orders</h2>
+        <% } %>
     </div>
 </body>
 <hr>
