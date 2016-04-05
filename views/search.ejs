@@ -90,174 +90,70 @@
         <div id="search-top-suggestions" class="container-fluid">
             <div class="container">
                     <h2 class="search-title text-center">
-                        Recommended
+                        Results-Recipes
                     </h2>
                     <div class="row order-section">
+                        <% for(var i=0; i<recipeResults.length;i++){%>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
                                 <!-- Image -->
                                 <img src="./img/food_example1.jpeg"
                                      class="order-image"> <!-- Name -->
                                 <h4 class="text-center">
-                                    Pablo's Pan Pizza
+                                    <%=recipeResults[i].name %>
                                 </h4><!-- Date -->
                                 <h5 class="text-center">
-                                    21:00 March 3, 2016
+                                    <%=recipeResults[i].cuisine %>
                                 </h5><!-- Cost -->
                                 <h4 class="text-center">
-                                    $8.20
+                                    <%=recipeResults[i].cost %>
                                 </h4>
+                                <h4 class="text-center">
+                                    <%=recipeResults[i].category %>
+
+                                </h4>
+                                
                                 <span class="search-rating center-block text-center">
+                                    <!-- fill stars -->
+                                    <% for(var j=0; j<Math.round(recipeResults[i].review_avg) ;j++) {%>
                                     <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                    <% } %>
+                                    <!-- add empty stars -->
+                                     <% for(var j=0; j>Math.round(recipeResults[i].review_avg) ;j++) {%>
+                                    <span class="glyphicon glyphicon-star star-empty"></span>
+                                    <% } %>
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example2.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Yoda's Youthful Yogurt
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    12:00 February 25, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </span>                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example3.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Sally's Super Salad
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    21:00 February 20, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </span>
-                        </div>
-                    </div>
+                        <% } %>
+
+                        
                 </div>
             </div>
         </div>
-        
-        
             <div id="search-results" class="container">
                     <h2 class="search-title text-center">
-                        Results
+                        Results-Users
                     </h2>
                     <div class="row">
+                        <% for(var i=0; i<userResults.length;i++){%>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example1.jpeg"
+                                <!-- Image issue displaying-->
+                                <img src="./img/chefbanner.jpeg"
                                      class="order-image"> <!-- Name -->
                                 <h4 class="text-center">
-                                    Pablo's Pan Pizza
+                                    <%=userResults[i].firstname %>
                                 </h4><!-- Date -->
                                 <h5 class="text-center">
-                                    21:00 March 3, 2016
+                                    <%=userResults[i].lastname %>
                                 </h5><!-- Cost -->
                                 <h4 class="text-center">
-                                    $8.20
+                                    <%=userResults[i].email %>
                                 </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example2.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Yoda's Youthful Yogurt
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    12:00 February 25, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </span>                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example3.jpeg"
-                                     class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Sally's Super Salad
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    21:00 February 20, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </span>
-                            </div>
-                        </div>
-                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example4.jpeg" class="order-image">
-                                 <!-- Name -->
-                                <h4 class="text-center">Bob's Beefy Burger</h4>
-                                <!-- Date -->
-                                <h5 class="text-center"> 18:00 February 10, 2016</h5>
-                                <!-- Cost -->
-                                <h4 class="text-center">$8.20</h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </span>
-                            </div>
-                        </div>
+                        <% } %>
                     </div>
                 </div>
             </div>

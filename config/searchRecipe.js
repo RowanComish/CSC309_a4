@@ -1,20 +1,15 @@
 var Recipe = require('../app/models/recipes');
 
 module.exports = function(query){
+	//takes in a query and changes it to individual words as regex
+	var queries = query.split(' ');
+	for(i=0;i<queries.length;i++){
+		queries[i]= new RegExp(queries[i], 'i');
+	}
 	
-	//used regex so case of letters doesnt matter
-	var temp = Recipe.find({}).or([{'name': new RegExp(query, 'i')},
-		{'cuisine': new RegExp(query, 'i')},
-		{'category': new RegExp(query, 'i')}]).sort({'review_avg': -1});
+	var temp = Recipe.find({}).or([{'name': {$in: queries}},
+		{'cuisine': {$in: queries}},
+		{'category': {$in: queries}}]).sort({'review_avg': -1});
 	
-	/*temp.exec(function(err, recipes){
-		if(err){
-				console.log('error')
-				callback(err, null);
-			}else{
-				callback(null, recipes);
-			}		
-	});
-	*/
 	return temp;
 }
