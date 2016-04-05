@@ -87,155 +87,231 @@
     </nav>
 
     <div id="main-profile" class="container"> 
-      <figure class="profile-banner">
-        <img id="bannerimage" src="../img/chefbanner.jpg" alt="Profile banner" />
+        <figure class="profile-banner">
+            <img id="bannerimage" src="../img/chefbanner.jpg" alt="Profile banner" />
         </figure>
-        <figure class="profile-picture" style="background-image: url('img/chefprofile.jpg')">
-        </figure>
+        <figure class="profile-picture" style="background-image: url('../img/chefprofile.jpg')"> </figure>
+
         <div class="profile-stats">
             <ul>
-                <li><h2>John TooGood</h2></li>
-                <li>13    <span>Recipes</span></li>
-                <li>32    <span>Following</span></li>
-                <li>324   <span>Followers</span></li>
-
-            </ul>
-            <button onclick="location.href='myrecipes.html';"  class="recipes">
-              View all Recipes
-            </button>
-              <button onclick="location.href='editprofile.html';" class="editprofile">
-                  Edit Profile
-              </button>
-        </div>
-    </div>
-<div id="search-results" class="container">
-    <h2 class="search-title text-center">
-        Reviews for: 
-    </h2>
-    <div class="search-item center-block">
-        <!-- Image -->
-        <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
-        <h4 class="text-center">
-            <%=recipe.name%>
-        </h4><!-- Date -->
-        <h5 class="text-center">
-            <%=recipe.date%>
-        </h5><!-- Cost -->
-        <h4 class="text-center">
-            <%=recipe.cost%>
-        </h4>
-        <h4 class="text-center">
-            Made by <%=recipe.author_id%>
-        </h4>
-        <span class="search-rating center-block text-center">
-            <% for (var i=0; i<recipe.review_avg; i++) {%>
-                <span class="glyphicon glyphicon-star"></span>
-            <% } %>
-        </span>
-    </div>
-    <h2 class="search-title text-center">
-        Top Reviews: 
-    </h2>
-    <div class="col-md-4 col-sm-6 col-xs-12">
-        <div class="review"> 
-            <h3> Most Helpful review: </h3>
-            <ul class="review-author">
-                <li><img src="img/nouserimage.jpg">
-                    <li><h6>Will Smith</h6></li> <br>
-                    <li><h4>Great dish!</h4></li>
-                    <span class="search-rating center-block text-center">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </span>
+                <li><h3>Recipe by:</h3>
+                    <h2>John TooGood</h2></li>
+                    <li>John Has Created 13 Recipes</li>
+                </ul>
+                <ul style="float: left;">
+                    <li><button onclick="location.href='/profile';"  class="recipes">
+                        View His Profile
+                    </button></li>
                 </ul>
             </div>
-            <div class="review-text">
-                <p>I felt that this food was just so superbly awesome!</p>
-            </div>
         </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="review"> 
-                <h3> Most Critical review: </h3>
-                <ul class="review-author">
-                    <li><img src="img/nouserimage.jpg">
-                        <li><h6>Jaden Smith</h6></li> <br>
-                        <li><h4>Worst dish ever!</h4></li>
-                        <span class="search-rating center-block text-center">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                        </span>
-                    </ul>
-                </div>
-                <div class="review-text">
-                    <p>I felt that this food was just so superbly awesome!</p>
+        <div>
+            <div id="search-results" class="container">
+                <div class="search-item center-block">
+                    <!-- Image -->
+                    <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
+                    <h4 class="text-center">
+                        <%=recipe.name%>
+                    </h4>
+                    <!-- Date -->
+                    <h5 class="text-center">
+                        <%=recipe.date%>
+                    </h5>
+                    <!-- Cost -->
+                    <h4 class="text-center">
+                        $<%=recipe.cost%>
+                    </h4>
+                    <button type="submit" class="order-review-button btn btn-primary center-block">Order This Dish</button>
+                    <span class="search-rating center-block text-center">
+                        <% for (var i=0; i<recipe.review_avg; i++) {%>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <% } %>
+                    </span>
+                    
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="review"> 
-                    <h3> Star Breakdown: </h3>
-                    <h4> 100 Reviews </h5>
-                        <div class="starset">
-                            <h6> 35 Reviewers: </h6>
-                            <span class="search-rating">
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                            </span>
+            <div id="search-top-suggestions" class="container-fluid">
+                <div class="container">
+                    <h2 class="search-title text-center">
+                        More Dishes Like This
+                    </h2>
+                    <div class="row order-section">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="../img/food_example1.jpeg"
+                                class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Pablo's Pan Pizza
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    21:00 March 3, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>
+                            </div>
                         </div>
-                        <div class="starset">
-                            <h6> 15 Reviewers: </h6>
-                            <span class="search-rating">
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            </span>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="search-item center-block">
+                                <!-- Image -->
+                                <img src="../img/food_example2.jpeg"
+                                class="order-image"> <!-- Name -->
+                                <h4 class="text-center">
+                                    Yoda's Youthful Yogurt
+                                </h4><!-- Date -->
+                                <h5 class="text-center">
+                                    12:00 February 25, 2016
+                                </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                    $8.20
+                                </h4>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>                            </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="search-item center-block">
+                                    <!-- Image -->
+                                    <img src="../img/food_example3.jpeg"
+                                    class="order-image"> <!-- Name -->
+                                    <h4 class="text-center">
+                                        Sally's Super Salad
+                                    </h4><!-- Date -->
+                                    <h5 class="text-center">
+                                        21:00 February 20, 2016
+                                    </h5><!-- Cost -->
+                                    <h4 class="text-center">
+                                        $8.20
+                                    </h4>
+                                    <span class="search-rating center-block text-center">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="starset">
-                            <h6> 10 Reviewers: </h6>
+                    </div>
+                </div>
+            </div>
+            <div id="search-results" class="container">
+                <h2 class="search-title text-center">
+                    Top Reviews: 
+                </h2>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="review"> 
+                        <h3> Most Helpful review: </h3>
+                        <ul class="review-author">
+                            <li><img src="../img/nouserimage.jpg"></li>
+                            <li><h6>Will Smith</h6></li> <br>
+                            <li><h4>Great dish!</h4></li>
                             <span class="search-rating center-block text-center">
                                 <span class="glyphicon glyphicon-star"></span>
                                 <span class="glyphicon glyphicon-star"></span>
                                 <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            </span>
-                        </div>
-                        <div class="starset">
-                            <h6> 15 Reviewers: </h6>
-                            <span class="search-rating center-block text-center">
                                 <span class="glyphicon glyphicon-star"></span>
                                 <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
                             </span>
-                        </div>
-                        <div class="starset">
-                            <h6> 25 Reviewers: </h6>
-                            <span class="search-rating center-block text-center">
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            </span>
-                        </div>
+                        </ul>
+                    </div>
+                    <div class="review-text">
+                        <p>I felt that this food was just so superbly awesome!</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="review"> 
+                        <h3> Most Critical review: </h3>
                         <ul class="review-author">
-                            <li><img src="img/nouserimage.jpg">
+                            <li><img src="../img/nouserimage.jpg"></li>
+                            <li><h6>Jaden Smith</h6></li> <br>
+                            <li><h4>Worst dish ever!</h4></li>
+                            <span class="search-rating center-block text-center">
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            </span>
+                        </ul>
+                    </div>
+                    <div class="review-text">
+                        <p>I felt that this food was just so superbly awesome!</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="review"> 
+                        <h3> Star Breakdown: </h3>
+                        <h4> 100 Reviews </h5>
+                            <div class="starset">
+                                <h6> 35 Reviewers: </h6>
+                                <span class="search-rating">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>
+                            </div>
+                            <div class="starset">
+                                <h6> 15 Reviewers: </h6>
+                                <span class="search-rating">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                            </div>
+                            <div class="starset">
+                                <h6> 10 Reviewers: </h6>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                            </div>
+                            <div class="starset">
+                                <h6> 15 Reviewers: </h6>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                            </div>
+                            <div class="starset">
+                                <h6> 25 Reviewers: </h6>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="review"> 
+                            <ul class="review-author">
+                                <li><img src="../img/nouserimage.jpg"></li>
                                 <li><h6>Will Smith</h6></li> <br>
                                 <li><h4>Great dish!</h4></li>
                                 <span class="search-rating center-block text-center">
@@ -254,46 +330,49 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="review"> 
                             <ul class="review-author">
-                                <li><img src="img/nouserimage.jpg">
-                                    <li><h6>Will Smith</h6></li> <br>
-                                    <li><h4>Great dish!</h4></li>
-                                    <span class="search-rating center-block text-center">
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </span>
-                                </ul>
-                            </div>
-                            <div class="review-text">
-                                <p>I felt that this food was just so superbly awesome!</p>
-                            </div>
+                                <li><img src="../img/nouserimage.jpg"></li>
+                                <li><h6>Will Smith</h6></li> <br>
+                                <li><h4>Great dish!</h4></li>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>
+                            </ul>
                         </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="review"> 
-                                <ul class="review-author">
-                                    <li><img src="img/nouserimage.jpg">
-                                        <li><h6>Will Smith</h6></li> <br>
-                                        <li><h4>Great dish!</h4></li>
-                                        <span class="search-rating center-block text-center">
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        </span>
-                                    </ul>
-                                </div>
-                                <div class="review-text">
-                                    <p>I felt that this food was just so superbly awesome!</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <footer class="text-center">
-                                <p class="copyright">
-                                    Copyright &copy; Feed 2016
-                                </p>
-                            </footer>
-                        </body>
-                        </html>
+                        <div class="review-text">
+                            <p>I felt that this food was just so superbly awesome!</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="review"> 
+                            <ul class="review-author">
+                                <li><img src="../img/nouserimage.jpg"></li>
+                                <li><h6>Will Smith</h6></li> <br>
+                                <li><h4>Great dish!</h4></li>
+                                <span class="search-rating center-block text-center">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </span>
+                            </ul>
+                        </div>
+                        <div class="review-text">
+                            <p>I felt that this food was just so superbly awesome!</p>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center">
+            <p class="copyright">
+                Copyright &copy; Feed 2016
+            </p>
+        </footer>
+    </body>
+    </html>
