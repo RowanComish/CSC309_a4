@@ -94,9 +94,8 @@
 
         <div class="profile-stats">
             <ul>
-                <li><h3>Recipe by:</h3>
-                    <h2><%=user.firstname%> <%=user.lastname%></h2></li>
-                    <li><%=user.firstname%> Has Created 13 Recipes</li>
+                <li><h3>Recipe by:</h3> <h2><%=user.firstname%> <%=user.lastname%></h2></li>
+                <li><h2><%=user.firstname%> Has Created 13 Recipes</h2></li>
                 </ul>
                 <ul style="float: left;">
                     <li><button onclick="location.href='/userprofile/<%=user.email%>';"  class="recipes">
@@ -115,7 +114,7 @@
                     </h4>
                     <!-- Date -->
                     <h5 class="text-center">
-                        <%=recipe.date%>
+                        Created on: <%=recipe.date.toDateString()%>
                     </h5>
                     <!-- Cost -->
                     <h4 class="text-center">
