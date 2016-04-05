@@ -92,6 +92,7 @@ module.exports = function(app, passport) {
 
 
     app.get('/profile', isLoggedIn, function(req, res) {
+        console.log("request: " + Object.keys(req));
         res.render('profile.ejs', { user : req.user });
     });
 
@@ -254,6 +255,69 @@ module.exports = function(app, passport) {
             successRedirect : '/profile',
             failureRedirect : '/'
         }));
+        
+    // Reviewing
+    app.get('/review/:recipe', function(req, res) {
+        
+        var recipeID = req.params.recipe;
+        
+        var Recipe = require('../app/models/recipes');
+
+        Recipe.findOne({ '_id' :  recipeID }, function(err, recipe) {
+
+            if (err)
+                return done(err);
+
+            if (!recipe)
+                return res.status(404).send('Sorry, recipe not found');
+            else{
+                if (req.isAuthenticated())
+                    res.render('recipe.ejs', { recipe: recipe } );
+                else
+                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );
+            }
+        });  
+    })
+    
+    app.post('/review/:recipe', function(req, res){
+
+        if (req.body.score < 0 || req.body.comment.length <= 0) {
+            
+        }
+        
+        var Review = require('../app/models/reviews');
+
+        Review.findOne({ 'userID' : req.user._id, 'id' : req.body.recipeID}, function(err, review) {
+
+            if (err)
+                return done(err);
+    
+            //check if email already exists
+            if (user) {
+                res.render('recipe.ejs', { message: req.flash('fail') });
+            }
+            else {
+    
+                // if there is no prior review
+                // create the review
+        
+                var newReview = new Review();
+        
+                newReview.type = 'Recipe';
+                newReview.id = req.body.recipeID;
+                newReview.userID = req.user._id;
+                newReview.score = req.body.score;
+                newReview.title = "";
+                newReview.comment = req.body.comment;
+        
+                newReview.save(function(err) {
+                    if (err)
+                        throw err;
+                    res.render('recipe.ejs', { message: req.flash('pass') });
+                });
+            }
+        });
+    });
 
     app.get('/search', function(req, res){
         var query = req.param('query');
@@ -319,6 +383,8 @@ module.exports = function(app, passport) {
         );
     
     });
+
+    
 };
 
 function isLoggedIn(req, res, next) {

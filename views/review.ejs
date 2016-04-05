@@ -1,0 +1,147 @@
+<!-- 3.Review Page, My Order Page, Search Page with suggestions -->
+<html>
+<head>
+  <title>
+    Feed - Review <%= recipe.name %>
+  </title>
+  <link href="css/bootstrap.min.css"
+  rel="stylesheet"
+  type="text/css">
+  <link href="css/style.css"
+  rel="stylesheet"
+  type="text/css">
+  <link href="css/navbar.css"
+  rel="stylesheet"
+  type="text/css">
+  <link href="css/review.css"
+  rel="stylesheet"
+  type="text/css">
+  <link href="font-awesome/css/font-awesome.min.css"
+  rel="stylesheet"
+  type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+  rel="stylesheet"
+  type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script'
+  rel='stylesheet'
+  type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic'
+  rel='stylesheet'
+  type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700'
+  rel='stylesheet'
+  type='text/css'>
+  <script src="js/jquery.js"
+  type="text/javascript">
+  </script>
+  <script src="js/bootstrap.min.js"
+  type="text/javascript">
+  </script>
+
+  <!-- <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet"> -->
+  <link href="css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+
+  <!-- optionally if you need to use a theme, then include the theme file as mentioned below -->
+  <link href="css/theme-krajee-svg.css" media="all" rel="stylesheet" type="text/css" />
+
+  <script src="js/star-rating.js" type="text/javascript"></script>
+
+</head>
+<body>
+  
+  <script>
+  $(document).on('ready', function(){
+    $('#review-rating').rating({min: 0, max: 5, step: 1.0, stars: 5});
+  });
+  </script>
+  
+  <nav class="navbar navbar-default">
+    <div class="navbar-header">
+      <button type="button"
+      class="navbar-toggle"
+      data-toggle="collapse"
+      data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span></button>
+      <div>
+        <a class="navbar-brand navbar-brand-fix"
+        href="index.html">Feed</a>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse "
+    id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="search.html"> Search</a>
+      </li>
+      <li>
+        <a href="/profile">My Profile</a>
+      </li> 
+      <li>
+        <a href="orderhistory.html"> My Orders </a>
+      </li>
+      <li>
+        <a href="/logout">Log Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  
+  <div class="row">
+
+    <div class="col-xs-6 col-sm-6 col-md-6">
+      <h2>Leave a Review</h2>
+    </div>  
+    <div class="col-xs-6 col-sm-6 col-md-6">
+      <div class="center-block">
+        <a id="back-button" href="orderhistory.html" class="btn btn-primary active pull-right" role="button"> Go Back to My Orders</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    
+    <div class="col-xs-12 col-sm-12 col-md-12">    
+      
+      <div class="review-item center-block">
+        <img src="./img/food_example1.jpeg"> 
+        
+        <div class="review-item-container center-block">
+            
+          <% if (user.email) { %>
+            <h2><%= recipe.name %></h2>
+          <% } else { %>
+            <h2>Unknown name</h2>
+          <% } %>
+
+          <!-- Review -->
+          <form action="/signup" method="POST" id="review-form">
+              
+            <!-- Rating -->
+            <input id="review-rating" type="text" class="rating" data-size="xs" >  
+            
+            <div class="form-group">
+              <textarea class="form-control" form="review-form" rows="4" placeholder="What did you think of the food?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+          </form>
+          
+          <!-- show any messages that come back with authentication -->
+          <% if (message.length > 0) { %>
+              <div class="alert alert-danger"><%= message %></div>
+          <% } %>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<footer class="text-center">
+  <p class="copyright">
+    Copyright &copy; Feed 2016
+  </p>
+</footer>
+</body>
+</html>
