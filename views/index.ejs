@@ -145,7 +145,7 @@
              <div id="search-suggestions-recipes" class="container-fluid">
             <div class="container col-lg-9">
                     <h2 class="search-title text-center">
-                        Recipes
+                       Top Recipes
                     </h2>
                     <div class="row order-section">
                         <% if(recipeResults) {%>
@@ -171,12 +171,13 @@
                                 
                                 <span class="search-rating center-block text-center">
                                     <!-- fill stars -->
+
                                     <% for(var j=0; j<Math.round(recipeResults[i].review_avg) ;j++) {%>
                                     <span class="glyphicon glyphicon-star"></span>
-                                    <% } %>
+                                    <% } %>                               
                                     <!-- add empty stars -->
-                                     <% for(var j=0; j>Math.round(recipeResults[i].review_avg) ;j++) {%>
-                                    <span class="glyphicon glyphicon-star star-empty"></span>
+                                     <% for(var j=0; j<5-Math.round(recipeResults[i].review_avg) ;j++) {%>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
                                     <% } %>
                                 </span>
                             </div>
