@@ -9,7 +9,7 @@ module.exports = function(query){
 	//used regex so case of letters doesnt matter
 	var temp = User.find({}).or([{'lastname': {$in: queries}},
 		{'firstname': {$in: queries}}]);
-//new RegExp(query, 'i'
+
 	return temp;
 
 }	
