@@ -176,7 +176,7 @@
                     <h4 class="text-center">
                         $<%=recipe.cost%>
                     </h4>
-                    <button type="submit" class="order-review-button btn btn-primary center-block">Order This Dish</button>
+                    <button type="submit" action="/addToOrder" method="post" class="order-review-button btn btn-primary center-block">Order This Dish</button>
                     <span class="search-rating center-block text-center">
                         <% for (var i=0; i<Math.round(recipe.review_avg); i++) {%>
                         <span class="glyphicon glyphicon-star"></span>

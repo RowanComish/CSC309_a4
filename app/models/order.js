@@ -7,7 +7,8 @@ var orderSchema = mongoose.Schema({
         user_id : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         recipe_id :  {type: mongoose.Schema.Types.ObjectId, ref: 'Recipes'},
         cost : Number,
-        date : String
+        date: { type: Date, default: Date.now },
+        queue: { type: Boolean, default: true }
 
 });
 
