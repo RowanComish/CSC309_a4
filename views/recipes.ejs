@@ -175,7 +175,7 @@
                     <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
                     <!-- Cuisine -->
                     <h5 class="text-center">
-                        Created on: <%=recipe.cuisine%>
+                        Created on: <%=recipe.date.toDateString()%>
                     </h5>
                     <!-- Cost -->
                     <h4 class="text-center">
@@ -189,7 +189,6 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <% } %>
                     </span>
-                    
                 </div>
             </div>
             <div id="search-top-suggestions" class="container-fluid">

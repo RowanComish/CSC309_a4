@@ -120,10 +120,11 @@
                                         <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
                                         <h4 class="text-center">
                                             <%=recipeResults[i].recipe_id.name %>
-                                        </h4><!-- Date -->
+                                        </h4><!-- Cuisine Type -->
                                         <h5 class="text-center">
                                             <%=recipeResults[i].recipe_id.cuisine %>
-                                        </h5><!-- Cost -->
+                                        </h5>
+                                        <!-- Cost -->
                                         <h4 class="text-center">
                                             $<%=recipeResults[i].recipe_id.cost %>
                                         </h4>
@@ -140,6 +141,9 @@
                                                 <span class="glyphicon glyphicon-star-empty"></span>
                                             <% } %>
                                         </span>
+                                        <form  role="form" action="/remove/<%=recipeResults[i].recipe_id._id%>" method="post" >
+                                            <button style="background-color:red;" type="submit" action="/remove" method="post" class="order-review-button btn btn-primary center-block">Remove this Order</button>
+                                        </form>
                                     </div>
                                 </div>
                                 </a>

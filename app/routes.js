@@ -413,11 +413,43 @@ module.exports = function(app, passport) {
                 if (err)
                     throw err;
                 Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
-                    var totalCost = 0;
-                    for (var i=0;i<recipeResults.length;i++) {
-                        totalCost = totalCost + recipeResults[i].recipe_id.cost;
-                    }
                     res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults, 'totalCost' : totalCost });
+                });
+            });
+        }
+        else  {
+            res.render('orderhistory.ejs', { message: 'notloggedinOrder' });
+        }
+    });
+
+    app.post('/orderFood', function(req, res) {
+        var User = require('../app/models/user');
+        var Recipe = require('../app/models/recipes');
+        var Order = require('../app/models/order');
+
+        if (req.isAuthenticated()) {
+            var userID = req.user._id;
+            Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults, 'totalCost' : totalCost });
+            });
+        }
+        else  {
+            res.render('orderhistory.ejs', { message: 'notloggedinOrder' });
+        }
+    });
+
+    app.post('/remove/:recipe', function(req, res) {
+        var User = require('../app/models/user');
+        var Recipe = require('../app/models/recipes');
+        var Order = require('../app/models/order');
+
+        if (req.isAuthenticated()) {
+            var recipeID = req.params.recipe;
+            var userID = req.user._id;
+            Order.findOne({'user_id' : userID, 'recipe_id': recipeID}, function(err, orderToRemove) { 
+                orderToRemove.remove();
+                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                    res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults });
                 });
             });
         }
