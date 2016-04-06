@@ -358,6 +358,27 @@
                         <option value="ZWE">Zimbabwe</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="cuisine1">Favourite Cuisine 1</label><br>
+                    <% if (user.fav_cuisine[0]!=null) {%>
+                    Currently <%=user.fav_cuisine[0]%>
+                    <%}%>
+                    <input type="text" name="cuisine1" placeholder="Yummy" class="form-control" id="cuisine1">
+                </div>
+                <div class="form-group">
+                    <label for="cuisine2">Favourite Cuisine 2</label><br>
+                    <% if (user.fav_cuisine[1]!=null) {%>
+                    Currently <%=user.fav_cuisine[1]%>
+                    <%}%>
+                    <input type="text" name="cuisine2" placeholder="Yummy" class="form-control" id="cuisine2" >
+                </div>
+                <div class="form-group">
+                    <label for="cuisine3">Favourite Cuisine 3 </label><br>
+                    <% if (user.fav_cuisine[2]!=null) {%>
+                    Currently <%=user.fav_cuisine[2]%>
+                    <%}%>
+                    <input type="text" name="cuisine3" placeholder="Yummy" class="form-control" id="cuisine3" >
+                </div>
                 <button type="submit" class="btn btn-primary btn-block">Submit Changes</button>
             </div>
             </form>

@@ -81,6 +81,14 @@
             <h5> Postal/Zip code: <%= user.postalcode %> </h5>
             <% }%>
             <% }%>
+            <% if (user.fav_cuisine) {  %>
+            <h5> <b>Favourite Cuisines:</b>
+            <ol> 
+                <% for(var i=0;i < user.fav_cuisine.length;i++){ %>
+                    <li><%=user.fav_cuisine[i]%></li>
+            <%}%>
+            </ol>
+            <%}%>
             <h5> <b>Member since:</b> <%=user.date %></h5>
 
 
