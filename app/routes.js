@@ -413,7 +413,7 @@ module.exports = function(app, passport) {
                 if (err)
                     throw err;
                 Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
-                    res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults, 'totalCost' : totalCost });
+                    res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults});
                 });
             });
         }
@@ -422,7 +422,7 @@ module.exports = function(app, passport) {
         }
     });
 
-    app.post('/orderFood', function(req, res) {
+    app.post('/orderYourFood', function(req, res) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
@@ -430,7 +430,14 @@ module.exports = function(app, passport) {
         if (req.isAuthenticated()) {
             var userID = req.user._id;
             Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
-                res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults, 'totalCost' : totalCost });
+                for (var i=0;i<recipeResults.length;i++) {
+                    Order.update({'_id' : recipeResults[i]._id}, {
+                        queue: false
+                    }, function(err, affected, resp) {
+                        console.log('Bought the items!');
+                    });
+                }
+                res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults});
             });
         }
         else  {
