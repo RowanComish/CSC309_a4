@@ -89,6 +89,9 @@ module.exports = function(passport) {
                     newUser.province = req.body.province;
                     newUser.postalcode = req.body.postalcode;
                     newUser.country = req.body.country;
+                    newUser.fav_cuisine[0] = req.body.cuisine1;
+                    newUser.fav_cuisine[1] = req.body.cuisine2;
+                    newUser.fav_cuisine[2] = req.body.cuisine3;
 
                     var now = Date.now();
                     var d = new Date(now);

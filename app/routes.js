@@ -106,7 +106,6 @@ module.exports = function(app, passport) {
 
         User.findOne({ 'email' :  req.user.email }, function(err, user) {
             var current = req.user ;
-            console.log(current);
             var body = req.body;
             console.log(body);
             if(body.firstname!="")
@@ -127,10 +126,18 @@ module.exports = function(app, passport) {
                 current.postalcode=body.postalcode;
             if(body.country!="")
                 current.country=body.country;
+            if(body.cuisine1!="")
+                current.fav_cuisine[0] = body.cuisine1;
+            if(body.cuisine2!="")
+                current.fav_cuisine[1] = body.cuisine2;
+            if(body.cuisine3!="")
+                current.fav_cuisine[2]=body.cuisine3;
 
-            req.user.save(function(err) {
+            current.markModified('fav_cuisine');
+
+            current.save(function(err) {
                 if (err)
-                    throw err;
+                    console.log('didnt save');
             });
 
         });

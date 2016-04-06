@@ -16,7 +16,8 @@ var userSchema = mongoose.Schema({
         country      : String,
         fb_id        : String,
         fb_token     : String,
-        date         : String
+        date         : String,
+        fav_cuisine  :[String]
 
 });
 
