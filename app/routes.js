@@ -324,6 +324,67 @@ module.exports = function(app, passport) {
             }
         });
     });
+    
+    // Retrieving reviews
+    app.get('/:recipe/reviews/:lastID', function(req, res) {
+        
+        var recipeID = req.params.recipe;
+        var lastID = req.params.lastID;
+        
+                if (lastID == 'all') {
+                    lastID = null;
+                }
+        console.log(recipeID +" " + lastID);
+        var Recipe = require('../app/models/recipes');
+        var User = require('../app/models/user');
+
+        Recipe.findOne({ '_id' :  recipeID }, function(err, recipe) {
+
+            if (err)
+                return done(err);
+
+            if (!recipe) {
+                return res.status(404).send('Sorry, recipe not found');
+            } else {
+                
+                // Found Recipe         
+                // Now fetch reviews for recipe
+                var reviewsAfterID = require('../queries/reviewsAfterID');  
+                var async = require("async");
+                
+                async.parallel([
+                        function(callback){
+                            var reviewData = reviewsAfterID(recipeID, lastID);
+                            reviewData.exec(function(err, reviews){
+                                if(err){
+                                    callback(err)
+                                }else{
+                                    callback(null, reviews);
+                                }
+                            })
+                        }
+                        // TODO QUERY and FETCH Rating stats as well
+                    ],
+                    function(err, results){
+                                                
+                        var reviewsToReturn;
+                        
+                        if (err) {
+                            return res.status(404).send(err);
+                        } else {
+                            reviewsToReturn = results;
+                        }
+         
+                        if (req.isAuthenticated()) {
+                            return res.json(JSON.stringify(reviewsToReturn))
+                        } else {
+                            return res.json(JSON.stringify(reviewsToReturn))
+                        }   
+                    }
+                )       
+            }
+        });  
+    });
 
     app.get('/search', function(req, res){
         var query = req.param('query');

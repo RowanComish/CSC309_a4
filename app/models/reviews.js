@@ -5,11 +5,12 @@ var bcrypt   = require('bcrypt-nodejs');
 var reviewsSchema = mongoose.Schema({
 
         type : { type: String, enum: ['User', 'Recipe'] }, //It's a review of a user or a recipe!
-        id : Number, //This should be the id of whatever the user is reviewing!
-        userID : Number, // ID of the user that left this review
+        recipeID : Number, //This should be the id of whatever the user is reviewing!
+        userID : {type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // ID of the user that left this review
         score: Number,
         title : String,
-        comment : String
+        comment : String,
+        dateString : String
 
 });
 
