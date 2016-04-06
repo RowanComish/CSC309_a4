@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav navbar-right">
-                <% if (message =='loggedin') { %>
+                <% if (message =='loggedin' || message == 'done') { %>
                 <li>
                     <a href="/profile">My Profile</a>
                 </li>
@@ -107,24 +107,24 @@
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="cost">Cost</label>
-                            <input type="number" name="cost" placeholder="Cost (Number only)*" class="form-control" id="cost" required>
+                            <input type="number" step="any" min="0" name="cost" placeholder="Cost (Number only)*" class="form-control" id="cost" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="cuisine">Cuisine</label>
+                            <input type="text" name="cuisine" placeholder="Cuisine Type (Ex. Chinese, Western, etc.)*" class="form-control" id="cuisine" required>
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="ingredients">Cost</label>
                             <input type="text" name="ingredients" placeholder="Ingredients (Seperate by Commas)" class="form-control" id="ingredients">
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="cuisine">Cuisine</label>
-                            <input type="text" name="cuisine" placeholder="Cuisine Type (Ex. Chinese, Western, etc.)" class="form-control" id="cuisine">
-                        </div>
-                        <div class="form-group">
                             <label for="category">Category*</label>
                             <select class="form-control" name="category" id="category" required>
                                 <option value="">---------</option>
                                 <option value="Main Course">Main Course</option>
-                                <option value="Appetizer">Appetizer</option>
-                                <option value="Dessert">Dessert</option>
-                                <option value="Drink">Drink</option>
+                                <option value="Appetizers">Appetizer</option>
+                                <option value="Desserts">Dessert</option>
+                                <option value="Drinks">Drink</option>
                             </select>   
                         </div>
 
@@ -137,8 +137,10 @@
                 </div>
             </div>
         </div>
+        <% } else if (message == 'done'){ %>
+            <h3 class="text-center"> Recipe saved! </h3>
         <% } else { %>
-        <h3 class="text-center"> Please Sign In To Create a New Dish </h3>
+            <h3 class="text-center"> Please Sign In To Create a New Dish </h3>
         <% } %>
     </div>
     <script type="text/javascript">

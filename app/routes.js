@@ -350,6 +350,39 @@ module.exports = function(app, passport) {
             res.render('newrecipe.ejs', { message: 'notloggedin' });
     });
 
+    app.post('/newrecipe', function(req, res) {
+        var Recipe = require('../app/models/recipes');
+        var Increment = require('../app/models/identitycounters')
+        Recipe.findOne({ 'userID' : req.user._id }, function(err, recipe) {
+
+            if (err)
+                return done(err);
+
+            Increment.findOne({ 'val' : 0 }, function(err, increment) {
+                var newRecipe = new Recipe();
+                newRecipe._id = increment.current;
+                increment.current = increment.current + 1;
+                increment.save();
+                newRecipe.author_id = req.user._id;
+                newRecipe.name = req.body.name;
+                newRecipe.cuisine = req.body.cuisine;
+                newRecipe.category = req.body.category;
+                newRecipe.cost = req.body.cost;
+                newRecipe.description = req.body.description;
+
+                var ingredients = req.body.ingredients;
+                newRecipe.ingredients = ingredients.split(",");
+        
+                newRecipe.save(function(err) {
+                    if (err)
+                        throw err;
+                    res.render('newrecipe.ejs', { message: 'done'});
+                });
+            });
+                
+        });
+    });
+
     app.get('/orders', function(req, res) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
