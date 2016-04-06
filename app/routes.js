@@ -77,6 +77,15 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
+    app.get('/about', function(req, res) {
+
+        if (req.isAuthenticated())
+            res.render('about.ejs', { message: 'loggedin'} );
+        else
+            res.render('about.ejs', { message: 'notloggedin'} );
+
+    });
+
     // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', 
@@ -111,8 +120,6 @@ module.exports = function(app, passport) {
                     }
 
                 });
-
-        
     });
 
     app.get('/editprofile', isLoggedIn, function(req, res) {
