@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <title> Feed | About </title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/navbar.css" rel="stylesheet">
+
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+
+    <nav class = "navbar navbar-default">
+
+        <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div>
+                <a class="navbar-brand navbar-brand-fix" href="/">Feed</a> 
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/search"> Search </a>
+                </li>
+                <% if (message =='loggedin') { %>
+                <li>
+                    <a href="/profile">My Profile</a>
+                </li>
+                <li>
+                    <a href="#"> My Orders</a>
+                </li>
+                <li>
+                    <a href="/logout">Logout </a>
+                </li>
+                <% } else { %>
+                <li>
+                    <a href="/signup"> Sign Up </a>
+                </li>
+                <li>
+                    <a href="/login" class="visible-xs"> Login </a>
+                </li>
+                <li class="dropdown hidden-xs">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">Login<span class="caret"></span></a>
+                    <ul id="login-dp" class="dropdown-menu">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Login via
+                                    <div class="social-buttons text-center">
+                                        <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook </a>
+                                    </div>
+                                    or 
+                                    <br>
+                                    <form action="/login" method="post" class="form" role="form">
+                                        <div class="form-group">
+                                            <label class="sr-only">Email</label>
+                                            <input type="text" name="email" class="form-control" id="email" placeholder="Email" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" >Password</label>
+                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
+                                            <div class="help-block text"><a href="">Forget the password ?</a></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit"class="btn btn-primary btn-block">Sign in</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="text-center">
+        <h1> Welcome to Feed!</h1>
+    </header>
+
+    <div class="container">
+
+        <br>
+        <p class="text center">
+            Feed is a new website that allows you to buy other people's recipes and to sell your own recipes as well. The first thing you need to do is to create an account by clicking on the sign up button above, or logging in using facebook. Once you are signed in, you can search for recipes inputting the food item you are interested in or by searching specific cuisines such as italian, mexican or chinese. You can also search for other users and see their recipes.
+        </p>
+    
+  </div>
+
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+<footer class="footer text-center">
+    <hr>
+    <p class="copyright">Copyright &copy; Feed 2016</p>
+</footer>
+</body>
+
+
+</html>

@@ -77,6 +77,15 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
+    app.get('/about', function(req, res) {
+
+        if (req.isAuthenticated())
+            res.render('about.ejs', { message: 'loggedin'} );
+        else
+            res.render('about.ejs', { message: 'notloggedin'} );
+
+    });
+
     // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', 
@@ -92,8 +101,25 @@ module.exports = function(app, passport) {
 
 
     app.get('/profile', isLoggedIn, function(req, res) {
-        console.log("request: " + Object.keys(req));
-        res.render('profile.ejs', { user : req.user });
+        //console.log("request: " + Object.keys(req));
+        var Recipe = require('../app/models/recipes');
+        var userID = req.user._id;
+
+                Recipe.find({'author_id' : userID}, function(err, wanted_recipes) {
+
+                    if(err)
+                        return done(err);
+
+                    if(!wanted_recipes){
+
+                        res.render('profile.ejs', { user : req.user});
+                    }
+                    else {
+
+                        res.render('profile.ejs', { user : req.user , recipes : wanted_recipes});
+                    }
+
+                });
     });
 
     app.get('/editprofile', isLoggedIn, function(req, res) {
@@ -195,6 +221,8 @@ module.exports = function(app, passport) {
 
         var User = require('../app/models/user');
 
+        var Recipe = require('../app/models/recipes');
+
         User.findOne({ 'email' :  user }, function(err, wanted_user) {
 
             if (err)
@@ -202,39 +230,115 @@ module.exports = function(app, passport) {
 
             if (!wanted_user)
                 return res.status(404).send('Sorry, user not found');
+            
             else{
 
-                if (req.isAuthenticated())
-                    res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' } );
-                else
-                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );
+                var userID = wanted_user._id;
+
+                Recipe.find({'author_id' : userID}, function(err, wanted_recipes) {
+
+                    if(err)
+                        return done(err);
+
+                    if(!wanted_recipes){
+
+                        if (req.isAuthenticated())
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' , recipes : 'no' } );
+                        else
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' , recipes : 'no' } );
+                    }
+                    else {
+                        console.log(wanted_recipes);
+                        if (req.isAuthenticated())
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' , recipes: wanted_recipes} );
+                        else
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin', recipes: wanted_recipes} );
+                    }
+
+                });
             }
         });
     });
 
     app.get('/recipe/:_id', function(req, res) {
         var User = require('../app/models/user');
-        var recipe_id = req.params._id;
         var Recipe = require('../app/models/recipes');
-        Recipe.findOne({'_id' : recipe_id}, function(err, wanted_recipe) {
-                if (err) 
-                    return done(err);
-                if (!wanted_recipe)
-                    return res.status(404).send('Sorry, recipe not found');
+        var recipe_id = req.params._id;
+        var user = req.user;
+        var searchRecipe = require('../queries/searchRecipe');
+        var findRecipe = require('../queries/findRecipe');
+        var findAuthor = require('../queries/findRecipeAuthor');
+        var searchRecipe = require('../queries/searchRecipe');
+        var async = require('async')
 
-            User.findOne({'_id' : wanted_recipe.author_id}, function(err2, wanted_user) {
-                if (err2)
-                    return done(err2);
-                else if (!wanted_user)
-                    return res.status(404).send('Sorry, author not found');
-                else {
-                    if (req.isAuthenticated())
-                        res.render('recipes.ejs', { user: wanted_user , message: 'loggedin', recipe: wanted_recipe } );
-                    else
-                        res.render('recipes.ejs', { user: wanted_user , message: 'notloggedin', recipe: wanted_recipe } );
+        async.parallel([
+            //recommendations based on user preferences
+            function(callback){
+                if(req.user){
+                if(req.user.fav_cuisine==0){
+                    callback(null, null)
                 }
-            });
-        });
+                else{
+                    console.log(typeof(req.user.fav_cuisine))
+                var recipedata = searchRecipe(req.user.fav_cuisine);
+                recipedata.exec(function(err, recipes){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, recipes);
+                    }
+                })
+                } 
+                }
+                else{callback(null,null)}  
+            },
+            //find the recipe
+            function(callback){
+                var recipedata = findRecipe(recipe_id);
+                recipedata.exec(function(err, recipe){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, recipe);
+                    }
+                })
+            },
+            //find author of recipe
+            function(callback){
+                var author = findAuthor(recipe_id)
+                author.exec(function(err, author){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, author.author_id);
+                    }
+                })
+            }
+
+            ],
+            function(err, results){
+                if(err){
+                    console.log('err')
+                }
+                else{
+                    if (req.isAuthenticated())
+                        res.render('recipes.ejs', 
+                            { user: results[2] , 
+                                message: 'loggedin', 
+                                recipe: results[1],
+                                recommended: results[0] } );
+                    else{
+                        res.render('recipes.ejs', 
+                            { user: results[2] , 
+                                message: 'notloggedin', 
+                                recipe: results[1],
+                                recommended: results[0] }
+                                 )
+
+                    }
+                }
+            }
+            )
     });
 
     app.get('/newrecipe', function(req, res) {
@@ -244,6 +348,39 @@ module.exports = function(app, passport) {
             res.render('newrecipe.ejs', { message: 'loggedin' });
         else 
             res.render('newrecipe.ejs', { message: 'notloggedin' });
+    });
+
+    app.post('/newrecipe', function(req, res) {
+        var Recipe = require('../app/models/recipes');
+        var Increment = require('../app/models/identitycounters')
+        Recipe.findOne({ 'userID' : req.user._id }, function(err, recipe) {
+
+            if (err)
+                return done(err);
+
+            Increment.findOne({ 'val' : 0 }, function(err, increment) {
+                var newRecipe = new Recipe();
+                newRecipe._id = increment.current;
+                increment.current = increment.current + 1;
+                increment.save();
+                newRecipe.author_id = req.user._id;
+                newRecipe.name = req.body.name;
+                newRecipe.cuisine = req.body.cuisine;
+                newRecipe.category = req.body.category;
+                newRecipe.cost = req.body.cost;
+                newRecipe.description = req.body.description;
+
+                var ingredients = req.body.ingredients;
+                newRecipe.ingredients = ingredients.split(",");
+        
+                newRecipe.save(function(err) {
+                    if (err)
+                        throw err;
+                    res.render('newrecipe.ejs', { message: 'done'});
+                });
+            });
+                
+        });
     });
 
     app.get('/orders', function(req, res) {
@@ -388,11 +525,9 @@ module.exports = function(app, passport) {
 
     app.get('/search', function(req, res){
         var query = req.param('query');
-       
         var searchUser = require('../queries/searchUser');  
         var searchRecipe = require('../queries/searchRecipe');
         var async = require("async");
-
         //code adapted from 
         //http://www.kdelemme.com/2014/07/28/read-multiple-collections-mongodb-avoid-callback-hell/
         //http://justinklemm.com/node-js-async-tutorial/
