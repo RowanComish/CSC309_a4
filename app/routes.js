@@ -468,7 +468,6 @@ module.exports = function(app, passport) {
         var searchUser = require('../queries/searchUser');  
         var searchRecipe = require('../queries/searchRecipe');
         var async = require("async");
-
         //code adapted from 
         //http://www.kdelemme.com/2014/07/28/read-multiple-collections-mongodb-avoid-callback-hell/
         //http://justinklemm.com/node-js-async-tutorial/
