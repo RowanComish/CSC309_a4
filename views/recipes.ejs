@@ -26,30 +26,37 @@
                 url: '/' + <%=recipe._id%> + '/reviews' + '/all',
                 type: 'GET',
                 success: function(data) { 
-                        console.log('Success: ' + data);
+                    console.log('Success: ' + data);
+                    
+                    var parsedData = JSON.parse(data)
+                    console.log('Success: ' + parsedData.length);
+                    
+                    if (parsedData.length == 0)
+                        return;
+                    
+                    var reviews = parsedData[0];
+                    
+                    // Hide spinner
+                    $('#spinner').hide();
                         
-                        var parsedData = JSON.parse(data)
-                        console.log('Success: ' + parsedData.length);
+                        // Add reviews
+                        //reviews-section
+                    for (var i = 0; i < reviews.length; i ++) {
                         
-                        if (parsedData.length == 0)
-                            return;
+                        var review = reviews[i];
+                        var elementString = "<div class=\"col-md-4 col-sm-6 col-xs-12\"> <div class=\"review\"> <div class=\"review-author\"> <img src=\"../img/nouserimage.jpg\"> <div class=\"review-details\"> <div> <h6>" + review['userID']['firstname'] + " " + review['userID']['lastname'] + "</h6> <h6>" + review['dateString'] + "</h6> </div> <div> <h4>" + review['title'] + "</h4> </div> <div> <span class=\"search-rating center-block text-center\">"
                         
-                        var reviews = parsedData[0];
-                        
-                        // Hide spinner
-                        $('#spinner').hide();
-                            
-                            // Add reviews
-                            //reviews-section
-                        for (var i = 0; i < reviews.length; i ++) {
-                            
-                            var review = reviews[i];
-                            
-                            $( "#reviews-section").append("<div class=\"col-md-4 col-sm-6 col-xs-12\"> <div class=\"review\"> <div class=\"review-author\"> <img src=\"../img/nouserimage.jpg\"> <div class=\"review-details\"> <div> <h6>" + review['userID']['firstname'] + " " + review['userID']['lastname'] + "</h6> <h6>" + review['dateString'] + "</h6> </div> <div> <h4>" + review['title'] + "</h4> </div> <div> <span class=\"search-rating center-block text-center\"><span class=\"glyphicon glyphicon-star\"></span><span class=\"glyphicon glyphicon-star\"></span><span class=\"glyphicon glyphicon-star\"></span><span class=\"glyphicon glyphicon-star\"></span><span class=\"glyphicon glyphicon-star\"></span></span> </div> </div> </div> <div class=\"review-text\"> <p>"+review['comment']+"</p> </div> </div> </div>" 
-                            );                        
+                        // Add stars
+                        for (var star = 0; star < review['score']; star ++) {
+                            elementString = elementString + "<span class=\"glyphicon glyphicon-star\"></span>";
                         }
                         
-                        $( "#reviews-section").trigger('create');  
+                        elementString= elementString + "</div> </div> </div> <div class=\"review-text\"> <p>"+review['comment']+"</p> </div> </div> </div>";
+                         
+                        $( "#reviews-section").append(elementString);  
+                    }
+                    
+                    $( "#reviews-section").trigger('create');  
                 },
                 error: function(err) {
                     console.log(err);
@@ -275,13 +282,7 @@
                     <hr>
                 </div>
                 
-                                    <div id="spinner" class="col-md-4 col-sm-6 col-xs-12">
-
-                        <div id="spinner-img">
-                                            
-                        </div>
-                    </div>
-                    
+                <div id="spinner"></div>
             </div>
         </div>
         <footer class="text-center">
