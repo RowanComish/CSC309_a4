@@ -8,7 +8,7 @@
     <link href="../css/navbar.css" rel="stylesheet">
     <link href="../css/profile.css" rel="stylesheet" type="text/css">
 
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -89,6 +89,9 @@
         <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                <a href="/search">Search </a>
+            </li>
                 <% if (message =='loggedin') { %>
                 <li>   
                     <a href="/newrecipe">Add a New Recipe! </a>
@@ -138,6 +141,9 @@
                     </ul>
                 </li>
                 <% } %>
+                <li>
+                <a href="/about"> About </a>
+            </li>
             </ul>
         </div>
     </nav>
@@ -151,9 +157,8 @@
         <div class="profile-stats">
             <ul>
                 <li><h3>Recipe by:</h3> <h2><%=user.firstname%> <%=user.lastname%></h2></li>
-                <li><h2><%=user.firstname%> Has Created 13 Recipes</h2></li>
                 </ul>
-                <ul style="float: left;">
+                <ul style="float: right;">
                     <li><button onclick="location.href='/userprofile/<%=user.email%>';"  class="recipes">
                         View Profile
                     </button></li>
@@ -170,19 +175,20 @@
                     <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
                     <!-- Cuisine -->
                     <h5 class="text-center">
-                        Created on: <%=recipe.cuisine%>
+                        Created on: <%=recipe.date.toDateString()%>
                     </h5>
                     <!-- Cost -->
                     <h4 class="text-center">
                         $<%=recipe.cost%>
                     </h4>
-                    <button type="submit" class="order-review-button btn btn-primary center-block">Order This Dish</button>
+                    <form  role="form" action="/addToOrder/<%=recipe._id%>" method="post" >
+                        <button type="submit" action="/addToOrder" method="post" class="order-review-button btn btn-primary center-block">Order This Dish</button>
+                    </form>
                     <span class="search-rating center-block text-center">
                         <% for (var i=0; i<Math.round(recipe.review_avg); i++) {%>
                         <span class="glyphicon glyphicon-star"></span>
                         <% } %>
                     </span>
-                    
                 </div>
             </div>
             <div id="search-top-suggestions" class="container-fluid">

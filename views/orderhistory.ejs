@@ -3,18 +3,19 @@
 <html>
 <head>
     <title>Feed - My Orders</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/orderhistory.css" rel="stylesheet" type="text/css">
-    <link href="css/navbar.css" rel="stylesheet" type="text/css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/orderhistory.css" rel="stylesheet" type="text/css">
+    <link href="../css/profile.css" rel="stylesheet" type="text/css">
+    <link href="../css/navbar.css" rel="stylesheet" type="text/css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -47,6 +48,9 @@
         <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/search"> Search </a>
+                </li>
                 <% if (message =='loggedin') { %>
                 <li>
                     <a href="/profile">My Profile</a>
@@ -93,110 +97,114 @@
                     </ul>
                 </li>
                 <% } %>
+                <li>
+            <a href="/about"> About </a>
+        </li>
             </ul>
         </div>
     </nav>
 
-    <div class="container">
     <% if (message =='loggedin') { %>
-        <h2 class="text-center order-title">My Orders</h2>
-
-        <div class="row order-section">
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="order-item center-block">
-                    <!-- Image -->
-                    <img src="../img/food_example1.jpeg" class="order-image"> 
-                    <!-- Name -->
-                    <h4 class="text-center">Pablo's Pan Pizza</h4>
-                    <!-- Date -->
-                    <h5 class="text-center">21:00 March 3, 2016</h5>
-                    <!-- Cost -->
-                    <h4 class="text-center">$8.20</h4>
-                    <!-- Review Button-->
-                    <button type="submit" class="order-review-button btn btn-primary center-block" onclick="goToReview()">Leave a Review</button>
-                    <!-- Rating-->
-                    <span class="order-rating center-block text-center hidden">
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star-empty"></span>
-                    </span>   
+        <div id="search-top-suggestions" class="container-fluid">
+                <div class="container">
+                    <h2 class="search-title text-center">
+                        Items Currently in Queue!
+                    </h2>
+                    <div class="row order-section">
+                        <% for(var i=0; i<recipeResults.length;i++){%>
+                            <% if(recipeResults[i].queue==true){%>
+                                <a style="text-decoration:none;" href='/recipe/<%=recipeResults[i].recipe_id._id%>'>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="search-item center-block">
+                                        <!-- Image -->
+                                        <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
+                                        <h4 class="text-center">
+                                            <%=recipeResults[i].recipe_id.name %>
+                                        </h4><!-- Cuisine Type -->
+                                        <h5 class="text-center">
+                                            <%=recipeResults[i].recipe_id.cuisine %>
+                                        </h5>
+                                        <!-- Cost -->
+                                        <h4 class="text-center">
+                                            $<%=recipeResults[i].recipe_id.cost %>
+                                        </h4>
+                                        <h4 class="text-center">
+                                            <%=recipeResults[i].recipe_id.category %>
+                                        </h4>
+                                        <span class="search-rating center-block text-center">
+                                            <!-- fill stars -->
+                                            <% for(var j=0; j<Math.round(recipeResults[i].recipe_id.review_avg) ;j++) {%>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            <% } %>                               
+                                            <!-- add empty stars -->
+                                             <% for(var j=0; j<5-Math.round(recipeResults[i].recipe_id.review_avg) ;j++) {%>
+                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                            <% } %>
+                                        </span>
+                                        <form  role="form" action="/remove/<%=recipeResults[i].recipe_id._id%>" method="post" >
+                                            <button style="background-color:red;" type="submit" action="/remove" method="post" class="order-review-button btn btn-primary center-block">Remove this Order</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                </a>
+                            <% } %>
+                        <% } %>
+                    </div> 
+                    <form  role="form" action="/orderYourFood" method="post" >
+                        <button type="submit" action="/orderYourFood" method="post" class="order-review-button btn btn-primary center-block">Order Your Food!</button>
+                    </form>
                 </div>
-            </div>
+        </div>
+        <div> 
+            <div class="container">
+                <h2 class="text-center order-title">Previous Orders</h2>
+                <div class="row order-section">
+                        <% for(var i=0; i<recipeResults.length;i++){%>
+                            <% if(recipeResults[i].queue==false){%>
+                                <a style="text-decoration:none;" href='/recipe/<%=recipeResults[i].recipe_id._id%>'>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="search-item center-block">
+                                        <!-- Image -->
+                                        <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
+                                        <h4 class="text-center">
+                                            <%=recipeResults[i].recipe_id.name %>
+                                        </h4><!-- Date -->
+                                        <h5 class="text-center">
+                                            <%=recipeResults[i].recipe_id.cuisine %>
+                                        </h5><!-- Cost -->
+                                        <h4 class="text-center">
+                                            $<%=recipeResults[i].recipe_id.cost %>
+                                        </h4>
+                                        <h4 class="text-center">
+                                            <%=recipeResults[i].recipe_id.category %>
+                                        </h4>
+                                        <form  role="form" action="/review/<%=recipeResults[i].recipe_id._id%>" >
+                                            <button type="submit" class="order-review-button btn btn-primary center-block" >Leave a Review</button>
+                                        </form>
+                                        <span class="search-rating center-block text-center">
+                                            <!-- fill stars -->
 
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="order-item center-block">
-                    <!-- Image -->
-                    <img src="../img/food_example2.jpeg" class="order-image">
-                     <!-- Name -->
-                    <h4 class="text-center">Yoda's Youthful Yogurt</h4>
-                    <!-- Date -->
-                    <h5 class="text-center"> 12:00 February 25, 2016</h5>
-                    <!-- Cost -->
-                    <h4 class="text-center">$8.20</h4>
-                    <!-- Review Button-->
-                    <button type="submit" class="order-review-button btn btn-primary center-block hidden">Leave a Review</button>
-                    <!-- Rating-->
-                    <span class="order-rating center-block text-center">
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star-empty"></span>
-                    </span>                  
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="order-item center-block">
-                    <!-- Image -->
-                    <img src="../img/food_example3.jpeg" class="order-image">
-                     <!-- Name -->
-                    <h4 class="text-center">Sally's Super Salad</h4>
-                    <!-- Date -->
-                    <h5 class="text-center"> 21:00 February 20, 2016</h5>
-                    <!-- Cost -->
-                    <h4 class="text-center">$8.20</h4>
-                    <!-- Review Button-->
-                    <button type="submit" class="order-review-button btn btn-primary center-block hidden">Leave a Review</button>
-                    <!-- Rating-->
-                    <span class="order-rating center-block text-center">
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                    </span>   
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="order-item center-block">
-                    <!-- Image -->
-                    <img src="../img/food_example4.jpeg" class="order-image">
-                     <!-- Name -->
-                    <h4 class="text-center">Bob's Beefy Burger</h4>
-                    <!-- Date -->
-                    <h5 class="text-center"> 18:00 February 10, 2016</h5>
-                    <!-- Cost -->
-                    <h4 class="text-center">$8.20</h4>
-                    <!-- Review Button-->
-                    <button type="submit" class="order-review-button btn btn-primary center-block hidden">Leave a Review</button>
-                    <!-- Rating-->
-                    <span class="order-rating center-block text-center">
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star"></span>
-                      <span class="glyphicon glyphicon-star-empty"></span>
-                      <span class="glyphicon glyphicon-star-empty"></span>
-                    </span>   
+                                            <% for(var j=0; j<Math.round(recipeResults[i].review_avg) ;j++) {%>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <% } %>                               
+                                            <!-- add empty stars -->
+                                             <% for(var j=0; j<5-Math.round(recipeResults[i].review_avg) ;j++) {%>
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                            <% } %>
+                                        </span>
+                                    </div>
+                                </div>
+                                </a>
+                            <% } %>
+                        <% } %>
                 </div>
             </div>
         </div>
-        <% } else { %>
+        <% } else if (message=='notloggedin') { %>
             <h2 class="text-center order-title">Please login to view your orders</h2>
+        <% } else if (message == 'notloggedinOrder') { %>
+            <h2 class="text-center order-title">Please login to add an order!</h2>
         <% } %>
-    </div>
 </body>
 <hr>
 <footer class="text-center">
