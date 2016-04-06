@@ -164,12 +164,15 @@
                         <% for(var i=0; i<recipeResults.length;i++){%>
                         <a style="text-decoration:none;" href='/recipe/<%=recipeResults[i]._id%>'>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
+                            <div style="height: 500px;"class="search-item center-block">
                                 <!-- Image -->
+                                <h3 class="text-center">
+                                    <%=recipeResults[i].name %>
+                                </h3>
                                 <img src="./img/food_example1.jpeg" class="order-image"> <!-- Name -->
                                 <h4 class="text-center">
                                     <%=recipeResults[i].name %>
-                                </h4><!-- Date -->
+                                </h4>
                                 <h5 class="text-center">
                                     <%=recipeResults[i].cuisine %>
                                 </h5><!-- Cost -->
@@ -178,9 +181,10 @@
                                 </h4>
                                 <h4 class="text-center">
                                     <%=recipeResults[i].category %>
-
                                 </h4>
-                                
+                                <p style="font-style: italic;" class="text-center">
+                                    <%=recipeResults[i].description %>
+                                 </p>
                                 <span class="search-rating center-block text-center">
                                     <!-- fill stars -->
 

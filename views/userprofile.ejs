@@ -128,22 +128,30 @@
                         <% for(var i=0; i<recipes.length;i++){%>
                         <a style="text-decoration:none;" href='/recipe/<%=recipes[i]._id%>'>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
+                            <div style="height: 550px; width: 400px;" class="search-item center-block">
                                 <!-- Image -->
                                 <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
                                 <h4 class="text-center">
                                     <%=recipes[i].name %>
                                 </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    <%=recipes[i].cuisine %>
-                                </h5><!-- Cost -->
+
+                                <% if(recipes[i].type) {%>
+                                    <h4 class="text-center">
+                                        <%=recipes[i].type %>
+                                    </h4>
+                                <% } %>
                                 <h4 class="text-center">
-                                    $<%=recipes[i].cost %>
+                                    <%=recipes[i].cuisine %>
                                 </h4>
                                 <h4 class="text-center">
                                     <%=recipes[i].category %>
-
                                 </h4>
+                                <h4 class="text-center">
+                                    $<%=recipes[i].cost %>
+                                </h4>
+                                <p style="font-style: italic;" class="text-center">
+                                    <%=recipes[i].description %>
+                                </p>
                                 
                                 <span class="search-rating center-block text-center">
                                     <!-- fill stars -->
