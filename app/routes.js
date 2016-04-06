@@ -392,6 +392,22 @@ module.exports = function(app, passport) {
             res.render('orderhistory.ejs', { message: 'notloggedin' });
     });
 
+    app.post('/addToOrder/:recipe', function(req, res) {
+        var User = require('../app/models/user');
+        var Recipe = require('../app/models/recipes');
+        var Order = require('../app/models/order');
+
+        if (req.isAuthenticated()) {
+            var recipeID = req.params.recipe;
+            var userID = req.user._id;
+            res.render('orderhistory.ejs', { message: 'loggedin' });
+        }
+        else  {
+            res.render('orderhistory.ejs', { message: 'notloggedinOrder' });
+        }
+    });
+
+
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
     app.get('/auth/facebook/callback',

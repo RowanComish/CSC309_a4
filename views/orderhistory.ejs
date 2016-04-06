@@ -3,18 +3,18 @@
 <html>
 <head>
     <title>Feed - My Orders</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/orderhistory.css" rel="stylesheet" type="text/css">
-    <link href="css/navbar.css" rel="stylesheet" type="text/css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/orderhistory.css" rel="stylesheet" type="text/css">
+    <link href="../css/navbar.css" rel="stylesheet" type="text/css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -193,8 +193,10 @@
                 </div>
             </div>
         </div>
-        <% } else { %>
+        <% } else if (message=='notloggedin') { %>
             <h2 class="text-center order-title">Please login to view your orders</h2>
+        <% } else if (message == 'notloggedinOrder') { %>
+            <h2 class="text-center order-title">Please login to add an order!</h2>
         <% } %>
     </div>
 </body>
