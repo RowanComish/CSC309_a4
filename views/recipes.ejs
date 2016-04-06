@@ -99,7 +99,7 @@
                 </ul>
                 <ul style="float: left;">
                     <li><button onclick="location.href='/userprofile/<%=user.email%>';"  class="recipes">
-                        View His Profile
+                        View Profile
                     </button></li>
                 </ul>
             </div>
@@ -112,9 +112,9 @@
                         <%=recipe.name%>
                     </h3>
                     <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
-                    <!-- Date -->
+                    <!-- Cuisine -->
                     <h5 class="text-center">
-                        Created on: <%=recipe.date.toDateString()%>
+                        Created on: <%=recipe.cuisine%>
                     </h5>
                     <!-- Cost -->
                     <h4 class="text-center">
@@ -132,78 +132,41 @@
             <div id="search-top-suggestions" class="container-fluid">
                 <div class="container">
                     <h2 class="search-title text-center">
-                        More Dishes Like This
+                        Recommended for you
                     </h2>
                     <div class="row order-section">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+
+                        <%  if(recommended) {%>
+                        <% for(var i=0; i<recommended.length;i++){%>
+                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
                                 <!-- Image -->
                                 <img src="../img/food_example1.jpeg"
                                 class="order-image"> <!-- Name -->
                                 <h4 class="text-center">
-                                    Pablo's Pan Pizza
-                                </h4><!-- Date -->
+                                    <%=recommended[i].name %>
+                                    
+                                </h4>Cuisine Type
                                 <h5 class="text-center">
-                                    21:00 March 3, 2016
+                                    <%=recommended[i].cuisine %>
                                 </h5><!-- Cost -->
                                 <h4 class="text-center">
-                                    $8.20
+                                   <%=recommended[i].price %>
                                 </h4>
-                                <span class="search-rating center-block text-center">
+                                    <span class="search-rating center-block text-center">
+                                    <!-- fill stars -->
+                                    <% for(var j=0; j<Math.round(recommended[i].review_avg) ;j++) {%>
                                     <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                    <% } %>
+                                    <!-- add empty stars -->
+                                     <% for(var j=0; j>5-Math.round(recommended[i].review_avg) ;j++) {%>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <% } %>
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="../img/food_example2.jpeg"
-                                class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    Yoda's Youthful Yogurt
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    12:00 February 25, 2016
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $8.20
-                                </h4>
-                                <span class="search-rating center-block text-center">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </span>                            </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="search-item center-block">
-                                    <!-- Image -->
-                                    <img src="../img/food_example3.jpeg"
-                                    class="order-image"> <!-- Name -->
-                                    <h4 class="text-center">
-                                        Sally's Super Salad
-                                    </h4><!-- Date -->
-                                    <h5 class="text-center">
-                                        21:00 February 20, 2016
-                                    </h5><!-- Cost -->
-                                    <h4 class="text-center">
-                                        $8.20
-                                    </h4>
-                                    <span class="search-rating center-block text-center">
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                        <%}%>
+                        <%}%>
                     </div>
                 </div>
             </div>

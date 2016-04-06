@@ -267,27 +267,83 @@ module.exports = function(app, passport) {
 
     app.get('/recipe/:_id', function(req, res) {
         var User = require('../app/models/user');
-        var recipe_id = req.params._id;
         var Recipe = require('../app/models/recipes');
-        Recipe.findOne({'_id' : recipe_id}, function(err, wanted_recipe) {
-                if (err) 
-                    return done(err);
-                if (!wanted_recipe)
-                    return res.status(404).send('Sorry, recipe not found');
+        var recipe_id = req.params._id;
+        var user = req.user;
+        var searchRecipe = require('../queries/searchRecipe');
+        var findRecipe = require('../queries/findRecipe');
+        var findAuthor = require('../queries/findRecipeAuthor');
+        var searchRecipe = require('../queries/searchRecipe');
+        var async = require('async')
 
-            User.findOne({'_id' : wanted_recipe.author_id}, function(err2, wanted_user) {
-                if (err2)
-                    return done(err2);
-                else if (!wanted_user)
-                    return res.status(404).send('Sorry, author not found');
-                else {
-                    if (req.isAuthenticated())
-                        res.render('recipes.ejs', { user: wanted_user , message: 'loggedin', recipe: wanted_recipe } );
-                    else
-                        res.render('recipes.ejs', { user: wanted_user , message: 'notloggedin', recipe: wanted_recipe } );
+        async.parallel([
+            //recommendations based on user preferences
+            function(callback){
+                if(req.user){
+                if(req.user.fav_cuisine==0){
+                    callback(null, null)
                 }
-            });
-        });
+                else{
+                    console.log(typeof(req.user.fav_cuisine))
+                var recipedata = searchRecipe(req.user.fav_cuisine);
+                recipedata.exec(function(err, recipes){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, recipes);
+                    }
+                })
+                } 
+                }
+                else{callback(null,null)}  
+            },
+            //find the recipe
+            function(callback){
+                var recipedata = findRecipe(recipe_id);
+                recipedata.exec(function(err, recipe){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, recipe);
+                    }
+                })
+            },
+            //find author of recipe
+            function(callback){
+                var author = findAuthor(recipe_id)
+                author.exec(function(err, author){
+                    if(err){
+                        callback(err)
+                    }else{
+                        callback(null, author.author_id);
+                    }
+                })
+            }
+
+            ],
+            function(err, results){
+                if(err){
+                    console.log('err')
+                }
+                else{
+                    if (req.isAuthenticated())
+                        res.render('recipes.ejs', 
+                            { user: results[1] , 
+                                message: 'loggedin', 
+                                recipe: results[2],
+                                recommended: results[0] } );
+                    else{
+                        res.render('recipes.ejs', 
+                            { user: results[2] , 
+                                message: 'notloggedin', 
+                                recipe: results[1],
+                                recommended: results[0] }
+                                 )
+
+                    }
+                }
+            }
+            )
     });
 
     app.get('/newrecipe', function(req, res) {
@@ -381,7 +437,6 @@ module.exports = function(app, passport) {
 
     app.get('/search', function(req, res){
         var query = req.param('query');
-       
         var searchUser = require('../queries/searchUser');  
         var searchRecipe = require('../queries/searchRecipe');
         var async = require("async");

@@ -2,7 +2,12 @@ var User = require('../app/models/user')
 
 //looks for users with firstname or last name similar to query(s)
 module.exports = function(query){
+	
 	if(query){
+		if(query == undefined){
+			console.log("SPLIT :" + query)
+		}
+		
 		var queries = query.split(' ');
 	}else{
 		queries = []
