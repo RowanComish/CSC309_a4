@@ -323,9 +323,9 @@ module.exports = function(app, passport) {
                 else{
                     if (req.isAuthenticated())
                         res.render('recipes.ejs', 
-                            { user: results[1] , 
+                            { user: results[2] , 
                                 message: 'loggedin', 
-                                recipe: results[2],
+                                recipe: results[1],
                                 recommended: results[0] } );
                     else{
                         res.render('recipes.ejs', 
