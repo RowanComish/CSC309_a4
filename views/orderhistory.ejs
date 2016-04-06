@@ -22,7 +22,8 @@
     <script>
         
         function goToReview() {
-            window.location.href = "review.html";
+            // The route for recipes is '/review/:recipe'
+            window.location.href = "/review/0";
         }
         
     </script>
@@ -193,7 +194,7 @@
             </div>
         </div>
         <% } else { %>
-        <h2 class="text-center order-title">Please login to view your orders</h2>
+            <h2 class="text-center order-title">Please login to view your orders</h2>
         <% } %>
     </div>
 </body>

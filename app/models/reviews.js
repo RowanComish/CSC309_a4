@@ -10,7 +10,7 @@ var reviewsSchema = mongoose.Schema({
         score: Number,
         title : String,
         comment : String,
-        dateString : String
+        postDate : { type: Date, default: Date.now }
 
 });
 
