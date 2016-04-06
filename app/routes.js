@@ -256,11 +256,6 @@ module.exports = function(app, passport) {
                     }
 
                 });
-
-               /* if (req.isAuthenticated())
-                    res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' } );
-                else
-                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );*/
             }
         });
     });
