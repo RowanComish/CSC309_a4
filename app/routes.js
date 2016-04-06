@@ -366,12 +366,10 @@ module.exports = function(app, passport) {
                 newRecipe.author_id = req.user._id;
                 newRecipe.name = req.body.name;
                 newRecipe.cuisine = req.body.cuisine;
+                newRecipe.type = req.body.type;
                 newRecipe.category = req.body.category;
                 newRecipe.cost = req.body.cost;
                 newRecipe.description = req.body.description;
-
-                var ingredients = req.body.ingredients;
-                newRecipe.ingredients = ingredients.split(",");
         
                 newRecipe.save(function(err) {
                     if (err)

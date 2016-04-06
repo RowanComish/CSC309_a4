@@ -181,6 +181,11 @@
                     <h4 class="text-center">
                         $<%=recipe.cost%>
                     </h4>
+                    <% if(recipe.type) {%>
+                        <h4 class="text-center">
+                            <%=recipe.type %>
+                        </h4>
+                     <% } %>
                     <form  role="form" action="/addToOrder/<%=recipe._id%>" method="post" >
                         <button type="submit" action="/addToOrder" method="post" class="order-review-button btn btn-primary center-block">Order This Dish</button>
                     </form>
@@ -212,6 +217,9 @@
                                 <h5 class="text-center">
                                     <%=recommended[i].cuisine %>
                                 </h5><!-- Cost -->
+                                <h4 class="text-center">
+                                   <%=recommended[i].type %>
+                                </h4>
                                 <h4 class="text-center">
                                    <%=recommended[i].cost %>
                                 </h4>
