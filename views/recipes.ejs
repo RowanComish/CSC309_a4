@@ -20,10 +20,11 @@
 <body>
 
   <script>
-                                 
+  var monthStrings = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      
          $( document ).ready(function() {
             $.ajax({    
-                url: '/' + <%=recipe._id%> + '/reviews' + '/all',
+                url: '/' + <%=recipe._id%> + '/reviews/',
                 type: 'GET',
                 success: function(data) { 
                     console.log('Success: ' + data);
@@ -44,7 +45,10 @@
                     for (var i = 0; i < reviews.length; i ++) {
                         
                         var review = reviews[i];
-                        var elementString = "<div class=\"col-md-4 col-sm-6 col-xs-12\"> <div class=\"review\"> <div class=\"review-author\"> <img src=\"../img/nouserimage.jpg\"> <div class=\"review-details\"> <div> <h6>" + review['userID']['firstname'] + " " + review['userID']['lastname'] + "</h6> <h6>" + review['dateString'] + "</h6> </div> <div> <h4>" + review['title'] + "</h4> </div> <div> <span class=\"search-rating center-block text-center\">"
+                        
+                        var date = new Date(review['postDate']);
+                        
+                        var elementString = "<div class=\"col-md-4 col-sm-6 col-xs-12\"> <div class=\"review\"> <div class=\"review-author\"> <img src=\"../img/nouserimage.jpg\"> <div class=\"review-details\"> <div> <h6>" + review['userID']['firstname'] + " " + review['userID']['lastname'] + "</h6> <h6>" + monthStrings[date.getMonth()] + ", " + date.getFullYear() + "</h6> </div> <div> <h4>" + review['title'] + "</h4> </div> <div> <span class=\"search-rating center-block text-center\">"
                         
                         // Add stars
                         for (var star = 0; star < review['score']; star ++) {

@@ -416,61 +416,70 @@ module.exports = function(app, passport) {
                 return res.status(404).send('Sorry, recipe not found');
             else{
                 if (req.isAuthenticated())
-                    res.render('recipe.ejs', { recipe: recipe } );
+                    res.render('review.ejs', { recipe: recipe, message:''} );
                 else
-                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );
+                    res.render('about.ejs', { message: 'notloggedin'} );
             }
         });  
     })
     
     app.post('/review/:recipe', function(req, res){
 
-        if (req.body.score < 0 || req.body.comment.length <= 0 || req.body.title.length <= 0) {
-            res.render('recipe.ejs', { message: req.flash('fail') });
-        }
-        
-        var Review = require('../app/models/reviews');
+        var recipeID = req.params.recipe;
+        var Recipe = require('../app/models/recipes');
+console.log("Rating: " + req.body.rating);
+        Recipe.findOne({ '_id' : recipeID }, function(err, recipe) {
 
-        Review.findOne({ 'userID' : req.user._id, 'id' : req.body.recipeID}, function(err, review) {
+            if (!req.isAuthenticated() || req.user == null) {
+                res.redirect('about.ejs', { message: 'notloggedin'} );
+            } else if (err) {
+                return res.status(404).send('Sorry, recipe not found');
+            } else if (req.body.rating == 0 || req.body.details.length <= 0 || req.body.title.length <= 0) {
+                res.render('review.ejs', { recipe: recipe, message: 'Please select a star rating' });
+            } 
+            
+            var userID = req.user._id;
+            
+            var Review = require('../app/models/reviews');
+    
+            Review.findOne({ 'userID' : userID, 'recipeID' : recipeID}, function(err, review) {
+           
+                //check if recipe already exists
+                if (review) {
+                    res.render('review.ejs', { recipe: recipe, message: 'You have already submitted a review for this recipe' });
+                }
+                else {
 
-            if (err)
-                return done(err);
-    
-            //check if recipe already exists
-            if (review) {
-                res.render('recipe.ejs', { message: req.flash('fail') });
-            }
-            else {
-    
-                // if there is no prior review
-                // create the review
-                var newReview = new Review();
-        
-                newReview.type = 'Recipe';
-                newReview.id = req.body.recipeID;
-                newReview.userID = req.user._id;
-                newReview.score = req.body.score;
-                newReview.title = req.body.title;
-                newReview.comment = req.body.comment;
-        
-                newReview.save(function(err) {
-                    if (err)
-                        throw err;
-                    res.render('recipe.ejs', { message: req.flash('pass') });
-                });
-            }
+                    // if there is no prior review
+                    // create the review
+                    var newReview = new Review();
+            
+                    newReview.type = 'Recipe';
+                    newReview.recipeID = recipeID;
+                    newReview.userID = userID;
+                    newReview.score = req.body.rating;
+                    newReview.title = req.body.title;
+                    newReview.comment = req.body.details;
+            
+                    newReview.save(function(err) {
+                        if (err)
+                            res.render('review.ejs', { recipe: recipe, message: err });
+                        res.render('review.ejs', { recipe: recipe, message: 'success' });
+                    });
+                }
+            });
         });
     });
     
     // Retrieving reviews
-    app.get('/:recipe/reviews/:lastID', function(req, res) {
+    app.get('/:recipe/reviews/:lastID?', function(req, res) {
         
         var recipeID = req.params.recipe;
         var lastID = req.params.lastID;
         
-                if (lastID == 'all') {
-                    lastID = null;
-                }
+        if (!lastID) {
+            lastID = null;
+        }
         console.log(recipeID +" " + lastID);
         var Recipe = require('../app/models/recipes');
         var User = require('../app/models/user');

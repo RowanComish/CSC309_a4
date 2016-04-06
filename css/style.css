@@ -30,12 +30,12 @@ border-color: #fec136;
 
 
 #spinner {
-    position:   relative;
+    position: relative;
     padding: 50px;
-    top:        50%;
-    left:       50%;
-    height:     16px;
-    width:      16px;
+    top: 50%;
+    left: 50%;
+    height: 16px;
+    width: 16px;
 
     background: url(../img/ajax-loader.gif) no-repeat;
 }
