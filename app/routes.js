@@ -281,8 +281,8 @@ module.exports = function(app, passport) {
     
     app.post('/review/:recipe', function(req, res){
 
-        if (req.body.score < 0 || req.body.comment.length <= 0) {
-            
+        if (req.body.score < 0 || req.body.comment.length <= 0 || req.body.title.length <= 0) {
+            res.render('recipe.ejs', { message: req.flash('fail') });
         }
         
         var Review = require('../app/models/reviews');
@@ -292,22 +292,21 @@ module.exports = function(app, passport) {
             if (err)
                 return done(err);
     
-            //check if email already exists
-            if (user) {
+            //check if recipe already exists
+            if (review) {
                 res.render('recipe.ejs', { message: req.flash('fail') });
             }
             else {
     
                 // if there is no prior review
                 // create the review
-        
                 var newReview = new Review();
         
                 newReview.type = 'Recipe';
                 newReview.id = req.body.recipeID;
                 newReview.userID = req.user._id;
                 newReview.score = req.body.score;
-                newReview.title = "";
+                newReview.title = req.body.title;
                 newReview.comment = req.body.comment;
         
                 newReview.save(function(err) {
