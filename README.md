@@ -1,9 +1,9 @@
 # csc309-a4: Feed!
 ##Team Members:
-Abbass-ali Siwjee
-Rowan Comish
-Mohamed Metwaly
-Jeffrey Deng
+- Abbass-ali Siwjee
+- Rowan Comish
+- Mohamed Metwaly
+- Jeffrey Deng
 
 ##About
 Feed is a Sharing Economy web application, designed to allow people to order food from cooks in their area. The application allows users to create recipes at any cost they would like, and have other users order these recipes. The users who order can then review the recipes and leave comments on how they felt about the recipe. 
