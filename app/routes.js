@@ -92,8 +92,27 @@ module.exports = function(app, passport) {
 
 
     app.get('/profile', isLoggedIn, function(req, res) {
-        console.log("request: " + Object.keys(req));
-        res.render('profile.ejs', { user : req.user });
+        //console.log("request: " + Object.keys(req));
+        var Recipe = require('../app/models/recipes');
+        var userID = req.user._id;
+
+                Recipe.find({'author_id' : userID}, function(err, wanted_recipes) {
+
+                    if(err)
+                        return done(err);
+
+                    if(!wanted_recipes){
+
+                        res.render('profile.ejs', { user : req.user});
+                    }
+                    else {
+
+                        res.render('profile.ejs', { user : req.user , recipes : wanted_recipes});
+                    }
+
+                });
+
+        
     });
 
     app.get('/editprofile', isLoggedIn, function(req, res) {
@@ -195,6 +214,8 @@ module.exports = function(app, passport) {
 
         var User = require('../app/models/user');
 
+        var Recipe = require('../app/models/recipes');
+
         User.findOne({ 'email' :  user }, function(err, wanted_user) {
 
             if (err)
@@ -202,12 +223,37 @@ module.exports = function(app, passport) {
 
             if (!wanted_user)
                 return res.status(404).send('Sorry, user not found');
+            
             else{
 
-                if (req.isAuthenticated())
+                var userID = wanted_user._id;
+
+                Recipe.find({'author_id' : userID}, function(err, wanted_recipes) {
+
+                    if(err)
+                        return done(err);
+
+                    if(!wanted_recipes){
+
+                        if (req.isAuthenticated())
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' , recipes : 'no' } );
+                        else
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' , recipes : 'no' } );
+                    }
+                    else {
+                        console.log(wanted_recipes);
+                        if (req.isAuthenticated())
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' , recipes: wanted_recipes} );
+                        else
+                            res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin', recipes: wanted_recipes} );
+                    }
+
+                });
+
+               /* if (req.isAuthenticated())
                     res.render('userprofile.ejs', { user: wanted_user , message: 'loggedin' } );
                 else
-                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );
+                    res.render('userprofile.ejs', { user: wanted_user , message: 'notloggedin' } );*/
             }
         });
     });
