@@ -425,8 +425,8 @@ module.exports = function(app, passport) {
     
     app.post('/review/:recipe', function(req, res){
 
-        if (req.body.score < 0 || req.body.comment.length <= 0) {
-            
+        if (req.body.score < 0 || req.body.comment.length <= 0 || req.body.title.length <= 0) {
+            res.render('recipe.ejs', { message: req.flash('fail') });
         }
         
         var Review = require('../app/models/reviews');
@@ -436,22 +436,21 @@ module.exports = function(app, passport) {
             if (err)
                 return done(err);
     
-            //check if email already exists
-            if (user) {
+            //check if recipe already exists
+            if (review) {
                 res.render('recipe.ejs', { message: req.flash('fail') });
             }
             else {
     
                 // if there is no prior review
                 // create the review
-        
                 var newReview = new Review();
         
                 newReview.type = 'Recipe';
                 newReview.id = req.body.recipeID;
                 newReview.userID = req.user._id;
                 newReview.score = req.body.score;
-                newReview.title = "";
+                newReview.title = req.body.title;
                 newReview.comment = req.body.comment;
         
                 newReview.save(function(err) {
@@ -461,6 +460,67 @@ module.exports = function(app, passport) {
                 });
             }
         });
+    });
+    
+    // Retrieving reviews
+    app.get('/:recipe/reviews/:lastID', function(req, res) {
+        
+        var recipeID = req.params.recipe;
+        var lastID = req.params.lastID;
+        
+                if (lastID == 'all') {
+                    lastID = null;
+                }
+        console.log(recipeID +" " + lastID);
+        var Recipe = require('../app/models/recipes');
+        var User = require('../app/models/user');
+
+        Recipe.findOne({ '_id' :  recipeID }, function(err, recipe) {
+
+            if (err)
+                return done(err);
+
+            if (!recipe) {
+                return res.status(404).send('Sorry, recipe not found');
+            } else {
+                
+                // Found Recipe         
+                // Now fetch reviews for recipe
+                var reviewsAfterID = require('../queries/reviewsAfterID');  
+                var async = require("async");
+                
+                async.parallel([
+                        function(callback){
+                            var reviewData = reviewsAfterID(recipeID, lastID);
+                            reviewData.exec(function(err, reviews){
+                                if(err){
+                                    callback(err)
+                                }else{
+                                    callback(null, reviews);
+                                }
+                            })
+                        }
+                        // TODO QUERY and FETCH Rating stats as well
+                    ],
+                    function(err, results){
+                                                
+                        var reviewsToReturn;
+                        
+                        if (err) {
+                            return res.status(404).send(err);
+                        } else {
+                            reviewsToReturn = results;
+                        }
+         
+                        if (req.isAuthenticated()) {
+                            return res.json(JSON.stringify(reviewsToReturn))
+                        } else {
+                            return res.json(JSON.stringify(reviewsToReturn))
+                        }   
+                    }
+                )       
+            }
+        });  
     });
 
     app.get('/search', function(req, res){
