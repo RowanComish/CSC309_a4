@@ -608,7 +608,7 @@ console.log("Rating: " + req.body.rating);
                 if(err){
                     console.log('error')
                 }else{
-                    console.log(results[0], results[1]);
+                    //console.log(results[0], results[1]);
                     if(query){
                         res.render('search.ejs', {
                             user: req.user,
