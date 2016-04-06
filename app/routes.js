@@ -338,7 +338,7 @@ module.exports = function(app, passport) {
                     }
                 }
             }
-            )
+        )
     });
 
     app.get('/newrecipe', function(req, res) {
@@ -386,10 +386,16 @@ module.exports = function(app, passport) {
     app.get('/orders', function(req, res) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
-        if (req.isAuthenticated()) 
-            res.render('orderhistory.ejs', { message: 'loggedin' });
-        else 
+        var Order = require('../app/models/order');
+
+        if (req.isAuthenticated()){
+            var userID = req.user._id;
+                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                    res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults });
+                });
+        } else {
             res.render('orderhistory.ejs', { message: 'notloggedin' });
+        }
     });
 
     app.post('/addToOrder/:recipe', function(req, res) {
@@ -400,7 +406,20 @@ module.exports = function(app, passport) {
         if (req.isAuthenticated()) {
             var recipeID = req.params.recipe;
             var userID = req.user._id;
-            res.render('orderhistory.ejs', { message: 'loggedin' });
+            var newOrder = new Order();
+            newOrder.user_id = userID;
+            newOrder.recipe_id = recipeID;
+            newOrder.save(function(err) {
+                if (err)
+                    throw err;
+                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                    var totalCost = 0;
+                    for (var i=0;i<recipeResults.length;i++) {
+                        totalCost = totalCost + recipeResults[i].recipe_id.cost;
+                    }
+                    res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults, 'totalCost' : totalCost });
+                });
+            });
         }
         else  {
             res.render('orderhistory.ejs', { message: 'notloggedinOrder' });
