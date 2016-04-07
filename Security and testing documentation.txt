@@ -1,0 +1,17 @@
+b) 
+
+Login/Signup/Facebook Authentication
+
+In our project, after users sign up with valid details, they can login using their email and password. Users can also signup/login with their Facebook account.  For these methods,Passport (passportjs) authentication middleware was used. It is a commonly used authentication framework that works perfectly with Express-based web applications. Bcrypt was used with Passport for hashing user passwords before saving them into the database, thus providing security measures since even admins with access to database cannot see user passwords. For entering the “/admin” section of the website, a proper login prompt is shown and only authorized users with admin privileges will be allowed access. This was done by adding a boolean flag for each user indicating whether they have admin rights or not.
+
+Database
+
+Mongoose was used for database schemas and queries. Generally, it is safe when using mongoose and code for error checking and warnings was written to ensure database interactions are done correctly.
+
+Testing
+
+Mocha framework was used for creating simple unit tests, and Superagent framework was used for sending AJAX requests. The following tests were conducted:
+
+1-User creation and successful fetching: This test ensured that data is entered successfully in database, correctly found , and successfully deleted.
+2-Admin Privileges: This included 2 tests: ensuring that a user is properly flagged as non-admin, and ensuring a user with admin rights is correctly authorized.
+3- Login : This included 3 tests: ensuring that a correct user is given access, ensuring that incorrect password prohibits access, and ensuring that unregistered email prohibits access.
