@@ -17,8 +17,8 @@ var userSchema = mongoose.Schema({
         fb_id        : String,
         fb_token     : String,
         date         : String,
-        fav_cuisine  :[String]
-
+        fav_cuisine  :[String],
+        admin        : Boolean
 });
 
 // generating a hash

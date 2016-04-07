@@ -1,6 +1,6 @@
 var User = require('../app/models/user')
 
-//looks for users with firstname or last name similar to query(s)
+//looks for users with firstname or last name or email similar to query(s)
 module.exports = function(query){
 	
 	if(query && !(query instanceof Array)){
@@ -18,7 +18,7 @@ module.exports = function(query){
 	}
 	//used regex so case of letters doesnt matter
 	var temp = User.find({}).or([{'lastname': {$in: queries}},
-		{'firstname': {$in: queries}}]).sort({'review_avg': -1});
+		{'firstname': {$in: queries}}, {'email': {$in: queries}}]).sort({'review_avg': -1});
 
 	return temp;
 

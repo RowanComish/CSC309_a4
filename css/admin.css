@@ -10,9 +10,31 @@ h1{
 	font-size: 300%;
 	color: #A52A2A;
 }
-#manageDb{
-	text-align: center;
+
+li {
+    list-style: none;
 }
+
+.insert-hidden {
+    display: none;
+}
+
+.delete-group {
+    display: none;
+    padding: 30px;
+    background: white; 
+
+}
+
+.page-button {
+    margin-top:15px;
+}
+
+
+#delete-button {
+    padding-top: 10px;
+}
+
 #fileInput input{
 	display:inline-block;
 	margin:5px;

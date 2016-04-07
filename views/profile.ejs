@@ -91,8 +91,8 @@
             <h5> <b>Favourite Cuisines:</b></h5>
             <ol> 
                 <% for(var i=0;i < user.fav_cuisine.length;i++){ %>
-                    <li><%=user.fav_cuisine[i]%></li>
-            <%}%>
+                <li><%=user.fav_cuisine[i]%></li>
+                <%}%>
             </ol>
             <%}%>
             <h5> <b>Member since:</b> <%=user.date %></h5>
@@ -101,53 +101,62 @@
         </div>
     </div>
     <div class="row">
-    <div id="search-suggestions-recipes" class="container-fluid">
+        <div id="search-suggestions-recipes" class="container-fluid">
             <div class="container col-md-12 text-center">
-                 <% if(recipes.length!=0) {%>
-                    <h2 class="search-title text-center">
-                       Recipes
-                    </h2>
-                    <div class="row order-section">
-                        <% for(var i=0; i<recipes.length;i++){%>
-                        <a style="text-decoration:none;" href='/recipe/<%=recipes[i]._id%>'>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="search-item center-block">
-                                <!-- Image -->
-                                <img src="./img/food_example1.jpeg" class="order-image"> <!-- Name -->
-                                <h4 class="text-center">
-                                    <%=recipes[i].name %>
-                                </h4><!-- Date -->
-                                <h5 class="text-center">
-                                    <%=recipes[i].cuisine %>
-                                </h5><!-- Cost -->
-                                <h4 class="text-center">
-                                    $<%=recipes[i].cost %>
-                                </h4>
-                                <h4 class="text-center">
-                                    <%=recipes[i].category %>
+               <% if(recipes.length!=0) {%>
+               <h2 class="search-title text-center">
+                 Recipes
+             </h2>
+             <div class="row order-section">
+                <% for(var i=0; i<recipes.length;i++){%>
+                <a style="text-decoration:none;" href='/recipe/<%=recipes[i]._id%>'>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                   <div style="height: 450px; width: 350px;" class="search-item center-block">
+                        <!-- Image -->
+                        <h3 class="text-center">
+                            <%=recipes[i].name %>
+                        </h3><!-- Date -->
+                        <img src="../img/food_example1.jpeg" class="order-image"> <!-- Name -->
 
-                                </h4>
-                                
-                                <span class="search-rating center-block text-center">
-                                    <!-- fill stars -->
 
-                                    <% for(var j=0; j<Math.round(recipes[i].review_avg) ;j++) {%>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <% } %>                               
-                                    <!-- add empty stars -->
-                                     <% for(var j=0; j<5-Math.round(recipes[i].review_avg) ;j++) {%>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <% } %>
-                                </span>
-                            </div>
-                        </div>
-                        </a>
+                        <% if(recipes[i].type) {%>
+                        <h4 class="text-center">
+                            <%=recipes[i].type %>
+                        </h4>
                         <% } %>
-                    <%}%>     
+                        <h4 class="text-center">
+                            <%=recipes[i].cuisine %>
+                        </h4>
+                        <h4 class="text-center">
+                            <%=recipes[i].category %>
+                        </h4>
+                        <h4 class="text-center">
+                            $<%=recipes[i].cost %>
+                        </h4>
+                        <p style="font-style: italic;" class="text-center">
+                            <%=recipes[i].description %>
+                        </p>
+
+                        <span class="search-rating center-block text-center">
+                            <!-- fill stars -->
+
+                            <% for(var j=0; j<Math.round(recipes[i].review_avg) ;j++) {%>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <% } %>                               
+                            <!-- add empty stars -->
+                            <% for(var j=0; j<5-Math.round(recipes[i].review_avg) ;j++) {%>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <% } %>
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </a>
+            <% } %>
+            <%}%>     
         </div>
     </div>
+</div>
+</div>
 
 </div>
 

@@ -8,12 +8,8 @@ var recipeSchema = mongoose.Schema({
         author_id : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         cuisine : String,
         category : String,
+        type: String,
         cost : Number,
-        Ingredients : [ 
-        {
-            name: String
-        }
-        ],
         description: String,
         review_avg : Number,
         date: { type: Date, default: Date.now }

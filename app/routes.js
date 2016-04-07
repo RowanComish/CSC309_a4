@@ -57,7 +57,7 @@ module.exports = function(app, passport) {
     //Login
     //If already logged in, redirect automatically to homepage
     app.get('/login', function(req, res) {
-        console.log(req.user)
+        //console.log(req.user)
         if (req.isAuthenticated())
             res.redirect('/');
         else
@@ -194,13 +194,23 @@ module.exports = function(app, passport) {
 
             if (!user.fb_id){
 
+                console.log('should enter here');
+
                 if (!user.validPassword(body.oldpassword))
 
                     already = true;
+                    current.password = req.user.generateHash(body.newpassword);
+                    current.markModified('password');
+
+                    req.user.save(function(err) {
+                      if (err)
+                      throw err;
+                    });
 
             } else {
 
                 current.password = req.user.generateHash(body.newpassword);
+                current.markModified('password');
 
                 req.user.save(function(err) {
                     if (err)
@@ -214,7 +224,34 @@ module.exports = function(app, passport) {
                 res.redirect('/changepass2');
         });
     });
+    app.get('/more', function(req, res){
+        var recipeId = req.param('recipe');
+        console.log(recipeId)
+        var user = req.user;
+        var findRecipe = require('../queries/findRecipe');
+        var searchRecipe = require('../queries/searchRecipe');
+        var recipe = findRecipe(recipeId);
+        recipe.exec(function(err, recipe){
+            var query = [recipe.name, recipe.cuisine, recipe.category]
+            var recipes = searchRecipe(query)
+            recipes.exec(function(err, recipes){
+                console.log("RECIPE:"+recipes)
+                if (req.isAuthenticated())
+                            res.render('more.ejs',
+                             { user: user ,
+                              message: 'loggedin' ,
+                              recipeResults : recipes } );
+                        else{
+                            res.render('more.ejs', 
+                                { user: user ,
+                                 message: 'notloggedin' , 
+                                 recipeResults : recipes } );
+                        }
 
+            })
+        })
+
+    })
     app.get('/userprofile/:email', function(req, res) {
 
         var user = req.params.email;
@@ -366,12 +403,10 @@ module.exports = function(app, passport) {
                 newRecipe.author_id = req.user._id;
                 newRecipe.name = req.body.name;
                 newRecipe.cuisine = req.body.cuisine;
+                newRecipe.type = req.body.type;
                 newRecipe.category = req.body.category;
                 newRecipe.cost = req.body.cost;
                 newRecipe.description = req.body.description;
-
-                var ingredients = req.body.ingredients;
-                newRecipe.ingredients = ingredients.split(",");
         
                 newRecipe.save(function(err) {
                     if (err)
@@ -507,7 +542,7 @@ module.exports = function(app, passport) {
         var Order = require('../app/models/order');
 
         Recipe.findOne({ '_id' : recipeID }, function(err, recipe) {
-
+            
             
             // Make sure they are logged in
             if (!req.isAuthenticated() || req.user == null) {
@@ -687,13 +722,28 @@ module.exports = function(app, passport) {
         );
     
     });
-
+    
     app.get('/admin', function(req, res){
-        res.render('admin.ejs', {message:""});
-    });    
+        //console.log("im here");
+        //console.log(req.user);
+        if(req.user){
+            if(req.user.admin)
+                res.render('admin.ejs', {message:"loggedin"});
+            else
+                res.send('Unauthorized access. User logged in must have admin privileges');
+        }else
+            res.render('adminlogin.ejs',{ message: req.flash('loginMessage') });
+    });
+
+    app.post('/adminlogin', passport.authenticate('local-login2', {
+        successRedirect : '/admin', 
+        failureRedirect : '/admin', 
+        failureFlash : true 
+    }));
+ 
     
     // Fetch user details
-    app.get('/admin/user/:email', function(req, res){
+    app.get('/admin/user/:email', function (req, res){
 
         var User = require('../app/models/user');
 
