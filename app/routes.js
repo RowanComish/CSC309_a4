@@ -387,10 +387,11 @@ module.exports = function(app, passport) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
+        var Review = require('../app/models/reviews');
 
         if (req.isAuthenticated()){
             var userID = req.user._id;
-                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                Order.find({'user_id' : userID}).populate('recipe_id').populate('review_id').exec(function(err, recipeResults) { 
                     res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults });
                 });
         } else {
@@ -402,6 +403,7 @@ module.exports = function(app, passport) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
+        var Review = require('../app/models/reviews');
 
         if (req.isAuthenticated()) {
             var recipeID = req.params.recipe;
@@ -412,7 +414,7 @@ module.exports = function(app, passport) {
             newOrder.save(function(err) {
                 if (err)
                     throw err;
-                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                Order.find({'user_id' : userID}).populate('recipe_id').populate('review_id').exec(function(err, recipeResults) { 
                     res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults});
                 });
             });
@@ -426,10 +428,11 @@ module.exports = function(app, passport) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
+        var Review = require('../app/models/reviews');
 
         if (req.isAuthenticated()) {
             var userID = req.user._id;
-            Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+            Order.find({'user_id' : userID}).populate('recipe_id').populate('review_id').exec(function(err, recipeResults) { 
                 for (var i=0;i<recipeResults.length;i++) {
                     Order.update({'_id' : recipeResults[i]._id}, {
                         queue: false
@@ -475,7 +478,7 @@ module.exports = function(app, passport) {
         }));
         
     // Reviewing
-    app.get('/review/:recipe', function(req, res) {
+    app.get('/review/:recipe/:order', function(req, res) {
         
         var recipeID = req.params.recipe;
         
@@ -484,33 +487,38 @@ module.exports = function(app, passport) {
         Recipe.findOne({ '_id' :  recipeID }, function(err, recipe) {
 
             if (err)
-                return done(err);
+                return res.status(500).send('Sorry, recipe not found');
 
             if (!recipe)
                 return res.status(404).send('Sorry, recipe not found');
             else{
                 if (req.isAuthenticated())
-                    res.render('review.ejs', { recipe: recipe, message:''} );
+                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message:''} );
                 else
                     res.render('about.ejs', { message: 'notloggedin'} );
             }
         });  
     })
     
-    app.post('/review/:recipe', function(req, res){
+    app.post('/review/:recipe/:order', function(req, res){
 
         var recipeID = req.params.recipe;
         var Recipe = require('../app/models/recipes');
-console.log("Rating: " + req.body.rating);
+        var Order = require('../app/models/order');
+
         Recipe.findOne({ '_id' : recipeID }, function(err, recipe) {
 
+            
+            // Make sure they are logged in
             if (!req.isAuthenticated() || req.user == null) {
                 res.redirect('about.ejs', { message: 'notloggedin'} );
             } else if (err) {
                 return res.status(404).send('Sorry, recipe not found');
             } else if (req.body.rating == 0 || req.body.details.length <= 0 || req.body.title.length <= 0) {
-                res.render('review.ejs', { recipe: recipe, message: 'Please select a star rating' });
+                res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'Please select a star rating' });
             } 
+            
+            // TODO check if user has made an order with this recipe
             
             var userID = req.user._id;
             
@@ -520,7 +528,7 @@ console.log("Rating: " + req.body.rating);
            
                 //check if recipe already exists
                 if (review) {
-                    res.render('review.ejs', { recipe: recipe, message: 'You have already submitted a review for this recipe' });
+                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'You have already submitted a review for this recipe' });
                 }
                 else {
 
@@ -537,8 +545,19 @@ console.log("Rating: " + req.body.rating);
             
                     newReview.save(function(err) {
                         if (err)
-                            res.render('review.ejs', { recipe: recipe, message: err });
-                        res.render('review.ejs', { recipe: recipe, message: 'success' });
+                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+                            
+                        // Find the coresponding order and add this review to it
+                        Order.findOne({ _id : req.params.order}, function(err, order) {                                
+                            order.review_id = newReview._id;
+                            order.save(function(err) {
+                                
+                                if (err)
+                                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+
+                                res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'success' });       
+                            });
+                        });
                     });
                 }
             });
@@ -669,7 +688,111 @@ console.log("Rating: " + req.body.rating);
     
     });
 
+    app.get('/admin', function(req, res){
+        res.render('admin.ejs', {message:""});
+    });    
     
+    // Fetch user details
+    app.get('/admin/user/:email', function(req, res){
+
+        var User = require('../app/models/user');
+
+        User.findOne({ 'email' : req.params.email }, function(err, user) {
+
+            if(err){
+                return res.status(500).send('Unable to find user');
+            }else{
+                return res.json(JSON.stringify(user))
+            }
+        });
+    }); 
+    
+    // Update a user
+    app.post('/admin/user/:email?', function(req, res){
+        var User = require('../app/models/user');
+                
+        if (req.params.email != null) {
+            User.findOne({ 'email' : req.params.email }, function(err, user) {
+                
+                if (err)
+                    return res.status(500).send('Unable to find user');  
+                                    
+                user = populateUser(user, req.body)
+                    
+                user.save(function(err) {
+                        if (err)
+                            return res.status(500).send('Unable to update');
+                        return res.json(JSON.stringify(user))
+                    });
+                });
+        }
+        else {
+            User.findOne({ 'email' : req.body.email }, function(err, user) {
+                
+                if (user != null) 
+                    return res.json(JSON.stringify({'failure':'User already exists'}));
+                                        
+                var newUser = new User();
+    
+                newUser = populateUser(newUser, req.body)
+                        
+                newUser.save(function(err) {
+                    if (err)
+                        return res.status(500).send('Unable to create new user'); 
+                    return res.json(JSON.stringify(newUser));
+                });
+            });
+        }
+    });   
+    
+    function populateUser (user, body) {
+        
+        if(body.firstname!="")
+                    user.firstname = body.firstname;
+                if(body.lastname!="")
+                    user.lastname = body.lastname;
+                if(body.email!="")
+                    user.email=body.email;
+                if(body.phonenumber!="")
+                    user.phonenumber=body.phonenumber;
+                if(body.streetaddress!="")
+                    user.streetaddress=body.streetaddress;
+                if(body.city!="")
+                    user.city=body.city;
+                if(body.province!="")
+                    user.province=body.province;
+                if(body.postalcode!="")
+                    user.postalcode=body.postalcode;
+                if(body.country!="")
+                    user.country=body.country;
+                if(body.cuisine1!="")
+                    user.fav_cuisine[0] = body.cuisine1;
+                if(body.cuisine2!="")
+                    user.fav_cuisine[1] = body.cuisine2;
+                if(body.cuisine3!="")
+                    user.fav_cuisine[2]=body.cuisine3;
+                if(body.password!="") 
+                    user.password = user.generateHash(body.password); 
+                if(body.date!="")
+                    user.date = body.date;
+                    
+                user.markModified('fav_cuisine');
+        
+        return user;
+    }
+    
+    // Delete a user
+    app.delete('/admin/user/:email', function(req, res) {
+        var User = require('../app/models/user');  
+        
+        User.findOne({ 'email' : req.params.email }).remove().exec(function(err, removed) { 
+                        
+             if (err)
+                return res.status(500).send('Unable to find user');
+
+            return res.json(JSON.stringify({'success':'Delete success', 'removed':removed}));     
+        });              
+    });
 };
 
 function isLoggedIn(req, res, next) {
