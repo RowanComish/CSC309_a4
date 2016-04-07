@@ -194,13 +194,23 @@ module.exports = function(app, passport) {
 
             if (!user.fb_id){
 
+                console.log('should enter here');
+
                 if (!user.validPassword(body.oldpassword))
 
                     already = true;
+                    current.password = req.user.generateHash(body.newpassword);
+                    current.markModified('password');
+
+                    req.user.save(function(err) {
+                      if (err)
+                      throw err;
+                    });
 
             } else {
 
                 current.password = req.user.generateHash(body.newpassword);
+                current.markModified('password');
 
                 req.user.save(function(err) {
                     if (err)
