@@ -203,7 +203,7 @@
                         <button type="submit" action="/addToOrder" method="post" class="order-review-button btn btn-primary center-block">Order This Dish</button>
                     </form>
                     <span class="search-rating center-block text-center">
-                        <% for (var i=0; i<Math.round(recipe.review_avg); i++) {%>
+                        <% for (var i=0; i<Math.round(averageRating(recipe.rating)); i++) {%>
                         <span class="glyphicon glyphicon-star"></span>
                         <% } %>
                     </span>
@@ -238,11 +238,11 @@
                                 </h4>
                                     <span class="search-rating center-block text-center">
                                     <!-- fill stars -->
-                                    <% for(var j=0; j<Math.round(recommended[i].review_avg) ;j++) {%>
+                                    <% for(var j=0; j<Math.round(averageRating(recommended[i].rating)) ;j++) {%>
                                     <span class="glyphicon glyphicon-star"></span>
                                     <% } %>
                                     <!-- add empty stars -->
-                                     <% for(var j=0; j>5-Math.round(recommended[i].review_avg) ;j++) {%>
+                                     <% for(var j=0; j>5-Math.round(averageRating(recommended[i].rating)) ;j++) {%>
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <% } %>
                                 </span>
@@ -257,9 +257,9 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="review"> 
                         <h3> Star Breakdown: </h3>
-                        <h4> 100 Reviews </h5>
+                        <h4> <%= totalRating(recipe.rating) %> Reviews</h5>
                             <div class="starset">
-                                <h6> 35 Reviewers: </h6>
+                                <h6> <%= recipe.rating[4] %> Reviewer(s): </h6>
                                 <span class="search-rating">
                                     <span class="glyphicon glyphicon-star"></span>
                                     <span class="glyphicon glyphicon-star"></span>
@@ -269,7 +269,7 @@
                                 </span>
                             </div>
                             <div class="starset">
-                                <h6> 15 Reviewers: </h6>
+                                <h6> <%= recipe.rating[3] %> Reviewer(s): </h6>
                                 <span class="search-rating">
                                     <span class="glyphicon glyphicon-star"></span>
                                     <span class="glyphicon glyphicon-star"></span>
@@ -279,7 +279,7 @@
                                 </span>
                             </div>
                             <div class="starset">
-                                <h6> 10 Reviewers: </h6>
+                                <h6> <%= recipe.rating[2] %> Reviewer(s): </h6>
                                 <span class="search-rating center-block text-center">
                                     <span class="glyphicon glyphicon-star"></span>
                                     <span class="glyphicon glyphicon-star"></span>
@@ -289,7 +289,7 @@
                                 </span>
                             </div>
                             <div class="starset">
-                                <h6> 15 Reviewers: </h6>
+                                <h6> <%= recipe.rating[1] %> Reviewer(s): </h6>
                                 <span class="search-rating center-block text-center">
                                     <span class="glyphicon glyphicon-star"></span>
                                     <span class="glyphicon glyphicon-star"></span>
@@ -299,7 +299,7 @@
                                 </span>
                             </div>
                             <div class="starset">
-                                <h6> 25 Reviewers: </h6>
+                                <h6> <%= recipe.rating[0] %> Reviewer(s): </h6>
                                 <span class="search-rating center-block text-center">
                                     <span class="glyphicon glyphicon-star"></span>
                                     <span class="glyphicon glyphicon-star-empty"></span>
