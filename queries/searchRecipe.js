@@ -6,6 +6,7 @@ module.exports = function(query){
 		var queries = query.split(' ');
 		
 	}
+	//checks if query is already array
 	else if(query instanceof Array){
 		queries = query;
 		
