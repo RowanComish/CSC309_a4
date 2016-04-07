@@ -592,10 +592,41 @@ module.exports = function(app, passport) {
                             order.review_id = newReview._id;
                             order.save(function(err) {
                                 
-                                if (err)
-                                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+                                
+                            var update;
+                             switch(newReview.score) {
+                                case 1:
+                                    update =  {$inc : {'rating.0' : 1}};
+                                    break;
+                                case 2:
+                                    update =  {$inc : {'rating.1' : 1}};
+                                    break;
+                                case 3:
+                                    update =  {$inc : {'rating.2' : 1}};
+                                    break;
+                                case 4:
+                                    update =  {$inc : {'rating.3' : 1}};
+                                    break;
+                                case 5:
+                                    update =  {$inc : {'rating.4' : 1}};
+                                    break;
+                                default:
+                                    update =  {$inc : {'rating.0' : 1}};
+                            }
+                                
+                                Recipe.update(
+                                    {_id : recipeID}, 
+                                    update, 
+                                    {upsert: true},
+                                    
 
-                                res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'success' });       
+                                    function(err, data) {
+                                        
+                                        if (err)
+                                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+                                             
+                                        res.render('review.ejs', { recipe:recipe, order: req.params.order, message: 'success' });       
+                                    });     
                             });
                         });
                     });
