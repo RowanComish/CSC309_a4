@@ -12,6 +12,7 @@ var recipeSchema = mongoose.Schema({
         cost : Number,
         description: String,
         review_avg : Number,
+        rating : [Number],
         date: { type: Date, default: Date.now }
 });
 
