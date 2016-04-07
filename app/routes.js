@@ -194,13 +194,23 @@ module.exports = function(app, passport) {
 
             if (!user.fb_id){
 
+                console.log('should enter here');
+
                 if (!user.validPassword(body.oldpassword))
 
                     already = true;
+                    current.password = req.user.generateHash(body.newpassword);
+                    current.markModified('password');
+
+                    req.user.save(function(err) {
+                      if (err)
+                      throw err;
+                    });
 
             } else {
 
                 current.password = req.user.generateHash(body.newpassword);
+                current.markModified('password');
 
                 req.user.save(function(err) {
                     if (err)
@@ -417,10 +427,11 @@ module.exports = function(app, passport) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
+        var Review = require('../app/models/reviews');
 
         if (req.isAuthenticated()){
             var userID = req.user._id;
-                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                Order.find({'user_id' : userID}).populate('recipe_id').populate('review_id').exec(function(err, recipeResults) { 
                     res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults });
                 });
         } else {
@@ -432,6 +443,7 @@ module.exports = function(app, passport) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
+        var Review = require('../app/models/reviews');
 
         if (req.isAuthenticated()) {
             var recipeID = req.params.recipe;
@@ -442,7 +454,7 @@ module.exports = function(app, passport) {
             newOrder.save(function(err) {
                 if (err)
                     throw err;
-                Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+                Order.find({'user_id' : userID}).populate('recipe_id').populate('review_id').exec(function(err, recipeResults) { 
                     res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults});
                 });
             });
@@ -456,10 +468,11 @@ module.exports = function(app, passport) {
         var User = require('../app/models/user');
         var Recipe = require('../app/models/recipes');
         var Order = require('../app/models/order');
+        var Review = require('../app/models/reviews');
 
         if (req.isAuthenticated()) {
             var userID = req.user._id;
-            Order.find({'user_id' : userID}).populate('recipe_id').exec(function(err, recipeResults) { 
+            Order.find({'user_id' : userID}).populate('recipe_id').populate('review_id').exec(function(err, recipeResults) { 
                 for (var i=0;i<recipeResults.length;i++) {
                     Order.update({'_id' : recipeResults[i]._id}, {
                         queue: false
@@ -505,7 +518,7 @@ module.exports = function(app, passport) {
         }));
         
     // Reviewing
-    app.get('/review/:recipe', function(req, res) {
+    app.get('/review/:recipe/:order', function(req, res) {
         
         var recipeID = req.params.recipe;
         
@@ -514,25 +527,27 @@ module.exports = function(app, passport) {
         Recipe.findOne({ '_id' :  recipeID }, function(err, recipe) {
 
             if (err)
-                return done(err);
+                return res.status(500).send('Sorry, recipe not found');
 
             if (!recipe)
                 return res.status(404).send('Sorry, recipe not found');
             else{
                 if (req.isAuthenticated())
-                    res.render('review.ejs', { recipe: recipe, message:''} );
+                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message:''} );
                 else
                     res.render('about.ejs', { message: 'notloggedin'} );
             }
         });  
     })
     
-    app.post('/review/:recipe', function(req, res){
+    app.post('/review/:recipe/:order', function(req, res){
 
         var recipeID = req.params.recipe;
         var Recipe = require('../app/models/recipes');
+        var Order = require('../app/models/order');
 
         Recipe.findOne({ '_id' : recipeID }, function(err, recipe) {
+            
             
             // Make sure they are logged in
             if (!req.isAuthenticated() || req.user == null) {
@@ -540,7 +555,7 @@ module.exports = function(app, passport) {
             } else if (err) {
                 return res.status(404).send('Sorry, recipe not found');
             } else if (req.body.rating == 0 || req.body.details.length <= 0 || req.body.title.length <= 0) {
-                res.render('review.ejs', { recipe: recipe, message: 'Please select a star rating' });
+                res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'Please select a star rating' });
             } 
             
             // TODO check if user has made an order with this recipe
@@ -553,7 +568,7 @@ module.exports = function(app, passport) {
            
                 //check if recipe already exists
                 if (review) {
-                    res.render('review.ejs', { recipe: recipe, message: 'You have already submitted a review for this recipe' });
+                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'You have already submitted a review for this recipe' });
                 }
                 else {
 
@@ -570,8 +585,19 @@ module.exports = function(app, passport) {
             
                     newReview.save(function(err) {
                         if (err)
-                            res.render('review.ejs', { recipe: recipe, message: err });
-                        res.render('review.ejs', { recipe: recipe, message: 'success' });
+                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+                            
+                        // Find the coresponding order and add this review to it
+                        Order.findOne({ _id : req.params.order}, function(err, order) {                                
+                            order.review_id = newReview._id;
+                            order.save(function(err) {
+                                
+                                if (err)
+                                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+
+                                res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'success' });       
+                            });
+                        });
                     });
                 }
             });

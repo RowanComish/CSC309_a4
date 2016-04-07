@@ -30,7 +30,7 @@
     </script>
     
     
-    <nav class = "navbar navbar-default">
+<nav class = "navbar navbar-default">
 
         <div class="navbar-header">
 
@@ -52,8 +52,14 @@
                     <a href="/search"> Search </a>
                 </li>
                 <% if (message =='loggedin') { %>
+                <li>   
+                    <a href="/newrecipe">Add a New Recipe! </a>
+                </li>
                 <li>
                     <a href="/profile">My Profile</a>
+                </li>
+                <li>
+                    <a href="/orders"> My Orders</a>
                 </li>
                 <li>
                     <a href="/logout">Logout </a>
@@ -98,8 +104,8 @@
                 </li>
                 <% } %>
                 <li>
-            <a href="/about"> About </a>
-        </li>
+                    <a href="/about"> About </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -178,9 +184,17 @@
                                         <h4 class="text-center">
                                             <%=recipeResults[i].recipe_id.category %>
                                         </h4>
-                                        <form  role="form" action="/review/<%=recipeResults[i].recipe_id._id%>" >
+                                        <% if(recipeResults[i].review_id == null) {%>
+                                        <form  role="form" action="/review/<%=recipeResults[i].recipe_id._id%>/<%=recipeResults[i]._id%>" >
                                             <button type="submit" class="order-review-button btn btn-primary center-block" >Leave a Review</button>
                                         </form>
+                                        <%} else {%>
+                                            <span class="search-rating center-block text-center">
+                                                <% for(var j=0; j<Math.round(recipeResults[i].review_id.score) ;j++) {%>
+                                                    <span class="glyphicon glyphicon-star"></span>
+                                                <% } %> 
+                                            </span>
+                                        <%}%>
                                         <span class="search-rating center-block text-center">
                                             <!-- fill stars -->
 

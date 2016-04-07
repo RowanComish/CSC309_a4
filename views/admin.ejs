@@ -182,8 +182,6 @@
         
         function submitChanges() {
             
-            console.log(state);
-            
             if (currentUser == null && state != ADD_STATE) {
                 alert('You have not set a user to change. Please look up a user.');
                 return;
@@ -252,15 +250,12 @@
         // Delete current user info 
         function deleteUser() {
             
-            console.log('Sending delete');
-            
             var address = '/admin/user/' + currentUser['email'];
             
             $.ajax({    
                 url: address,
                 type: 'DELETE',
                 success: function(data) { 
-                    console.log('Success: ' + data);
                     
                     if (data == null) {
                         alert('Unable to delete user');
