@@ -2,10 +2,11 @@ var User = require('../app/models/user')
 
 //looks for users with firstname or last name or email similar to query(s)
 module.exports = function(query){
-	
+	//checks if query exists as not array
 	if(query && !(query instanceof Array)){
 		var queries = query.split(' ');
 	}
+	//checks if query already array
 	else if(query instanceof Array){
 		queries = query;
 	}

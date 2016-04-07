@@ -224,18 +224,22 @@ module.exports = function(app, passport) {
                 res.redirect('/changepass2');
         });
     });
+    //takes recipe id and find recipes that are similar to the one
+    //sent
     app.get('/more', function(req, res){
         var recipeId = req.param('recipe');
-        console.log(recipeId)
+        
         var user = req.user;
         var findRecipe = require('../queries/findRecipe');
         var searchRecipe = require('../queries/searchRecipe');
         var recipe = findRecipe(recipeId);
+        //finds the recipe
         recipe.exec(function(err, recipe){
+            //makes a query of the info of the foudn recipe
             var query = [recipe.name, recipe.cuisine, recipe.category]
             var recipes = searchRecipe(query)
             recipes.exec(function(err, recipes){
-                console.log("RECIPE:"+recipes)
+                
                 if (req.isAuthenticated())
                             res.render('more.ejs',
                              { user: user ,
@@ -353,6 +357,7 @@ module.exports = function(app, passport) {
             }
 
             ],
+            //aggregate in results, send the proper info
             function(err, results){
                 if(err){
                     console.log('err')
@@ -732,7 +737,7 @@ module.exports = function(app, passport) {
                 if(err){
                     console.log('error')
                 }else{
-                    //console.log(results[0], results[1]);
+                    
                     if(query){
                         res.render('search.ejs', {
                             user: req.user,
