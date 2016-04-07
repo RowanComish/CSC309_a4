@@ -15,3 +15,5 @@ Mocha framework was used for creating simple unit tests, and Superagent framewor
 1-User creation and successful fetching: This test ensured that data is entered successfully in database, correctly found , and successfully deleted.
 2-Admin Privileges: This included 2 tests: ensuring that a user is properly flagged as non-admin, and ensuring a user with admin rights is correctly authorized.
 3- Login : This included 3 tests: ensuring that a correct user is given access, ensuring that incorrect password prohibits access, and ensuring that unregistered email prohibits access.
+
+test.js included under the test folder in the repo.
