@@ -152,8 +152,24 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="search-item center-block">
                                 <!-- Image -->
+                                <% if(recipeResults[i].category == 'Main Course' ){%>
                                 <img src="./img/food_example1.jpeg"
-                                     class="order-image"> <!-- Name -->
+                                     class="order-image"> 
+                                <% }%>
+                                 <% if(recipeResults[i].category == 'Drinks'){%>
+                                <img src="./img/food_example2.jpeg"
+                                     class="order-image"> 
+                                <% }%>
+                                 <% if(recipeResults[i].category == 'Appetizer' ){%>
+                                <img src="./img/food_example3.jpeg"
+                                     class="order-image"> 
+                                <% }%>
+                                 <% if(recipeResults[i].category == 'Dessert' ){%>
+                                <img src="./img/food_example4.jpeg"
+                                     class="order-image"> 
+                                <% }%>
+
+                                     <!-- Name -->
                                 <h4 class="text-center">
                                     <%=recipeResults[i].name %>
                                 </h4><!-- Date -->
