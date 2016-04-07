@@ -214,7 +214,34 @@ module.exports = function(app, passport) {
                 res.redirect('/changepass2');
         });
     });
+    app.get('/more', function(req, res){
+        var recipeId = req.param('recipe');
+        console.log(recipeId)
+        var user = req.user;
+        var findRecipe = require('../queries/findRecipe');
+        var searchRecipe = require('../queries/searchRecipe');
+        var recipe = findRecipe(recipeId);
+        recipe.exec(function(err, recipe){
+            var query = [recipe.name, recipe.cuisine, recipe.category]
+            var recipes = searchRecipe(query)
+            recipes.exec(function(err, recipes){
+                console.log("RECIPE:"+recipes)
+                if (req.isAuthenticated())
+                            res.render('more.ejs',
+                             { user: user ,
+                              message: 'loggedin' ,
+                              recipeResults : recipes } );
+                        else{
+                            res.render('more.ejs', 
+                                { user: user ,
+                                 message: 'notloggedin' , 
+                                 recipeResults : recipes } );
+                        }
 
+            })
+        })
+
+    })
     app.get('/userprofile/:email', function(req, res) {
 
         var user = req.params.email;

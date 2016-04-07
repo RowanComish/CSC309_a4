@@ -159,6 +159,10 @@
                 <li><h3>Recipe by:</h3> <h2><%=user.firstname%> <%=user.lastname%></h2></li>
                 </ul>
                 <ul style="float: right;">
+                    <li><button class="recipes"id="more" onClick="location.href='/more?recipe=<%=recipe._id%>';">More Like This</button>
+                    </li>
+                </ul>
+                <ul style="float: right;">
                     <li><button onclick="location.href='/userprofile/<%=user.email%>';"  class="recipes">
                         View Profile
                     </button></li>
