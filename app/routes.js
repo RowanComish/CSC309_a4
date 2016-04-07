@@ -555,7 +555,6 @@ module.exports = function(app, passport) {
 
         Recipe.findOne({ '_id' : recipeID }, function(err, recipe) {
             
-            
             // Make sure they are logged in
             if (!req.isAuthenticated() || req.user == null) {
                 res.redirect('about.ejs', { message: 'notloggedin'} );
@@ -574,52 +573,65 @@ module.exports = function(app, passport) {
             Review.findOne({ 'userID' : userID, 'recipeID' : recipeID}, function(err, review) {
            
                 //check if recipe already exists
-                if (review) {
-                    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'You have already submitted a review for this recipe' });
-                }
-                else {
-
+                
+                //if (review) {
+                //    res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'You have already submitted a review for this recipe' });
+                //}
+                //else {
+                    
                     // if there is no prior review
                     // create the review
-                    var newReview = new Review();
+                    
+                    Order.findOne({ _id : req.params.order}, function(err, order) {
+                         
+                        // Double check to see if order is same as recipe being reviewed
+                        if (order.recipe_id != recipeID) {
+                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message:'Please order this recipe before reviewing' });
+                            return;
+                        }
+                        else if (order.review_id != null) {
+                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message: 'You have already submitted a review for this order' });
+                            return;
+                        }
+                        
+                        var newReview = new Review();
+                
+                        newReview.type = 'Recipe';
+                        newReview.recipeID = recipeID;
+                        newReview.userID = userID;
+                        newReview.score = req.body.rating;
+                        newReview.title = req.body.title;
+                        newReview.comment = req.body.details;
             
-                    newReview.type = 'Recipe';
-                    newReview.recipeID = recipeID;
-                    newReview.userID = userID;
-                    newReview.score = req.body.rating;
-                    newReview.title = req.body.title;
-                    newReview.comment = req.body.details;
-            
-                    newReview.save(function(err) {
-                        if (err)
-                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+                        newReview.save(function(err) {
+                            if (err)
+                                res.render('review.ejs', { recipe: recipe, order: req.params.order, message:'Error occured' });
                             
-                        // Find the coresponding order and add this review to it
-                        Order.findOne({ _id : req.params.order}, function(err, order) {                                
+                            // Find the coresponding order and add this review to it
+                            // Order.findOne({ _id : req.params.order}, function(err, order) {                                
                             order.review_id = newReview._id;
                             order.save(function(err) {
-                                
-                                
-                            var update;
-                             switch(newReview.score) {
-                                case 1:
-                                    update =  {$inc : {'rating.0' : 1}};
-                                    break;
-                                case 2:
-                                    update =  {$inc : {'rating.1' : 1}};
-                                    break;
-                                case 3:
-                                    update =  {$inc : {'rating.2' : 1}};
-                                    break;
-                                case 4:
-                                    update =  {$inc : {'rating.3' : 1}};
-                                    break;
-                                case 5:
-                                    update =  {$inc : {'rating.4' : 1}};
-                                    break;
-                                default:
-                                    update =  {$inc : {'rating.0' : 1}};
-                            }
+                                      
+                                var update;
+                                 switch(newReview.score) {
+                                    case 1:
+                                        update =  {$inc : {'rating.0' : 1}};
+                                        break;
+                                    case 2:
+                                        update =  {$inc : {'rating.1' : 1}};
+                                        break;
+                                    case 3:
+                                        update =  {$inc : {'rating.2' : 1}};
+                                        break;
+                                    case 4:
+                                        update =  {$inc : {'rating.3' : 1}};
+                                        break;
+                                    case 5:
+                                        update =  {$inc : {'rating.4' : 1}};
+                                        break;
+                                    default:
+                                        update =  {$inc : {'rating.0' : 1}};
+                                }
                                 
                                 Recipe.update(
                                     {_id : recipeID}, 
@@ -630,14 +642,14 @@ module.exports = function(app, passport) {
                                     function(err, data) {
                                         
                                         if (err)
-                                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message: err });
+                                            res.render('review.ejs', { recipe: recipe, order: req.params.order, message:'Error occured' });
                                              
                                         res.render('review.ejs', { recipe:recipe, order: req.params.order, message: 'success' });       
                                     });     
                             });
                         });
                     });
-                }
+                //}
             });
         });
     });
