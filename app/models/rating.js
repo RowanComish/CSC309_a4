@@ -5,7 +5,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var ratingSchema = mongoose.Schema({
     recipe_id : {type: Number, ref: 'recipes'},
     count: Number,
-    rating:[Number],
+    rating:{ type: [Number], default: [0, 0, 0, 0, 0]},
     total: Number
 });
 

@@ -129,16 +129,16 @@
                         <div class="search-item center-block">
                             <!-- Image -->
                             <% if(recipeResults[i].recipe_id.category == 'Main Course' ){%>
-                            <img src="../img/food_example1.jpeg"
+                            <img src="../img/main.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category== 'Drinks'){%>
-                            <img src="../img/food_example2.jpeg"
+                            <img src="../img/drinks.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category == 'Appetizers' ){%>
-                            <img src="../img/food_example3.jpeg"
+                            <img src="../img/appetizers.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category == 'Desserts' ){%>
-                            <img src="../img/food_example4.jpeg"
+                            <img src="../img/desserts.jpeg"
                             class="order-image"> 
                             <% }%>
                             <h4 class="text-center">
@@ -156,11 +156,11 @@
                             </h4>
                             <span class="search-rating center-block text-center">
                                 <!-- fill stars -->
-                                <% for(var j=0; j<Math.round(recipeResults[i].recipe_id.review_avg) ;j++) {%>
+                                            <% for(var j=0; j<Math.round(averageRating(recipeResults[i].recipe_id.rating)) ;j++) {%>
                                 <span class="glyphicon glyphicon-star"></span>
                                 <% } %>                               
                                 <!-- add empty stars -->
-                                <% for(var j=0; j<5-Math.round(recipeResults[i].recipe_id.review_avg) ;j++) {%>
+                                             <% for(var j=0; j<5-Math.round(averageRating(recipeResults[i].recipe_id.rating)) ;j++) {%>
                                 <span class="glyphicon glyphicon-star-empty"></span>
                                 <% } %>
                             </span>
@@ -191,16 +191,16 @@
                         <div class="search-item center-block">
                             <!-- Image -->
                             <% if(recipeResults[i].recipe_id.category == 'Main Course' ){%>
-                            <img src="../img/food_example1.jpeg"
+                            <img src="../img/main.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category== 'Drinks'){%>
-                            <img src="../img/food_example2.jpeg"
+                            <img src="../img/drinks.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category == 'Appetizers' ){%>
-                            <img src="../img/food_example3.jpeg"
+                            <img src="../img/appetizers.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category == 'Desserts' ){%>
-                            <img src="../img/food_example4.jpeg"
+                            <img src="../img/desserts.jpeg"
                             class="order-image"> 
                             <% }%>
                             <h4 class="text-center">

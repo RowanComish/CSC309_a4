@@ -1,6 +1,13 @@
 module.exports = function(app, passport) {
 
-
+    app.locals.averageRating = function(rating) {
+        return (rating[0] + 2*rating[1] + 3*rating[2] + 4*rating[3] + 5*rating[4]) / (rating[0] + rating[1] + rating[2] + rating[3] + rating[4]);
+    }
+    
+    app.locals.totalRating = function(rating) {
+        return rating[0] + rating[1] + rating[2] + rating[3] + rating[4];
+    }
+    
     //Home Page
     //If user is logged in, pass in message to change navbar buttons accordingly
     //If not, then pass in proper message
