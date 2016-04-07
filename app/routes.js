@@ -57,7 +57,7 @@ module.exports = function(app, passport) {
     //Login
     //If already logged in, redirect automatically to homepage
     app.get('/login', function(req, res) {
-        console.log(req.user)
+        //console.log(req.user)
         if (req.isAuthenticated())
             res.redirect('/');
         else
@@ -669,13 +669,28 @@ module.exports = function(app, passport) {
         );
     
     });
-
+    
     app.get('/admin', function(req, res){
-        res.render('admin.ejs', {message:""});
-    });    
+        //console.log("im here");
+        //console.log(req.user);
+        if(req.user){
+            if(req.user.admin)
+                res.render('admin.ejs', {message:"loggedin"});
+            else
+                res.send('Unauthorized access. User logged in must have admin privileges');
+        }else
+            res.render('adminlogin.ejs',{ message: req.flash('loginMessage') });
+    });
+
+    app.post('/adminlogin', passport.authenticate('local-login2', {
+        successRedirect : '/admin', 
+        failureRedirect : '/admin', 
+        failureFlash : true 
+    }));
+ 
     
     // Fetch user details
-    app.get('/admin/user/:email', function(req, res){
+    app.get('/admin/user/:email', function (req, res){
 
         var User = require('../app/models/user');
 

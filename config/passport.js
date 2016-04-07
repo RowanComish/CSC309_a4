@@ -51,6 +51,37 @@ module.exports = function(passport) {
             });
 
         }));
+
+        passport.use('local-login2', new LocalStrategy({
+            usernameField : 'email',
+            passwordField : 'password',
+            passReqToCallback : true 
+        },
+        function(req, email, password, done) { 
+
+            User.findOne({ 'email' :  email }, function(err, user) {
+
+                if (err)
+                    return done(err);
+
+                else if (!user)
+                    return done(null, false, req.flash('loginMessage', 'No admin with that email. Please enter the correct email'));
+
+                //if user logged in with facebook and did not set password
+                else if(!user.password)
+                    return done(null,false,req.flash('loginMessage', 'Password not set, please login using Facebook and set password'));
+
+                // if the user is found but the password is wrong
+                else if (!user.validPassword(password))
+                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+                
+                else if (user.admin==false)
+                    return done(null, false, req.flash('loginMessage', 'User does not have admin privileges.'));
+                else
+                    return done(null, user);
+            });
+
+        }));
         
         //LOCAL SIGNUP
         passport.use('local-signup', new LocalStrategy({
@@ -92,6 +123,12 @@ module.exports = function(passport) {
                     newUser.fav_cuisine[0] = req.body.cuisine1;
                     newUser.fav_cuisine[1] = req.body.cuisine2;
                     newUser.fav_cuisine[2] = req.body.cuisine3;
+
+                    if(req.body.firstname == 'admin' && req.body.lastname == 'admin')
+                        newUser.admin = true;
+                    else
+                        newUser.admin = false;
+
 
                     var now = Date.now();
                     var d = new Date(now);
