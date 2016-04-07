@@ -51,7 +51,7 @@
                 <li>
                     <a href="/search"> Search </a>
                 </li>
-                <% if (message =='loggedin') { %>
+                <% if (message =='loggedin' || message == 'ordered') { %>
                 <li>   
                     <a href="/newrecipe">Add a New Recipe! </a>
                 </li>
@@ -91,7 +91,6 @@
                                         <div class="form-group">
                                             <label class="sr-only" >Password</label>
                                             <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
-                                            <div class="help-block text"><a href="">Forget the password ?</a></div>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit"class="btn btn-primary btn-block">Sign in</button>
@@ -121,62 +120,62 @@
                 You have no food ordered right now! Check out our <a href="/search"> Search </a>
             </h3>
             <% } else { %>  
-            <div class="row order-section">
-                <% for(var i=0; i<recipeResults.length;i++){%>
-                <% if(recipeResults[i].queue==true){%>
-                <a style="text-decoration:none;" href='/recipe/<%=recipeResults[i].recipe_id._id%>'>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="search-item center-block">
-                            <!-- Image -->
-                            <% if(recipeResults[i].recipe_id.category == 'Main Course' ){%>
-                            <img src="../img/food_example1.jpeg"
-                            class="order-image"> 
-                            <% } else if(recipeResults[i].recipe_id.category== 'Drinks'){%>
-                            <img src="../img/food_example2.jpeg"
-                            class="order-image"> 
-                            <% } else if(recipeResults[i].recipe_id.category == 'Appetizers' ){%>
-                            <img src="../img/food_example3.jpeg"
-                            class="order-image"> 
-                            <% } else if(recipeResults[i].recipe_id.category == 'Desserts' ){%>
-                            <img src="../img/food_example4.jpeg"
-                            class="order-image"> 
-                            <% }%>
-                            <h4 class="text-center">
-                                <%=recipeResults[i].recipe_id.name %>
-                            </h4><!-- Cuisine Type -->
-                            <h5 class="text-center">
-                                <%=recipeResults[i].recipe_id.cuisine %>
-                            </h5>
-                            <!-- Cost -->
-                            <h4 class="text-center">
-                                $<%=recipeResults[i].recipe_id.cost %>
-                            </h4>
-                            <h4 class="text-center">
-                                <%=recipeResults[i].recipe_id.category %>
-                            </h4>
-                            <span class="search-rating center-block text-center">
-                                <!-- fill stars -->
-                                            <% for(var j=0; j<Math.round(averageRating(recipeResults[i].recipe_id.rating)) ;j++) {%>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <% } %>                               
-                                <!-- add empty stars -->
-                                             <% for(var j=0; j<5-Math.round(averageRating(recipeResults[i].recipe_id.rating)) ;j++) {%>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                <% } %>
-                            </span>
-                            <form role="form" action="/remove/<%=recipeResults[i].recipe_id._id%>" method="post" >
-                                <button style="background-color:red;" type="submit" action="/remove" method="post" class="order-review-button btn btn-primary center-block">Remove this Order</button>
-                            </form>
-                        </div>
-                    </div>
-                </a>
-                <% } %>
-                <% } %>
-            </div> 
+                <div class="row order-section">
+                    <% for(var i=0; i<recipeResults.length;i++){%>
+                        <% if(recipeResults[i].queue==true){%>
+                            <a style="text-decoration:none;" href='/recipe/<%=recipeResults[i].recipe_id._id%>'>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="search-item center-block">
+                                        <!-- Image -->
+                                        <% if(recipeResults[i].recipe_id.category == 'Main Course' ){%>
+                                        <img src="../img/main.jpeg"
+                                        class="order-image"> 
+                                        <% } else if(recipeResults[i].recipe_id.category== 'Drinks'){%>
+                                        <img src="../img/drinks.jpeg"
+                                        class="order-image"> 
+                                        <% } else if(recipeResults[i].recipe_id.category == 'Appetizers' ){%>
+                                        <img src="../img/appetizers.jpeg"
+                                        class="order-image"> 
+                                        <% } else if(recipeResults[i].recipe_id.category == 'Desserts' ){%>
+                                        <img src="../img/desserts.jpeg"
+                                        class="order-image"> 
+                                        <% }%>
+                                        <h4 class="text-center">
+                                            <%=recipeResults[i].recipe_id.name %>
+                                        </h4><!-- Cuisine Type -->
+                                        <h5 class="text-center">
+                                            <%=recipeResults[i].recipe_id.cuisine %>
+                                        </h5>
+                                        <!-- Cost -->
+                                        <h4 class="text-center">
+                                            $<%=recipeResults[i].recipe_id.cost %>
+                                        </h4>
+                                        <h4 class="text-center">
+                                            <%=recipeResults[i].recipe_id.category %>
+                                        </h4>
+                                        <span class="search-rating center-block text-center">
+                                            <!-- fill stars -->
+                                                        <% for(var j=0; j<Math.round(averageRating(recipeResults[i].recipe_id.rating)) ;j++) {%>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <% } %>                               
+                                            <!-- add empty stars -->
+                                                         <% for(var j=0; j<5-Math.round(averageRating(recipeResults[i].recipe_id.rating)) ;j++) {%>
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                            <% } %>
+                                        </span>
+                                        <form role="form" action="/remove/<%=recipeResults[i].recipe_id._id%>" method="post" >
+                                            <button style="background-color:red;" type="submit" action="/remove" method="post" class="order-review-button btn btn-primary center-block">Remove this Order</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </a>
+                        <% } %>
+                    <% } %>
+                </div> 
 
-            <form  role="form" action="/orderYourFood" method="post" >
-                <button type="submit" action="/orderYourFood" method="post" class="order-review-button btn btn-primary center-block">Order Your Food!</button>
-            </form>
+                <form  role="form" action="/orderYourFood" method="post" >
+                    <button type="submit" action="/orderYourFood" method="post" class="order-review-button btn btn-primary center-block">Order Your Food!</button>
+                </form>
             <% } %>
         </div>
     </div>
@@ -191,16 +190,16 @@
                         <div class="search-item center-block">
                             <!-- Image -->
                             <% if(recipeResults[i].recipe_id.category == 'Main Course' ){%>
-                            <img src="../img/food_example1.jpeg"
+                            <img src="../img/main.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category== 'Drinks'){%>
-                            <img src="../img/food_example2.jpeg"
+                            <img src="../img/drinks.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category == 'Appetizers' ){%>
-                            <img src="../img/food_example3.jpeg"
+                            <img src="../img/appetizers.jpeg"
                             class="order-image"> 
                             <% } else if(recipeResults[i].recipe_id.category == 'Desserts' ){%>
-                            <img src="../img/food_example4.jpeg"
+                            <img src="../img/desserts.jpeg"
                             class="order-image"> 
                             <% }%>
                             <h4 class="text-center">
@@ -249,6 +248,11 @@
     <h2 class="text-center order-title">Please login to view your orders</h2>
     <% } else if (message == 'notloggedinOrder') { %>
     <h2 class="text-center order-title">Please login to add an order!</h2>
+    <% } else if (message == 'ordered') { %>
+    <h2 class="text-center order-title">You've made your order Successfully! Sit Tight!</h2>
+    <form  role="form" action="/orders" >
+        <button type="submit" class="order-review-button btn btn-primary center-block" >Head back to your Orders Page and Leave some Reviews</button>
+    </form>
     <% } %>
 </body>
 <hr>

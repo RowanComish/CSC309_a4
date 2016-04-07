@@ -129,7 +129,6 @@
                                     <div class="form-group">
                                         <label class="sr-only" >Password</label>
                                         <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
-                                        <div class="help-block text"><a href="">Forget the password ?</a></div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit"class="btn btn-primary btn-block">Sign in</button>
@@ -177,16 +176,16 @@
                 <%=recipe.name%>
             </h3>
             <% if(recipe.category == 'Main Course' ){%>
-            <img src="../img/food_example1.jpeg"
+            <img src="../img/main.jpeg"
             class="order-image"> 
             <% } else if(recipe.category == 'Drinks'){%>
-            <img src="../img/food_example2.jpeg"
+            <img src="../img/drinks.jpeg"
             class="order-image"> 
             <% } else if(recipe.category == 'Appetizers' ){%>
-            <img src="../img/food_example3.jpeg"
+            <img src="../img/appetizers.jpeg"
             class="order-image"> 
             <% } else if(recipe.category == 'Desserts' ){%>
-            <img src="../img/food_example4.jpeg"
+            <img src="../img/desserts.jpeg"
             class="order-image"> 
             <% }%>
             <!-- Cuisine -->

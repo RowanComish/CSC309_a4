@@ -487,7 +487,7 @@ module.exports = function(app, passport) {
                         console.log('Bought the items!');
                     });
                 }
-                res.render('orderhistory.ejs', { message: 'loggedin', recipeResults : recipeResults});
+                res.render('orderhistory.ejs', { message: 'ordered', recipeResults : recipeResults});
             });
         }
         else  {

@@ -83,7 +83,6 @@
                                         <div class="form-group">
                                             <label class="sr-only" >Password</label>
                                             <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
-                                            <div class="help-block text"><a href="">Forget the password ?</a></div>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit"class="btn btn-primary btn-block">Sign in</button>
@@ -172,16 +171,16 @@
                                         <%=recipeResults[i].name %>
                                     </h3>
                                     <% if(recipeResults[i].category == 'Main Course' ){%>
-                                        <img src="../img/food_example1.jpeg"
+                                        <img src="../img/main.jpeg"
                                              class="order-image"> 
                                      <% } else if(recipeResults[i].category == 'Drinks'){%>
-                                        <img src="../img/food_example2.jpeg"
+                                        <img src="../img/drinks.jpeg"
                                              class="order-image"> 
                                      <% } else if(recipeResults[i].category == 'Appetizers' ){%>
-                                        <img src="../img/food_example3.jpeg"
+                                        <img src="../img/appetizers.jpeg"
                                              class="order-image"> 
                                      <% } else if(recipeResults[i].category == 'Desserts' ){%>
-                                        <img src="../img/food_example4.jpeg"
+                                        <img src="../img/desserts.jpeg"
                                              class="order-image"> 
                                     <% }%>
                                     <h4 class="text-center">
